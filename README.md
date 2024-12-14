@@ -1,9 +1,9 @@
 > 💝 Versión Actual: V2
 
-## ❤️‍🔥 **`HuTao - Proyect`**
-## 🔥 **`HuTao la directora de "el camino" ahora en tu WhatsApp**
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=FF0000&lines=Bienvenid@+a+mi+repositorio;disfruta+de+HuTao🦋+❤️‍🔥yajuuu🔥)](https://git.io/typing-svg)
-![HuTao](https://qu.ax/OOECB.png)
+## ❤️‍🔥 **`SUMI SAKURAZAWA`**
+## 🔥 **`Sumi Sakurazawa la directora de "el camino" ahora en tu WhatsApp**
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=FF0000&lines=Bienvenid@+a+mi+repositorio;disfruta+de+zakurazawa🦋+❤️‍🔥yajuuu🔥)](https://git.io/typing-svg)
+![Zakurazawa](https://i.pinimg.com/originals/19/80/6e/19806e91932e6054965fc83b85241270.gif)
 
 ---
 
