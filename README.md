@@ -113,13 +113,6 @@ Para que no pierda su progreso en Sumi, estos comandos realizarán un respaldo d
 - [ ] Otros
 
 --- 
-
-
-### **`🦋 COLABORADORES`**
-<a href="https://github.com/leoneloficial/zumi-zakurazawa/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=leoneloficial/zumi-zakurazawa" /> 
-</a>
-
 ### **`❤️‍🔥 PROPIETARIO`**
 <a 
 href="https://github.com/leoneloficial"><img src="https://github.com/leoneloficial.png" width="130" height="130" alt="leonel"/></a>
