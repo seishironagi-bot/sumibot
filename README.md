@@ -116,13 +116,13 @@ Para que no pierda su progreso en Sumi, estos comandos realizarán un respaldo d
 
 
 ### **`🦋 COLABORADORES`**
-<a "leonel">
-<img src="" /> 
+<a href="https://github.com/leoneloficial/zumi-zakurazawa/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=leoneloficial/zumi-zakurazawa" /> 
 </a>
 
 ### **`❤️‍🔥 PROPIETARIO`**
-<a "leonel">
-href="https://github.com/leoneloficial"><img src="https://github.com/leoneloficial.png" width="130" height="130" alt="Leonel"/></a>
+<a 
+href="https://github.com/leoneloficial"><img src="https://github.com/leoneloficial.png" width="130" height="130" alt="leonel"/></a>
 
 > Copyright (c) 2024 **[Xi_code](https://whatsapp.com/channel/0029Vagdmfv1SWt5nfdR4z3w)**.
 
