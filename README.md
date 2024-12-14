@@ -116,14 +116,14 @@ Para que no pierda su progreso en Sumi, estos comandos realizarán un respaldo d
 
 
 ### **`🦋 COLABORADORES`**
-<a ">
+<a "leonel">
 <img src="" /> 
 </a>
 
 ### **`❤️‍🔥 PROPIETARIO`**
-<a
+<a "leonel">
 href="https://github.com/leoneloficial"><img src="https://github.com/leoneloficial.png" width="130" height="130" alt="Leonel"/></a>
 
-> Copyright (c) 2024 **[Xi_Miguelon](https://whatsapp.com/channel/0029VacDy0R6hENqnTKnG820)**.
+> Copyright (c) 2024 **[Xi_code](https://whatsapp.com/channel/0029Vagdmfv1SWt5nfdR4z3w)**.
 
 **`¡GRACIAS POR PREFERIRNOS!` 🔥**
