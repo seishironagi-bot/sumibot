@@ -1,4 +1,4 @@
-> 💝 Versión Actual: V2
+> 💝 Versión Actual: V1
 
 ## ❤️‍🔥 **`SUMI SAKURAZAWA`**
 ## 🔥 **`Sumi Sakurazawa la directora de "el camino" ahora en tu WhatsApp**
@@ -11,11 +11,11 @@
 
 > Si Deseas Probar El Bot Antes De Instalarlo, Click Abajo. 🍟
 
-[![Click Aquí](https://img.shields.io/badge/Grupo-HuTao-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://chat.whatsapp.com/KxHaM2J0NWPDR4RU24OmFw)
+[![Click Aquí](https://img.shields.io/badge/Grupo-HuTao-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://chat.whatsapp.com/GSZBZ6Ggjp02mZmZNTGQu6)
 
 🍟 **`INSTALACION MANUAL POR TERMUX`**
 
-[`🚩 Instalar Termux Clic Aqui`](https://www.mediafire.com/file/pqd980pnrqrz7r3/termux-app_v0.118.1+github-debug_arm64-v8a.apk/file)
+[`🚩 Instalar Termux Clic Aqui`]()
 
 > ESCRIBE LOS SIGUIENTES COMANDOS UNO POR UNO:
 
@@ -39,36 +39,36 @@ npm start
 ```bash
 ESCRIBE LOS SIGUIENTES COMANDOS UNO POR UNO:
 > cd 
-> cd HuTao-Proyect
+> cd Sumi
 > npm start
 ```
 
 🔥 **`OBTENER OTRO CODIGO QR`**
 ```bash
 > ESCRIBE LOS SIGUIENTES COMANDOS UNO POR UNO:
-> cd HuTao-Proyect
+> cd Sumi
 > rm -rf Seccion-activas
 > npm start
 ```
 
-🍟 **`HuTao-Proyect 24/7 (TERMUX)`**
+🍟 **`Sumi-Sakurazawa 24/7 (TERMUX)`**
 ```bash
 > termux-wake-lock && npm i -g pm2 && pm2 start index.js && pm2 save && pm2 logs 
 ```
 
-💥 **`ACTUALIZAR HuTao`**
+💥 **`ACTUALIZAR Sumi`**
 > Note Comandos para actualizar HuTao-Proyect de forma automática
 ```bash
 grep -q 'bash\|wget' <(dpkg -l) || apt install -y bash wget && wget -O - https://raw.githubusercontent.com/CheirZ/HuTao-Proyect/master/update.sh | bash
 ```
-Para que no pierda su progreso en HuTao, estos comandos realizarán un respaldo de su `database.json` y se agregará a la versión más reciente.
+Para que no pierda su progreso en Sumi, estos comandos realizarán un respaldo de su `database.json` y se agregará a la versión más reciente.
 
 > Warning Estos comandos solo funcionan para TERMUX, REPLIT, LINUX
 
 ---
 
 #### ☂️ ACTIVA EN HEROKU ☂️
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/CheirZ/HuTao-Proyect)
+[![Deploy]()](https://heroku.com/deploy?template=https://)
 
 #### Heroku Buildpack
 | BuildPack | LINK |
@@ -77,17 +77,17 @@ Para que no pierda su progreso en HuTao, estos comandos realizarán un respaldo 
 | **IMAGEMAGICK** | [click](https://github.com/DuckyTeam/heroku-buildpack-imagemagick) |
 
 #### 🟢 ACTIVAR EN CODES SPACES 
-[`CREAR SERVIDOR`](https://github.com/codespaces/new?skip_quickstart=true&machine=basicLinux32gb&repo=CheirZ/HuTao-Proyect&ref=main&geo=UsEast)
+[`CREAR SERVIDOR`]()
 
 #### ⚡ ACRIVAR EN REPLIT
-[![`CREAR SERVIDOR REPLIT`](https://repl.it/badge/github/CheirZ/HuTao-Proyect)](https://repl.it/github/CheirZ/HuTao-Proyect)
+[![`CREAR SERVIDOR REPLIT`]()]()
 
 #### 🤍 ACTIVAR EN RENDER
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%CheirZ%HuTao-Proyect) 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)]() 
 
 ## <img src="https://static.wikia.nocookie.net/nyancat/images/d/d3/Nyan-cat.gif/revision/latest/scale-to-width-down/400?cb=20131231222500&path-prefix=es" alt="Grupo" width="45" height="43"> Bot Oficial ☄️
 
-<a href="https://wa.me/5216566753569?text=!menu"><img alt="Bot Oficial ☄️" src="https://img.shields.io/badge/Bot - Oficial-00FFFF?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
+<a href="https://wa.me/51923992455?text=!menu"><img alt="Bot Oficial ☄️" src="https://img.shields.io/badge/Bot - Oficial-00FFFF?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
 
 > No Spam A La Bot! (solo esta disponible para grupos)
 
@@ -116,13 +116,13 @@ Para que no pierda su progreso en HuTao, estos comandos realizarán un respaldo 
 
 
 ### **`🦋 COLABORADORES`**
-<a href="https://github.com/CheirZ/Hutao-Proyect/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=CheirZ/Hutao-Proyect" /> 
+<a ">
+<img src="" /> 
 </a>
 
 ### **`❤️‍🔥 PROPIETARIO`**
 <a
-href="https://github.com/CheirZ"><img src="https://github.com/CheirZ.png" width="130" height="130" alt="Miguelon"/></a>
+href="https://github.com/leoneloficial"><img src="https://github.com/leoneloficial.png" width="130" height="130" alt="Leonel"/></a>
 
 > Copyright (c) 2024 **[Xi_Miguelon](https://whatsapp.com/channel/0029VacDy0R6hENqnTKnG820)**.
 
