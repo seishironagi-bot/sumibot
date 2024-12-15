@@ -14,7 +14,7 @@ const taguser = '@' + m.sender.split('@s.whatsapp.net')[0];
 
   if (chat.welcome && m.messageStubType == 27) {
     let wel = `🌸Hola🌸@${m.messageStubParameters[0].split`@`[0]}\n\nBienvenido a ${groupMetadata.subject}`
-await conn.sendFile(m.chat, img, "Thumbnail.jpg", wel, null,null, rcanal, fkontak)
+await conn.sendFile(m.chat, img, "Thumbnail.jpg", wel, null,null, rcanal)
   }
 
   if (chat.welcome && m.messageStubType == 28) {
