@@ -19,10 +19,10 @@ await conn.sendFile(m.chat, img, "Thumbnail.jpg", wel, null,null, rcanal)
 
   if (chat.welcome && m.messageStubType == 28) {
    let bye = `Adios perra nunca te quisimos aqui😂 @${m.messageStubParameters[0].split`@`[0]}`
-await conn.sendFile(m.chat, img2, "Thumbnail.jpg", bye, null, rcanal)
+await conn.sendFile(m.chat, img2, "Thumbnail.jpg", bye, null,null, rcanal)
   }
 
   if (chat.welcome && m.messageStubType == 32) {
     let kick = `Adios perra nunca te quisimos aqui😂@${m.messageStubParameters[0].split`@`[0]}`
-await conn.sendFile(m.chat, img, "Thumbnail.jpg", kick, null, rcanal)
+await conn.sendFile(m.chat, img, "Thumbnail.jpg", kick, null,null, rcanal)
 }}
