@@ -30,9 +30,9 @@ let tags = {
 }
 
 const defaultMenu = {
-  before: `❀ꗥ～ꗥ❀ 𝐋𝐥𝐚𝐦𝐚𝐬, 𝐥𝐥𝐚𝐦𝐚𝐬, ¡𝐪𝐮𝐞 𝐭𝐨𝐝𝐨 𝐚𝐫𝐝𝐚 𝐜𝐨𝐧 𝐞𝐬𝐭𝐚 𝐝𝐚𝐦𝐚! ❀ꗥ～ꗥ❀
+  before: `❀ꗥ～ꗥ❀ fire, ñññ, ¡esto es perú causaaa! ❀ꗥ～ꗥ❀
 
-“ Hola *%name* soy *HuTao*, %greeting ”
+“ Hola *%name* soy *Simi*, %greeting ”
 
 .    ╭─ׅ─ׅ┈ ─๋︩︪─☪︎︎︎̸⃘̸࣭ٜ࣪࣪࣪۬◌⃘۪֟፝֯۫۫︎⃪𐇽۫۬🍧⃘⃪۪֟፝֯۫۫۫۬◌⃘࣭ٜ࣪࣪࣪۬☪︎︎︎︎̸─ׅ─ׅ┈ ─๋︩︪─╮
 ╭╼☁️⬪࣪ꥈ𑁍⃪࣭۪ٜ݊݊݊݊݊໑ٜ࣪ 🄼🄴🄽🅄-🄱🄾🅃໑⃪࣭۪ٜ݊݊݊݊𑁍ꥈ࣪⬪☁️
