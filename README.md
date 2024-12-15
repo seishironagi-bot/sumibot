@@ -119,4 +119,4 @@ href="https://github.com/leoneloficial"><img src="https://github.com/leonelofici
 
 > Copyright (c) 2024 **[Xi_code](https://whatsapp.com/channel/0029Vagdmfv1SWt5nfdR4z3w)**.
 
-**`¡GRACIAS POR PREFERIRNOS!` 🔥**
+**`¡GRACIAS POR PREFERIRNOS!` ❤️**
