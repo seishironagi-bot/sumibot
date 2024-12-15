@@ -194,7 +194,7 @@ await conn.sendMessage(
     },
     forwardingScore: 999,
     externalAdReply: {
-      title: '*＊✿❀𝐇𝐮𝐓𝐚𝐨-𝐌𝐃❀✿＊*',
+      title: 'simi simi simi ayyyy',
       body: dev,
       thumbnailUrl: icono,
       sourceUrl: redes,
