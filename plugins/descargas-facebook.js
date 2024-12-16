@@ -9,7 +9,7 @@ conn.reply(m.chat, `᯽ *Descargando su video de facebook.*`, m, {
 contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, showAdAttribution: true,
 title: '☁️𝐃𝐞𝐬𝐜𝐚𝐫𝐠𝐚𝐬☁️',
 body: '🌸sumi sakurazawa🌸',
-previewType: 0, thumbnail: logo2,
+previewType: 0, thumbnail: logo3,
 sourceUrl: channel }}})
 await m.react(rwait)
 res = await igdl(args[0])
