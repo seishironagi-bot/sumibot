@@ -38,7 +38,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
           title: 'SUMI BOT-MD',
           body: '🌸Sumi sakurazawa🌸',
           previewType: 0, 
-          thumbnail: logo2,
+          thumbnail: logo3,
           sourceUrl: cn 
         }
       }
