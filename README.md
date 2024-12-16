@@ -13,6 +13,21 @@
 
 [![Click Aquí](https://img.shields.io/badge/Grupo-Sumi-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://chat.whatsapp.com/GSZBZ6Ggjp02mZmZNTGQu6)
 
+### Despliegue en SkyUltraPlus Host
+<a href="https://dash.corinplus.com"><img src="https://qu.ax/zFzXF.png" height="125px"></a>
+
+### Información sobre Sky
+- **Tutorial:** [`Aquí`](https://youtu.be/fZbcCLpSH6Y?si=1sDen7Bzmb7jVpAI)
+- **Dashboard:** [`Aquí`](https://dash.skyultraplus.com)
+- **Panel:** [`Aquí`](https://panel.skyultraplus.com)
+- **Estado de servicios:** [`Aquí`](https://estado.skyultraplus.com)
+- **Canal de WhatsApp:** [`Aquí`](https://whatsapp.com/channel/0029VakUvreFHWpyWUr4Jr0g)
+- **Comunidad:** [`Aquí`](https://chat.whatsapp.com/JPwcXvPEUwlEOyjI3BpYys)
+- **Contacto(s):** [`Gata Dios`](https://wa.me/message/B3KTM5XN2JMRD1) / [`Russell`](https://api.whatsapp.com/send/?phone=15167096032&text&type=phone_number&app_absent=0) / [`elrebelde21`](https://facebook.com/elrebelde21)
+- **Discord:** [`SkyUltraPlus`](https://discord.gg/Ph4eWsZ8)
+
+------------------ 
+
 🍟 **`INSTALACION MANUAL POR TERMUX`**
 
 [`🚩 Instalar Termux Clic Aqui`]()
