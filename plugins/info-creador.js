@@ -41,7 +41,7 @@ item1.X-ABLabel:${isi1}
 item2.EMAIL;type=INTERNET:${isi2}
 item2.X-ABLabel:📧 Email
 item3.ADR:;;${isi3};;;;
-item3.X-ABADR:ac
+item3.X-ABADR:ac🇪🇦
 item3.X-ABLabel: 🇪🇦
 item4.URL:${isi4}
 item4.X-ABLabel:Website
