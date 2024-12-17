@@ -19,7 +19,7 @@ const handler = async function(m, {conn, text, usedPrefix, command}) {
 bio = biografia[0].status || sinDefinir
 fechaBio = biografia[0].setAt ? new Date(biografia[0].setAt).toLocaleDateString("es-ES", { day: "2-digit", month: "2-digit", year: "numeric", }) : "Fecha no disponible"
   }
-  let pp = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://qu.ax/QGAVS.jpg')
+  let pp = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://qu.ax/dHLnr.jpg')
   if (user.registered === true) throw `🌴 Hola amigo, ya estás registrado en nuestra base de datos.`;
   if (!Reg.test(text)) throw `regístrese bien hijo de su, ejemplo: !reg miguelon.23`;
   let [_, name, splitter, age] = text.match(Reg);
@@ -58,7 +58,7 @@ let chtxt = `
 ⭐️ *𝙴𝚍𝚊𝚍* » ${user.age} años
 👀 *Descripción* » ${user.descripcion} 
 ⏳ *Modificación de descripción* » ${fechaBio}
-🍄 *𝙱𝚘𝚝* » 𝙃𝙪𝙩𝙖𝙤-𝙋𝙧𝙤𝙮𝙚𝙘𝙩 🦋❤️‍🔥
+🍄 *𝙱𝚘𝚝* » 🌸SUMI BOT-MD🌸
 📆 *𝙵𝚎𝚌𝚑𝚊* » ${moment.tz('America/Bogota').format('DD/MM/YY')}
 ☁️ *𝙽𝚞𝚖𝚎𝚛𝚘 𝚍𝚎 𝚛𝚎𝚐𝚒𝚜𝚝𝚛𝚘* »
 ⤷ ${sn}
