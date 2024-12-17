@@ -13,7 +13,7 @@ if (!text) return conn.reply(m.chat, `⚠️ *Ingrese el nombre de un video de Y
 await m.react(rwait);
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑sumi-bot⌑꯭ 𓏲꯭֟፝੭ ꯭ ꯭ ꯭𔓕_*
+const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑🌸sumi-bot🌸⌑꯭ 𓏲꯭֟፝੭ ꯭ ꯭ ꯭𔓕_*
 
 » 📚 *Título:* ${yt_play[0].title}
 » 📆 *Publicado:* ${yt_play[0].ago}
@@ -28,7 +28,7 @@ const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑sumi-bot⌑꯭ �
 > 📽️ *Su Audio se está enviando, espere un momento...*`.trim();
 
 await conn.sendMessage(m.chat, {
-image: { url: yt_play[0].thumbnail }, caption: texto1, contextInfo: { externalAdReply: { title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ', body: '<(✿◠‿◠)>🌸sumi sakurazawa🌸', sourceUrl: cn, thumbnail: logo2 }}, quoted: estilo});
+image: { url: yt_play[0].thumbnail }, caption: texto1, contextInfo: { externalAdReply: { title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ', body: '<(✿◠‿◠)>🌸sumi-bot🌸', sourceUrl: cn, thumbnail: logo2 }}, quoted: estilo});
 try {
 await m.react(rwait);
 const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
@@ -105,7 +105,7 @@ const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑𝐊𝐚𝐤𝐚�
 > 📽️ *Su Video se está enviando, espere un momento...*`.trim();
 
 await conn.sendMessage(m.chat, {
-image: { url: yt_play[0].thumbnail }, caption: texto1, contextInfo: { externalAdReply: { title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ', body: '<(✿◠‿◠)>🌸sumi sakurazawa🌸', sourceUrl: cn, thumbnail: logo7 }}, quoted: estilo});
+image: { url: yt_play[0].thumbnail }, caption: texto1, contextInfo: { externalAdReply: { title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ', body: '<(✿◠‿◠)>🌸sumi-bot🌸', sourceUrl: cn, thumbnail: logo2 }}, quoted: estilo});
 try {
 await m.react(rwait);
 const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
@@ -182,7 +182,7 @@ if (!text) return conn.reply(m.chat, `⚠️ *Ingrese el nombre de un video de Y
 await m.react(rwait);
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑sumi-bot⌑꯭ 𓏲꯭֟፝੭ ꯭ ꯭ ꯭𔓕_*
+const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑🌸sumi-bot🌸⌑꯭ 𓏲꯭֟፝੭ ꯭ ꯭ ꯭𔓕_*
 
 » 📚 *Título:* ${yt_play[0].title}
 » 📆 *Publicado:* ${yt_play[0].ago}
@@ -197,7 +197,7 @@ const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑sumi-bot⌑꯭ �
 > 📽️ *Su Audio en documento se está enviando, espere un momento...*`.trim();
 
 await conn.sendMessage(m.chat, {
-image: { url: yt_play[0].thumbnail }, caption: texto1, contextInfo: { externalAdReply: { title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ', body: '<(✿◠‿◠)>🌸sumi sakurazawa🌸', sourceUrl: cn, thumbnail: logo7 }}, quoted: estilo});
+image: { url: yt_play[0].thumbnail }, caption: texto1, contextInfo: { externalAdReply: { title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ', body: '<(✿◠‿◠)>🌸 sumi-bot🌸', sourceUrl: cn, thumbnail: logo2 }}, quoted: estilo});
 try {
 await m.react(rwait);
 const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
@@ -257,7 +257,7 @@ if (!text) return conn.reply(m.chat, `🌸 *Ingrese el nombre de un video de You
 await m.react(rwait);
 const yt_play = await search(args.join(' '));
 const ytplay2 = await yts(text);
-const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑sumi-bot⌑꯭ 𓏲꯭֟፝੭ ꯭ ꯭ ꯭𔓕_*
+const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑🌸sumi-bot🌸⌑꯭ 𓏲꯭֟፝੭ ꯭ ꯭ ꯭𔓕_*
 
 » 📚 *Título:* ${yt_play[0].title}
 » 📆 *Publicado:* ${yt_play[0].ago}
@@ -272,7 +272,7 @@ const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑sumi-bot⌑꯭ �
 > 📽️ *Su video en documento se está enviando, espere un momento...*`.trim();
 
 await conn.sendMessage(m.chat, {
-image: { url: yt_play[0].thumbnail }, caption: texto1, contextInfo: { externalAdReply: { title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ', body: '<(✿◠‿◠)>🌸 sumi sakurazawa🌸', sourceUrl: cn, thumbnail: logo7 }}, quoted: estilo});
+image: { url: yt_play[0].thumbnail }, caption: texto1, contextInfo: { externalAdReply: { title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ', body: '<(✿◠‿◠)>🌸 sumi-bot🌸', sourceUrl: cn, thumbnail: logo2 }}, quoted: estilo});
 try {
 await m.react(rwait);
 const apiUrl = `https://deliriussapi-oficial.vercel.app/download/ytmp4?url=${encodeURIComponent(yt_play[0].url)}`;
