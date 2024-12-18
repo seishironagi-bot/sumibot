@@ -20,7 +20,7 @@ global.owner = [
 
 
 //• ↳𝑺𝑶𝑳𝑶 𝑴𝑶𝑫𝑬𝑹𝑨𝑫𝑶𝑹𝑬𝑺!
-global.mods = ['34610246115']
+global.mods = []
 
 global.suittag = ['34610246115']
 global.prems = []
