@@ -30,13 +30,13 @@ global.packsticker = '𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑�
 global.packname = '󠁖󠁖󠁖󠁖󠁖󠁖󠁻󠁻🌸Sumi-Bot_MD🌸'
 global.author = '🌸sumi-Bot_MD🌸'
 global.wm = '🌸Sumi sakurazawa🌸';
-global.titulowm = '👑 𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 👑';
+global.titulowm = '✦͙͙͙❥⃝∗⁎.ʚsumi bot-mdɞ❥⃝**͙✦͙͙͙';
 global.titulowm2 = '🌸Sumi sakurazawa🌸'
 global.igfg = '🌸Sumi sakurazawa🌸'
 global.botname = '🌸Sumi sakurazawa🌸'
-global.dev = '👑 𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 👑'
-global.textbot = '🌸Sumi sakurazawa🌸 : 👑 𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 👑'
-global.gt = '𝐇𝐮ⷡ𝐓ⷪ𝐚ⷮ𝐨-𝐌𝐃󠁂󠀧󠁂🈀';
+global.dev = '✦͙͙͙❥⃝∗⁎.ʚsumi bot-mdɞ❥⃝**͙✦͙͙͙'
+global.textbot = '🌸Sumi sakurazawa🌸 : ✦͙͙͙❥⃝∗⁎.ʚsumi bot-mdɞ❥⃝**͙✦͙͙͙'
+global.gt = '🌸SUMI SAKURAZAWA🌸';
 global.namechannel = '🌸Sumi sakurazawa🌸'
 global.vs = 'V2'
 global.vsJB = '5.0'
@@ -83,7 +83,7 @@ global.photoSity = [imagen8, imagen1, imagen4, imagen6]
 global.libreria = 'Baileys'
 global.baileys = 'V 6.7.8'
 global.languaje = 'Español'
-global.nameqr = 'HuTao-Proyect'
+global.nameqr = '🌸Sumi sakurazawa🌸'
 global.sessions = 'seccion-activas'
 global.jadi = 'jadibots'
 
@@ -96,7 +96,7 @@ ch5: '120363324350463849@newsletter',
 }
 
 //• ↳ ◜𝑭𝑨𝑲𝑬 𝑬𝑺𝑻𝑰𝑳𝑶◞ • 🪩
-global.estilo = { key: {  fromMe: false, participant: `0@s.whatsapp.net`, ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) }, message: { orderMessage: { itemCount : -999999, status: 1, surface : 1, message: '󠁖󠁖󠁖󠁖󠁖󠁖󠁻󠁻𝐇𝐮ⷡ𝐓ⷪ𝐚ⷮ𝐨-𝐌𝐃󠁂󠀧󠁂🈀', orderTitle: 'Bang', thumbnail: catalogo, sellerJid: '0@s.whatsapp.net'}}}
+global.estilo = { key: {  fromMe: false, participant: `0@s.whatsapp.net`, ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) }, message: { orderMessage: { itemCount : -999999, status: 1, surface : 1, message: '󠁖󠁖󠁖󠁖󠁖󠁖󠁻󠁻🌸SUMI SAKURAZAWA🌸', orderTitle: 'Bang', thumbnail: catalogo, sellerJid: '0@s.whatsapp.net'}}}
 
 global.fakegif2 = { key: { participant: `0@s.whatsapp.net`, ...(false ? { remoteJid: "5219992095479-1625305606@g.us" } : {}) }, message: { videoMessage: { title: 'HuTao', h: `Hmm`, seconds: '99999', gifPlayback: true, caption: '♡٨ﮩ٨ﮩﮩ٨ﮩﮩ٨ﮩ ᗷIEᑎᐯEᑎIᗪO ﮩ٨ﮩﮩ٨ﮩﮩ٨ﮩ٨♡', jpegThumbnail: logo5 }}};
 
@@ -109,10 +109,10 @@ global.estilo = { key: {  fromMe: false, participant: `0@s.whatsapp.net`, ...(fa
 global.fgif2 = { key: {participant: `0@s.whatsapp.net`, ...(false ? { remoteJid: "6289643739077-1613049930@g.us" } : {})},message: {"videoMessage": { "title":`͟͞ 👑 𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 👑͟͞`, "h": `Hmm`,'seconds': '99999', 'gifPlayback': 'true', 'caption': `🌸Sumi sakurazawa🌸\n 👑 𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 👑͟`, 'jpegThumbnail': logo4 }}}
 
 //• ↳ ◜𝑳𝑰𝑵𝑲𝑺◞ • 🌿
-global.gp4 = 'https://chat.whatsapp.com/LcifaLUrmww6CPT27IuSAa' //Grupo Oficial De Hutao
-global.gp1 = 'https://chat.whatsapp.com/GFyLX1dDDxI0utho5GBmJI' //Grupo 
+global.gp4 = 'https://chat.whatsapp.com/GSZBZ6Ggjp02mZmZNTGQu6' //🌸Grupo Oficial De sumi🌸
+global.gp1 = 'https://chat.whatsapp.com/GSZBZ6Ggjp02mZmZNTGQu6' //Grupo 
 global.gp2 = 'GE1wUxAsLleAxfCVvtsp1x' //Grupo
-global.comunidad1 = 'https://chat.whatsapp.com/GPEtINYPyIB6a6S55ZJcAO' //Comunidad Megumin
+global.comunidad1 = 'https://chat.whatsapp.com/GSZBZ6Ggjp02mZmZNTGQu6' //grupo de sumi sakurazawa 
 global.channel = 'https://whatsapp.com/channel/0029Vagdmfv1SWt5nfdR4z3w' //Canal Oficial
 global.yt = 'https://youtube.com/@leonel5057' //Canal De Youtube
 global.md = 'https://github.com/leoneloficial/-SUMI-SAKURAZAWA-/edit/main/config.js' //Github Oficial
