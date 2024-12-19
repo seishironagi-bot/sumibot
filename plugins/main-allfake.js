@@ -51,7 +51,7 @@ global.canalNombreH = ["🌸Sumi sakurazawa🌸", "🌸Sumi sakurazawa🌸", "�
 global.channelRD = await getRandomChannel()
 
 //Reacciones De Comandos.!
-global.rwait = '🔍'
+global.rwait = '🍭'
 global.done = '✅'
 global.error = '✖️'
 
