@@ -25,7 +25,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
     let chat = global.db.data.chats[m.chat];
 
     if (chat.welcome && m.messageStubType === 27) {
-        let wel = `*╭┈⊰ *$ {groupMetadata.subject}* ⊰┈ ✦*
+        let wel = `*╭┈⊰ *${groupMetadata.subject}* ⊰┈ ✦*
  *┊✨ BIENVENIDO(A)!!*
  ┊💖 @${userId.split`@`[0]}
  ┊📄LEA LA DESCRIPCIÓN
