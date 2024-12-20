@@ -26,7 +26,7 @@ global.suittag = ['34610246115']
 global.prems = []
 
 //• ↳ ◜𝑴𝑨𝑹𝑪𝑨𝑺 𝑫𝑬 𝑨𝑮𝑼𝑨◞ • 💌
-global.packsticker = '𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆'
+global.packsticker = '♾ ━━━━━━━━\n├ ɓσƭ:\n├ ρяοριєταяιο:\n├ ƒєϲнα ∂є ϲяєαϲιόи:\n├ нοяα:\n♾━━━━━━━━'
 global.packname = '󠁖󠁖󠁖󠁖󠁖󠁖󠁻󠁻🌸Sumi-Bot_MD🌸'
 global.author = '♾━━━━━━━━\n⇝͟͞♡̵̑ sumi-bot♡̵̑ ͟͞   ᷨᜳ ͦ ̵ͭ⋆\n👑𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑👑\n⇝ ${moment.tz('America/Los_Angeles').format('DD/MM/YY')}\n⇝ ${moment.tz('America/Los_Angeles').format('HH:mm:ss')} \n♾━━━━━━━━\n\n\n\nѕτιϲκєя ϐγ:'𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆'
 global.wm = '🌸Sumi sakurazawa🌸';
