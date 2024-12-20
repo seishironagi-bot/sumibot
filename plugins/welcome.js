@@ -64,7 +64,7 @@ let kick = `*╭┈⊰ *${groupMetadata.subject}* ⊰┈ ✦*
         let img3;
         try {
             img3 = await (await fetch(goodbyeImage)).buffer();
-await conn.sendFile(m.chat, img3, "Thumbnail.jpg", kick, null, fkontak)
+await conn.sendFile(m.chat, img3, "Thumbnail.jpg", kick, null,null ,fkontak)
         } catch (sendError) {
             console.error('Error al enviar mensaje de expulsión:', sendError);
         }
