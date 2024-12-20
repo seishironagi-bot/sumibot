@@ -28,7 +28,7 @@ global.prems = []
 //• ↳ ◜𝑴𝑨𝑹𝑪𝑨𝑺 𝑫𝑬 𝑨𝑮𝑼𝑨◞ • 💌
 global.packsticker = '♾ ━━━━━━━━\n├ ɓσƭ:\n├ ρяοριєταяιο:\n├ ƒєϲнα ∂є ϲяєαϲιόи:\n├ нοяα:\n♾━━━━━━━━'
 global.packname = '󠁖󠁖󠁖󠁖󠁖󠁖󠁻󠁻🌸Sumi-Bot_MD🌸'
-global.author = '♾━━━━━━━━\n⇝͟͞♡̵̑ sumi-bot♡̵̑ ͟͞   ᷨᜳ ͦ ̵ͭ⋆\n👑𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑👑\n⇝ ${moment.tz('America/Los_Angeles').format('DD/MM/YY')}\n⇝ ${moment.tz('America/Los_Angeles').format('HH:mm:ss')} \n♾━━━━━━━━\n\n\n\nѕτιϲκєя ϐγ:'𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆'
+global.author = '♾━━━━━━━━\n⇝͟͞♡̵̑ sumi-bot♡̵̑ ͟͞   ᷨᜳ ͦ ̵ͭ⋆\n𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑\n⇝ ${moment.tz('America/Los_Angeles').format('DD/MM/YY')}\n⇝ ${moment.tz('America/Los_Angeles').format('HH:mm:ss')} \n♾━━━━━━━━\n\n\n\nѕτιϲκєя ϐγ:'𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆'
 global.wm = '🌸Sumi sakurazawa🌸';
 global.titulowm = '⍴᥆ᥕᥱ𝒓ᥱძ ᑲᥡ 𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 𝗍ᥱᥲ𝒎☀︎';
 global.titulowm2 = '🌸Sumi sakurazawa🌸'
