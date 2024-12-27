@@ -9,7 +9,7 @@ conn.reply(m.chat, `*•───⧼⧼⧼ 𝙱𝙰𝙻𝙰𝙽𝙲𝙴 ⧽⧽�
 
 *• 𝐃𝐢𝐚𝐦𝐚𝐧𝐭𝐞:* _${user.limit} 💎_
 *• 𝐄𝐱𝐩:* _${user.exp} ⬆️_
-*• 𝐋𝐨𝐥𝐢𝐂𝐨𝐢𝐧𝐬:* _${user.money} 🪙_
+*• 𝐒𝐮𝐦𝐢𝐂𝐨𝐢𝐧𝐬:* _${user.money} 🪙_
 > Afuera del Banco 
 
 *•───⧼⧼⧼ 𝙱𝙰𝙽𝙲𝙾 ⧽⧽⧽───•*
