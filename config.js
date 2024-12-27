@@ -162,7 +162,7 @@ global.flaaa = [
 //* ************************
 
 //• ↳ ◜𝑨𝑷𝑰𝑺 𝑭𝑼𝑵𝑪𝑰𝑶𝑵◞ 👑
-global.MyApiRestBaseUrl = 'https://api.cafirexos.com';
+global.MyApiRestBaseUrl = 'https://api.dorratz.com';
 global.MyApiRestApikey = 'BrunoSobrino';
 global.openai_org_id = 'org-3';
 global.openai_key = 'sk-0';
