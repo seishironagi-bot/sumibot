@@ -189,7 +189,7 @@ global.APIs = {
   popcat: 'https://api.popcat.xyz',
   xcoders: 'https://api-xcoders.site',
   vihangayt: 'https://vihangayt.me',
-  erdwpe: 'https://api.dorratz.com',
+  erdwpe: 'https://api.erdwpe.com',
   xyroinee: 'https://api.xyroinee.xyz',
   nekobot: 'https://nekobot.xyz'
 },
