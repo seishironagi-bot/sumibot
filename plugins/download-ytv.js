@@ -1,29 +1,31 @@
 import Starlights from '@StarlightsTeam/Scraper'
-let limit = 300
-let handler = async (m, { conn, text, isPrems, isOwner, usedPrefix, command }) => {
-if (!m.quoted) return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m, rcanal).then(_ => m.react('✖️'))
-if (!m.quoted.text.includes("乂  Y O U T U B E  -  P L A Y")) return conn.reply(m.chat, `[ ✰ ] Etiqueta el mensaje que contenga el resultado de YouTube Play.`, m, rcanal).then(_ => m.react('✖️'))
-let urls = m.quoted.text.match(new RegExp(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/, 'gi'))
-if (!urls) return conn.reply(m.chat, `Resultado no Encontrado.`, m, rcanal).then(_ => m.react('✖️'))
-if (urls.length < text) return conn.reply(m.chat, `Resultado no Encontrado.`, m, rcanal).then(_ => m.react('✖️'))
-let user = global.db.data.users[m.sender]
+import fetch from 'node-fetch' 
+let limit = 100
+
+let handler = async (m, { conn, args, text, isPrems, isOwner, usedPrefix, command }) => {
+if (!args[0]) return conn.reply(m.chat, '[ ✰ ] Ingresa el enlace del vídeo de *YouTube* junto al comando.\n\n`» Ejemplo :`\n' + `> *${usedPrefix + command}* https://youtu.be/QSvaCSt8ixs`, m, rcanal)
 
 await m.react('🕓')
 try {
-let v = urls[0]
-let { title, size, quality, thumbnail, dl_url } = await Starlights.ytmp4(v)
+let { title, size, quality, thumbnail, dl_url } = await Starlights.ytmp4(args[0])
 
-if (size.split('MB')[0] >= limit) return m.reply(`El archivo pesa mas de ${limit} MB, se canceló la Descarga.`).then(_ => m.react('✖️'))
-
-await conn.sendFile(m.chat, dl_url, title + '.mp4', `*» Título* : ${title}\n*» Calidad* : ${quality}`, m, false, { asDocument: user.useDocument })
+let img = await (await fetch(`${thumbnail}`)).buffer()
+if (size.split('MB')[0] >= limit) return conn.reply(m.chat, `El archivo pesa mas de ${limit} MB, se canceló la Descarga.`, m, rcanal).then(_ => m.react('✖️'))
+	let txt = '`乂  Y O U T U B E  -  M P 4`\n\n'
+       txt += `	✩   *Titulo* : ${title}\n`
+       txt += `	✩   *Calidad* : ${quality}\n`
+       txt += `	✩   *Tamaño* : ${size}\n\n`
+       txt += `> *- ↻ El vídeo se esta enviando espera un momento, soy lenta. . .*`
+await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, rcanal)
+await conn.sendMessage(m.chat, { video: { url: dl_url }, caption: `${title}`, mimetype: 'video/mp4', fileName: `${title}` + `.mp4`}, {quoted: m })
 await m.react('✅')
 } catch {
 await m.react('✖️')
 }}
-handler.help = ['Video']
+handler.help = ['ytmp4 *<link yt>*']
 handler.tags = ['downloader']
-handler.customPrefix = /^(Video|video|vídeo|Vídeo)/
-handler.command = new RegExp
+handler.command = ['ytmp4', 'ytv', 'yt']
 //handler.limit = 1
+handler.register = true 
 
 export default handler
