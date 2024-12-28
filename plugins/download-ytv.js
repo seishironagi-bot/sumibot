@@ -1,36 +1,31 @@
-import fetch from 'node-fetch'
+import Starlights from '@StarlightsTeam/Scraper'
+import fetch from 'node-fetch' 
+let limit = 300
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-let [url, resolution] = text.split(' ')
-if (!url) {
-return conn.reply(m.chat, `Ingresa el link de un video de youtube y una calidad ejemplo : ${usedPrefix + command} + *link* *360* `, m)
-}
-    
+let handler = async (m, { conn, args, text, isPrems, isOwner, usedPrefix, command }) => {
+if (!args[0]) return conn.reply(m.chat, '[ ✰ ] Ingresa el enlace del vídeo de *YouTube* junto al comando.\n\n`» Ejemplo :`\n' + `> *${usedPrefix + command}* https://youtu.be/QSvaCSt8ixs`, m, rcanal)
+
+await m.react('🕓')
 try {
-let apiinfo = await fetch(`https://ytdownloader.nvlgroup.my.id/info?url=${url}`);
-let jsoninfo = await apiinfo.json()
-let titulo = jsoninfo.title
-let duracion = jsoninfo.duration || '-'
-let calidad = resolution || '360'
-let img = jsoninfo.thumbnail
-let dl_url = `https://ytdownloader.nvlgroup.my.id/download?url=${url}&resolution=${calidad}`
-let vidFetch = await fetch(dl_url)
-let video = await vidFetch.buffer()
-let Tamaño = video.length / (1024 * 1024)
+let { title, size, quality, thumbnail, dl_url } = await Starlights.ytmp4(args[0])
 
-let HS = `- *Titulo* : ${titulo}
-- *Link* : ${url}
-- *Duracion* : ${duracion}
-- *Calidad* ${calidad}`
-if (Tamaño > 100) {
-await conn.sendMessage(m.chat, { document: video, caption: HS, mimetype: 'video/mp4', fileName: `${titulo}.mp4`})
-} else {
-await conn.sendMessage(m.chat, { video: video, caption: HS, mimetype: 'video/mp4'})
-}
-} catch (error) {
-console.error(error)    
+let img = await (await fetch(`${thumbnail}`)).buffer()
+if (size.split('MB')[0] >= limit) return conn.reply(m.chat, `El archivo pesa mas de ${limit} MB, se canceló la Descarga.`, m, rcanal).then(_ => m.react('✖️'))
+	let txt = '`乂  Y O U T U B E  -  M P 4 D O C`\n\n'
+       txt += `	✩   *Titulo* : ${title}\n`
+       txt += `	✩   *Calidad* : ${quality}\n`
+       txt += `	✩   *Tamaño* : ${size}\n\n`
+       txt += `> *- ↻ El vídeo se esta enviando espera un momento, soy lenta. . .*`
+await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, rcanal)
+await conn.sendMessage(m.chat, { document: { url: dl_url }, caption: '', mimetype: 'video/mp4', fileName: `${title}` + `.mp4`}, {quoted: m })
+await m.react('✅')
+} catch {
+await m.react('✖️')
 }}
-
-handler.command = ['ytmp4']
+handler.help = ['ytmp4doc *<link yt>*']
+handler.tags = ['downloader']
+handler.command = ['ytmp4doc', 'ytvdoc', 'ytdoc']
+//handler.limit = 1
+handler.register = true 
 
 export default handler
