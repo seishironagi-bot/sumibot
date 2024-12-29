@@ -28,7 +28,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     conn.sendMessage(m.chat, { video: { url: video }, gifPlayback: true, caption:str, mentions: [m.sender] },{ quoted: estilo })
     };
 
-  //  m.react('🔪');
+  //  m.react('🕊️');
 }
 
 handler.help = ['matar @tag'];
