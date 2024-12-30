@@ -1,4 +1,4 @@
-// *[ ❀ PLAY (VIDEO|AUDIO|DOC) ]*
+
 import yts from 'yt-search'
 import fetch from 'node-fetch'
 
