@@ -1,4 +1,4 @@
-// *[ ❀ SPOTIFYDL ]*
+
 import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
