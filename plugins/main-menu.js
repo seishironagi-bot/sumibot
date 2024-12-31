@@ -30,7 +30,9 @@ let tags = {
 }
 
 const defaultMenu = {
-  before: `Bienvenido al menu de sumi sakurazawa
+  before: 
+'꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷
+『Bienvenido al menu de sumi sakurazawa』
 
 “ Hola *%name* soy *sumi*, %greeting ”
 
