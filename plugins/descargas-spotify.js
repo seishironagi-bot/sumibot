@@ -1,23 +1,26 @@
-import Scraper from "@SumiFX/Scraper"
+import Scraper from '@SumiFX/Scraper'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-if (!text) return m.reply('🍭 Ingresa el nombre de algún Track de Spotify.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Gemini Aaliyah - If Only`)
-
-let user = global.db.data.users[m.sender]
-try {
-let { title, artist, album, published, thumbnail, dl_url } = await Scraper.spotify(text)
-let txt = `╭─⬣「 *Spotify Download* 」⬣\n`
-    txt += `│  ≡◦ *🍭 Nombre ∙* ${title}\n`
-    txt += `│  ≡◦ *🪴 Artista ∙* ${artist}\n`
-    txt += `│  ≡◦ *📚 Album ∙* ${album}\n`
-    txt += `│  ≡◦ *📅 Publicado ∙* ${published}\n`
-    txt += `╰─⬣`
-await conn.sendFile(m.chat, thumbnail, 'thumbnail.jpg', txt, m)
-await conn.sendFile(m.chat, dl_url, title + '.mp3', `*🍭 Titulo ∙* ${title}\n*🪴 Artista ∙* ${artist}`, m, false, { mimetype: 'audio/mpeg', asDocument: user.useDocument })
+let handler = async (m, { conn, text, args, usedPrefix, command }) => {
+  if (!text) return conn.reply(m.chat, '🍭 Ingresa el título de una canción de Spotify.\n\n`Ejemplo:`\n' + `> *${usedPrefix + command}* Gemini Aaliyah - If Only`, m)
+  try {
+    let Sumi = await Scraper.spotifySearch(text)
+    let img = await (await fetch(`${Sumi[0].thumbnail}`)).buffer()
+    let txt = `╭─⬣「 *Spotify Search* 」⬣\n`
+    for (let i = 0; i < Sumi.length; i++) {
+      txt += ` │  ≡◦ *🐢 Nro ∙* ${i + 1}\n`
+      txt += ` │  ≡◦ *🍭 Titulo ∙* ${Sumi[i].title}\n`
+      txt += ` │  ≡◦ *📚 Artista ∙* ${Sumi[i].artist}\n`
+      txt += ` │  ≡◦ *⛓ Url ∙* ${Sumi[i].url}\n`
+      txt += ` ╰──────────⬣`
+      txt += `\n`
+    }
+    
+await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m)
 } catch {
 }}
-handler.help = ['spotify <búsqueda>']
-handler.tags = ['downloader']
-handler.command = ['spotify']
-handler.register = true 
+handler.help = ['spotifysearch <búsqueda>']
+handler.tags = ['search']
+handler.command = ['spotifysearch']
+handler.register = true
+
 export default handler
