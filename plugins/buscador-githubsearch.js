@@ -1,53 +1,99 @@
 import fetch from 'node-fetch'
-
-let regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
-let handler = async (m, { args, usedPrefix, command }) => {
-  //let img = 'https://telegra.ph/file/78d5468b09fa913567731.png'
-  let textbot = '🚩 ¡Bot Multi Device!'
-  if (!args[0]) {
-    return conn.reply(m.chat, `🚩 Escribe la URL de un repositorio de GitHub que deseas descargar.`, m, rcanal)
-  }
-  if (!regex.test(args[0])) {
-    return conn.reply(m.chat, `Verifica que la *URL* sea de GitHub`, m, rcanal).then(_ => m.react(error))
-  }
-  let [_, user, repo] = args[0].match(regex) || []
-  let sanitizedRepo = repo.replace(/.git$/, '')
-  let repoUrl = `https://api.github.com/repos/${user}/${sanitizedRepo}`
-  let zipUrl = `https://api.github.com/repos/${user}/${sanitizedRepo}/zipball`
-  await m.react(rwait)
-  try {
-  conn.reply(m.chat, wait, m, {
-  contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, showAdAttribution: true,
-  title: packname,
-  body: wm,
-  previewType: 0, thumbnail: icons,
-  sourceUrl: channel }}})
-    let [repoResponse, zipResponse] = await Promise.all([
-      fetch(repoUrl),
-      fetch(zipUrl),
-    ])
-    let repoData = await repoResponse.json()
-    let filename = zipResponse.headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
-    let type = zipResponse.headers.get('content-type')
-    let img = 'https://i.ibb.co/tLKyhgM/file.png'
-    let txt = `*乂  G I T H U B  -  D O W N L O A D*\n\n`
-       txt += `✩  *Nombre* : ${sanitizedRepo}\n`
-       txt += `✩  *Repositorio* : ${user}/${sanitizedRepo}\n`
-       txt += `✩  *Creador* : ${repoData.owner.login}\n`
-       txt += `✩  *Descripción* : ${repoData.description || 'Sin descripción disponible'}\n`
-       txt += `✩  *Url* : ${args[0]}\n\n`
-       txt += `⁖❤️꙰  *${textbot}*`
-
-await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, rcanal)
-await conn.sendFile(m.chat, await zipResponse.buffer(), filename, null, m)
+const handler = async (m, {conn, text, usedPrefix, command}) => {
+if (!text) return conn.reply(m.chat, `❤️‍🔥 *Ingrese el nombre de un repositorio de github*\n\nEjemplo, ${usedPrefix + command} megumin-bot`, m, rcanal)
+try {
+await m.react(rwait)
+const res = await fetch(global.API('https://api.github.com', '/search/repositories', {
+q: text,
+}))
+const json = await res.json()
+if (res.status !== 200) throw json
+let str = json.items.map((repo, index) => {
+return `
+💮 *Resultado:* ${1 + index}
+🔗 *Enlace:* ${repo.html_url}
+👑 *Creador:* ${repo.owner.login}
+🏵️ *Nombre:* ${repo.name}
+🫂 *Creado:* ${formatDate(repo.created_at)}
+💥 *Actualizado:* ${formatDate(repo.updated_at)}
+👀 *Visitas:* ${repo.watchers}
+✨️ *Bifurcado:* ${repo.forks}
+🌟 *Estrellas:* ${repo.stargazers_count}
+🍂 *Issues:* ${repo.open_issues}
+🍭 *Descripción:* ${repo.description ? `${repo.description}` : 'Sin Descripción'}
+⭐️ *Clone:* ${repo.clone_url}
+`.trim()}).join('\n\n─────────────────\n\n') 
+// await m.react(done)
+let img = await (await fetch(json.items[0].owner.avatar_url)).buffer()
+await conn.sendMini(m.chat, '𖧷 G I T H U B - S E A R C H ❀', dev, str, img, img, redes, estilo)
 await m.react(done)
-  } catch {
+} catch {
 await m.react(error)
-  }
+conn.reply(m.chat, '⚠︎ *No se encontró resultados de:* ' + text, m, fake)}}
+handler.help = ['githubsearch']
+handler.tags = ['buscador']
+handler.command = ['githubsearch']
+
+handler.register = false
+
+export default handler 
+
+function formatDate(n, locale = 'es') {
+const d = new Date(n)
+return d.toLocaleDateString(locale, {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric'})}
+
+/*import MessageType from '@whiskeysockets/baileys'
+import fetch from 'node-fetch'
+import fs from 'fs'
+
+var handler = async (m, { conn, text, usedPrefix, command }) => {
+
+if (!text) return conn.reply(m.chat, `🚩 *Ingrese el nombre de un repositorio de github*\n\nEjemplo, ${usedPrefix + command} Ai-Yaemori`, m, rcanal)
+
+try {
+
+let res = await fetch(global.API('https://api.github.com', '/search/repositories', { q: text }))
+let json = await res.json()
+if (res.status !== 200) throw json
+let str = json.items.map((repo, index) => {
+return `
+🍟 *Resultado:* ${1 + index}
+🔗 *Enlace:* ${repo.html_url}
+👑 *Creador:* ${repo.owner.login}
+🍟 *Nombre:* ${repo.name}
+🫂 *Creado:* ${formatDate(repo.created_at)}
+💥 *Actualizado:* ${formatDate(repo.updated_at)}
+👀 *Visitas:* ${repo.watchers}
+✨️ *Bifurcado:* ${repo.forks}
+🌟 *Estrellas:* ${repo.stargazers_count}
+🍂 *Issues:* ${repo.open_issues}
+🍭 *Descripción:* ${repo.description ? `${repo.description}` : 'Sin Descripción'}
+⭐️ *Clone:* ${repo.clone_url}
+`.trim()}).join('\n\n─────────────────\n\n')
+
+let img = await (await fetch(json.items[0].owner.avatar_url)).buffer()
+await conn.sendUrl(m.chat, str, m, { externalAdReply: { mediaType: 1, renderLargerThumbnail: true, thumbnail: img, thumbnailUrl: img, title: 'Resultados Encontrados 🔎',
 }
-handler.help = ['gitclone *<url git>*']
-handler.tags = ['descargas']
-handler.command = ['gitclone']
-handler.register = true 
-//handler.star = 1
-export default handler
+})
+
+} catch {
+conn.reply(m.chat, '🚩 *Ocurrió un fallo*', m, fake)
+}
+
+}
+handler.help = ['githubsearch']
+handler.tags = ['buscador']
+handler.command = /^(githubsearch)$/i
+
+handler.register = true
+
+export default handler 
+
+function formatDate(n, locale = 'es') {
+let d = new Date(n)
+return d.toLocaleDateString(locale, {
+weekday: 'long',
+day: 'numeric',
+month: 'long',
+year: 'numeric'
+}) }*/
