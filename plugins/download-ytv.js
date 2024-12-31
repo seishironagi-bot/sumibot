@@ -1,36 +1,22 @@
-import fetch from 'node-fetch'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-let [url, resolution] = text.split(' ')
-if (!url) {
-return conn.reply(m.chat, `Ingresa el link de un video de youtube y una calidad ejemplo : ${usedPrefix + command} + *link* *360* `, m)
-}
-    
+
+// *[ ❀ YTMP4 ]*
+import fetch from 'node-fetch';
+
+let HS = async (m, { conn, text }) => {
+if (!text) return conn.reply(m.chat, `❀ Ingresa un link de youtube`, m)
+
 try {
-let apiinfo = await fetch(`https://ytdownloader.nvlgroup.my.id/info?url=${url}`);
-let jsoninfo = await apiinfo.json()
-let titulo = jsoninfo.title
-let duracion = jsoninfo.duration || '-'
-let calidad = resolution || '360'
-let img = jsoninfo.thumbnail
-let dl_url = `https://ytdownloader.nvlgroup.my.id/download?url=${url}&resolution=${calidad}`
-let vidFetch = await fetch(dl_url)
-let video = await vidFetch.buffer()
-let Tamaño = video.length / (1024 * 1024)
+let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`)
+let json = await api.json()
+let title = json.data.metadata.title
+let dl_url = json.data.download.url
+await conn.sendMessage(m.chat, { video: { url: dl_url }, fileName: `${json.data.filename}.mp4`, mimetype: "video/mp4" }, { quoted: m })
 
-let HS = `- *Titulo* : ${titulo}
-- *Link* : ${url}
-- *Duracion* : ${duracion}
-- *Calidad* ${calidad}`
-if (Tamaño > 100) {
-await conn.sendMessage(m.chat, { document: video, caption: HS, mimetype: 'video/mp4', fileName: `${titulo}.mp4`})
-} else {
-await conn.sendMessage(m.chat, { video: video, caption: HS, mimetype: 'video/mp4'})
-}
 } catch (error) {
-console.error(error)    
+console.error(error)
 }}
 
-handler.command = ['ytmp4']
+HS.command = ['ytmp4']
 
-export default handler
+export default HS
