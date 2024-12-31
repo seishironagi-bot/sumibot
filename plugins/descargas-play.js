@@ -13,7 +13,7 @@ let txt = `꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷
 ✎𓆩Duración𓆪 : ${ytres[0].timestap} ✎𓆩Publicado𓆪 : ${ytres[0].ago}
 ✎𓆩Canal𓆪 : ${ytres[0].author.name || 'Desconocido'}
 ✎﹏Url• : ${'https://youtu.be/' + ytres[0].videoId}
-꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷`
+꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦`
 await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
     
 try {
