@@ -29,16 +29,16 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
   }
 
   try {
-    conn.reply(message.chat, '✨️ *ENVIANDO SUS RESULTADOS..*', message, {
+    conn.reply(message.chat, '✔︎ *ENVIANDO SUS RESULTADOS..*', message, {
       contextInfo: { 
         externalAdReply: { 
           mediaUrl: null, 
           mediaType: 1, 
           showAdAttribution: true,
-          title: '♡  ͜ ۬︵࣪᷼⏜݊᷼𝘿𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙨⏜࣪᷼︵۬ ͜ ',
-          body: '<(✿◠‿◠)> 𝙈𝙚𝙜𝙪𝙢𝙞𝙣🔥',
+          title: 'SUMI BOT-MD',
+          body: '🌸Sumi sakurazawa🌸',
           previewType: 0, 
-          thumbnail: logo5,
+          thumbnail: logo2,
           sourceUrl: cn 
         }
       }
@@ -72,10 +72,10 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
           },
           interactiveMessage: proto.Message.InteractiveMessage.fromObject({
             body: proto.Message.InteractiveMessage.Body.create({
-              text: "✨️ RESULTADO DE: " + text
+              text: " RESULTADO DE: " + text
             }),
             footer: proto.Message.InteractiveMessage.Footer.create({
-              text: "ᥫᩣᎠ꯭I𝚫⃥꯭M꯭Ꭷ꯭Ꮑ꯭Ꭰ࠭⋆̟(◣_◢)凸"
+              text: "🌸Sumi sakurazawa🌸"
             }),
             header: proto.Message.InteractiveMessage.Header.create({
               hasMediaAttachment: false
@@ -100,9 +100,8 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
 };
 
 handler.help = ["tiktoksearch <txt>"];
-handler.estrellas = 1;
 handler.group = true;
-handler.register = true
+handler.register = false
 handler.tags = ["buscador"];
 handler.command = ["tiktoksearch", "tts", "tiktoks"];
 
