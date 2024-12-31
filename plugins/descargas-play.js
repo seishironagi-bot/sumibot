@@ -26,7 +26,7 @@ const texto1 = `乂  Y O U T U B E   M U S I C\n
         ✩ *Publicado ∙* ${vid.ago}\n
         ✩ *Url ∙* ${'https://youtu.be/' + vid.videoId}\n`.trim()
 		
-await conn.sendButton2(m.chat, texto1, botname, res.videos[0].thumbnail, [
+await conn.sendButton(m.chat, texto1, botname, res.videos[0].thumbnail, [
 	['Audio 📀', `${usedPrefix}mp3 ${text}`],
 	['Video 🎥', `${usedPrefix}mp4 ${text}`]
   ], null, [['Canal', `${channel}`]], m)
@@ -98,7 +98,7 @@ thumbnail: await (await fetch(vid.thumbnail)).buffer()}}}, { quoted: m })
 await conn.sendButton(m.chat, wm, texto1, res.videos[0].thumbnail, [
 	['Creador', `${usedPrefix}creador`],
 	['Menu', `${usedPrefix}menu`]
-  ], null, [['Canal', `${md}`]], m)
+  ], null, [['Canal', `${channel}`]], m)
        */
        try {
        let yt = await fg.ytv(vid.url, q)
@@ -141,7 +141,7 @@ if (size.split('MB')[0] >= limit) return conn.reply(m.chat,`El archivo pesa mas 
 await conn.sendButton(m.chat, wm, texto1, res.videos[0].thumbnail, [
 	['Creador', `${usedPrefix}creador`],
 	['Menu', `${usedPrefix}menu`]
-  ], null, [['Canal', `${md}`]], m)
+  ], null, [['Canal', `${channel}`]], m)
 	    */
        try {
        let yt = await fg.yta(vid.url, q)
@@ -202,7 +202,7 @@ thumbnail: await (await fetch(vid.thumbnail)).buffer()}}}, { quoted: m })
 await conn.sendButton(m.chat, wm, texto1, res.videos[0].thumbnail, [
 	['Creador', `${usedPrefix}creador`],
 	['Menu', `${usedPrefix}menu`]
-  ], null, [['Canal', `${md}`]], m)
+  ], null, [['Canal', `${channel}`]], m)
   */
        
        try {
