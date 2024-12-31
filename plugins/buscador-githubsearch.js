@@ -1,25 +1,53 @@
 import fetch from 'node-fetch'
-const regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
+
+let regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
 let handler = async (m, { args, usedPrefix, command }) => {
-if (!args[0]) return conn.reply(m.chat, `⚠️*𝙄𝙣𝙜𝙧𝙚𝙨𝙚 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙂𝙞𝙩𝙝𝙪𝙗*\n• *𝙀𝙟 :* ${usedPrefix + command} ${md}`, m, {contextInfo: {externalAdReply :{ mediaUrl: null, mediaType: 1, description: null, title: mg, body: ' 💫 𝐒𝐮𝐩𝐞𝐫 𝐁𝐨𝐭 𝐃𝐞 𝐖𝐡𝐚𝐭𝐬𝐚𝐩𝐩 🥳 ', previewType: 0, thumbnail: img.getRandom(), sourceUrl: redes.getRandom()}}})    
-if (!regex.test(args[0])) return conn.reply(m.chat, `⚠️ 𝙚𝙨𝙤 𝙣𝙤 𝙚𝙨 𝙪𝙣 𝙚𝙣𝙡𝙖𝙘𝙚 𝙙𝙚 𝙜𝙞𝙩𝙝𝙪𝙗 𝙗𝙤𝙡𝙪𝙙𝙤 🤡`, m, {contextInfo: {externalAdReply :{ mediaUrl: null, mediaType: 1, description: null, title: iig, body: ' 💫 𝐒𝐮𝐩𝐞𝐫 𝐁𝐨𝐭 𝐃𝐞 𝐖𝐡𝐚𝐭𝐬𝐚𝐩𝐩 🥳 ', previewType: 0, thumbnail: img.getRandom(), sourceUrl: redes.getRandom()}}})
-try {   
-let [_, user, repo] = args[0].match(regex) || []
-repo = repo.replace(/.git$/, '')
-let url = `https://api.github.com/repos/${user}/${repo}/zipball`
-let filename = (await fetch(url, { method: 'HEAD' })).headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
-conn.reply(m.chat, `*⌛ 𝐂𝐚𝐥𝐦𝐚 ✋ 𝐂𝐥𝐚𝐜𝐤, 𝐘𝐚 𝐞𝐬𝐭𝐨𝐲 𝐄𝐧𝐯𝐢𝐚𝐝𝐨 𝐞𝐥 𝐚𝐫𝐜𝐡𝐢𝐯𝐨 🚀*\n*𝐒𝐢 𝐧𝐨 𝐥𝐞 𝐥𝐥𝐞𝐠𝐚 𝐞𝐥 𝐚𝐫𝐜𝐡𝐢𝐯𝐨 𝐞𝐬 𝐝𝐞𝐛𝐢𝐝𝐨 𝐚 𝐪𝐮𝐞 𝐞𝐥 𝐑𝐞𝐩𝐨𝐬𝐢𝐭𝐨𝐫𝐢𝐨 𝐞𝐬 𝐦𝐮𝐲 𝐩𝐞𝐬𝐚𝐝𝐨*`, m, {contextInfo: {externalAdReply :{ mediaUrl: null, mediaType: 1, description: null, title: wm, body: ' 💫 𝐒𝐮𝐩𝐞𝐫 𝐁𝐨𝐭 𝐃𝐞 𝐖𝐡𝐚𝐭𝐬𝐚𝐩𝐩 🥳 ', previewType: 0, thumbnail: img.getRandom(), sourceUrl: redes.getRandom()}}})   
-conn.sendFile(m.chat, url, filename, null, m, null, fake)
-handler.limit = 2
-} catch (e) { 
-m.reply(`\`\`\`⚠️ OCURRIO UN ERROR ⚠️\`\`\`\n\n> *Reporta el siguiente error a mi creador con el comando:*#report\n\n>>> ${e} <<<< `)       
-console.log(e) 
-handler.limit = 0 //❌No gastada diamante si el comando falla
-}}
-handler.help = ['gitclone <url>']
-handler.tags = ['downloader']
-handler.command = /gitclone|clonarepo|clonarrepo|repoclonar/i
-handler.register = true
-//handler.limit = 2
-handler.level = 2
+  //let img = 'https://telegra.ph/file/78d5468b09fa913567731.png'
+  let textbot = '🚩 ¡Bot Multi Device!'
+  if (!args[0]) {
+    return conn.reply(m.chat, `🚩 Escribe la URL de un repositorio de GitHub que deseas descargar.`, m, rcanal)
+  }
+  if (!regex.test(args[0])) {
+    return conn.reply(m.chat, `Verifica que la *URL* sea de GitHub`, m, rcanal).then(_ => m.react(error))
+  }
+  let [_, user, repo] = args[0].match(regex) || []
+  let sanitizedRepo = repo.replace(/.git$/, '')
+  let repoUrl = `https://api.github.com/repos/${user}/${sanitizedRepo}`
+  let zipUrl = `https://api.github.com/repos/${user}/${sanitizedRepo}/zipball`
+  await m.react(rwait)
+  try {
+  conn.reply(m.chat, wait, m, {
+  contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, showAdAttribution: true,
+  title: packname,
+  body: wm,
+  previewType: 0, thumbnail: icons,
+  sourceUrl: channel }}})
+    let [repoResponse, zipResponse] = await Promise.all([
+      fetch(repoUrl),
+      fetch(zipUrl),
+    ])
+    let repoData = await repoResponse.json()
+    let filename = zipResponse.headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
+    let type = zipResponse.headers.get('content-type')
+    let img = 'https://i.ibb.co/tLKyhgM/file.png'
+    let txt = `*乂  G I T H U B  -  D O W N L O A D*\n\n`
+       txt += `✩  *Nombre* : ${sanitizedRepo}\n`
+       txt += `✩  *Repositorio* : ${user}/${sanitizedRepo}\n`
+       txt += `✩  *Creador* : ${repoData.owner.login}\n`
+       txt += `✩  *Descripción* : ${repoData.description || 'Sin descripción disponible'}\n`
+       txt += `✩  *Url* : ${args[0]}\n\n`
+       txt += `⁖❤️꙰  *${textbot}*`
+
+await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, rcanal)
+await conn.sendFile(m.chat, await zipResponse.buffer(), filename, null, m)
+await m.react(done)
+  } catch {
+await m.react(error)
+  }
+}
+handler.help = ['gitclone *<url git>*']
+handler.tags = ['descargas']
+handler.command = ['gitclone']
+handler.register = true 
+//handler.star = 1
 export default handler
