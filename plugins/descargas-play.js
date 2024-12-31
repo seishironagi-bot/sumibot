@@ -1,36 +1,35 @@
-/* 
+/*// *[ ❀ PLAY] *
+traer de importación de 'nodo-fetch';
+importar yts de 'yt-search'
 
+dejar HS = async (m, {conn, texto}) => {
+si (! texto) regrese conn.reply (m.chat, `❀ Ingresa un enlace de mediafire`, m)
+dejar res = esperar yts (texto)
+deja vid = res.videos [0]
 
+intentar {
 
-// *[ ❀ PLAY ]*
-import fetch from 'node-fetch';
-import yts from 'yt-search'
-
-let HS = async (m, { conn, text }) => {
-if (!text) return conn.reply(m.chat, `❀ Ingresa un link de mediafire`, m)
-let res = await yts(text)
-let vid = res.videos[0]
-
-try {
-
-let api = await fetch(`https://api.betabotz.eu.org/api/download/ytmp4?url=${vid.url}&apikey=btzKiyoEditz`)
-let json = await api.json()
-let { title, description, id, thumb, source, mp3, mp4 } = json.result
-let audio = {
-audio: { url: mp3 }, mimetype: "audio/mp4", fileName: `${title}`,
-contextInfo: { externalAdReply: { showAdAttribution: true, mediaType: 2,
+let api = wait fetch (`https://api.betabotz.eu.org/api/download/ytmp4?url=${vid.url}&apikey=btzKiyoEditz`)
+deje que json = espere api.json() 
+sea { título, descripción, id, miniatura, fuente, mp3, mp4 } = json.result 
+deja audio = {
+audio: {url: mp3}, mimetype: "audio / mp4", fileName: `$ {title}`,
+contexInfo: { externalAdReply: { showAdAtribution: true, mediaType: 2,
 mediaUrl: vid.url, sourceUrl: vid.url,
-title: vid.title, body: null,
-thumbnailUrl: thumb
+título: vid.title, cuerpo: nulo,
+thumbnailUrl: pulgar
 }}}
-await conn.sendMessage(m.chat, audio, { quoted: m })
+espera conn.sendMessage (m.chat, audio, {quoted: m})
 
-await conn.sendMessage(m.chat, { video: { url: mp4 }, mimetype: 'video/mp4', fileName: `${title}.mp4`, caption: null }, { quoted: m })    
+espera conn.sendMessage (m.chat, {video: {url: mp4}, mimetype: 'video / mp4', fileName: `$ {title} .mp4`, subtítulo: nulo}, {citado: m})
     
-} catch (error) {
-console.error(error)
+} captura (error) {
+consola.error(error)
 }}
 
-HS.command = ['play']
+HS.command = ['reproducir'] 
 
-export default HS
+exportar HS predeterminado
+
+
+
