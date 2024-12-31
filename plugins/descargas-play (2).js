@@ -1,7 +1,5 @@
 /* 
 
-
-// *[ ❀ PLAY 2 (video) ]*
 import fetch from 'node-fetch'
 import yts from 'yt-search'
 
