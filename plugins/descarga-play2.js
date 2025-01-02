@@ -9,11 +9,11 @@ return m.reply("❀ ingresa un texto de lo que quieres buscar")
 }
     
 let ytres = await search(args.join(" "))
-let txt = `- *Título* : ${ytres[0].title}
-- *Duración* : ${ytres[0].timestamp}
-- *Publicado* : ${ytres[0].ago}
-- *Canal* : ${ytres[0].author.name || 'Desconocido'}
-- *Url* : ${'https://youtu.be/' + ytres[0].videoId}`
+let txt = `❥⏤͟͟͞͞Título♥︎ : ${ytres[0].title}
+❥⏤͟͟͞͞Duración♥︎ : ${ytres[0].timestamp}
+❥⏤͟͟͞͞Publicado♥︎ : ${ytres[0].ago}
+❥⏤͟͟͞͞Canal♥︎ : ${ytres[0].author.name || 'Desconocido'}
+❥⏤͟͟͞͞Url♥︎ : ${'https://youtu.be/' + ytres[0].videoId}`
 await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
     
 try {
