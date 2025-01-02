@@ -16,7 +16,9 @@ let txt = ` ᚚᚚᩳᚚ͜ᩬᚚᷤ͜ᚚᷴ͜ᚚᷟ͜ᚚᷝ͜ᚚ͜ᚚᷤ͜ᚚᷧ
 ❥⏤͟͟͞͞Publicado♥︎ : ${ytres[0].ago}
 ❥⏤͟͟͞͞Canal♥︎ : ${ytres[0].author.name || 'Desconocido'}
 ❥⏤͟͟͞͞Url♥︎ : ${'https://youtu.be/' + ytres[0].videoId}
-꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦`
+꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
+
+🌸 *Su video se está enviando, espere un momento...*`
 await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
     
 try {
