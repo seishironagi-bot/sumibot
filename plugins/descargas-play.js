@@ -1,65 +1,35 @@
-import yts from 'yt-search' 
-const handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) throw `Ejemplo: ${usedPrefix + command} diles`,m ,rcanal;
+// *[ ❀ PLAY ]*
+import fetch from 'node-fetch'
+import yts from 'yt-search'
 
-    const randomReduction = Math.floor(Math.random() * 5) + 1;
-    let search = await yts(text);
-    let isVideo = /vid$/.test(command);
-    let urls = search.all[0].url;
-    let body = `\`YouTube Play - AkariBot-MD\`
-
- ➢   *Título:* ${search.all[0].title}
-     
- ➢   *Vistas:* ${search.all[0].views}
-      
- ➢   *Duración:* ${search.all[0].timestamp}  
-      
- ➢   *Subido:* ${search.all[0].ago} 
-      
- ➢   *Url:* ${urls}
-
-🌸 *Su ${isVideo ? 'Video' : 'Audio'} se está enviando, espere un momento...*`;
-    
-    conn.sendMessage(m.chat, { 
-        image: { url: search.all[0].thumbnail }, 
-        caption: body
-    }, { quoted: m,rcanal });
-    m.react('✅')
-
-    let res = await dl_vid(urls)
-    let type = isVideo ? 'video' : 'audio';
-    let video = res.data.mp4;
-    let audio = res.data.mp3;
-    conn.sendMessage(m.chat, { 
-        [type]: { url: isVideo ? video : audio }, 
-        gifPlayback: false, 
-        mimetype: isVideo ? "video/mp4" : "audio/mpeg" 
-    }, { quoted: m });
+let handler = async (m, { conn, text, args }) => {
+if (!text) {
+return m.reply("❀ ingresa un texto de lo que quieres buscar")
 }
+    
+let ytres = await search(args.join(" "))
+let txt = `꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
+❥⏤͟͟͞͞Título♥︎ : ${ytres[0].title}
+❥⏤͟͟͞͞Duración♥︎ : ${ytres[0].timestap} ❥⏤͟͟͞͞Publicado♥︎ : ${ytres[0].ago}
+❥⏤͟͟͞͞Canal♥︎ : ${ytres[0].author.name || 'Desconocido'}
+❥⏤͟͟͞͞Url♥︎ : ${'https://youtu.be/' + ytres[0].videoId}
+꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦`
+await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
+    
+try {
+let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${ytres[0].url}`)
+let json = await api.json()
+let { quality, title, download_url } = json.result
+await conn.sendMessage(m.chat, { audio: { url: download_url }, fileName: `${title}.mp3`, mimetype: 'audio/mp4' }, { quoted: m })
+} catch (error) {
+console.error(error)
+}}
 
-handler.command = ['play', 'playvid'];
-handler.help = ['play', 'playvid'];
-handler.tags = ['dl'];
-handler.yenes = 25
-export default handler;
+handler.command = /^(play)$/i
 
-async function dl_vid(url) {
-    const response = await fetch('https://shinoa.us.kg/api/download/ytdl', {
-        method: 'POST',
-        headers: {
-            'accept': '*/*',
-            'api_key': 'free',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            text: url,
-        })
-    });
+export default handler
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
+async function search(query, options = {}) {
+  let search = await yts.search({ query, hl: "es", gl: "ES", ...options })
+  return search.videos
 }
