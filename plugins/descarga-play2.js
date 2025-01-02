@@ -9,7 +9,8 @@ return m.reply("❀ ingresa un texto de lo que quieres buscar")
 }
     
 let ytres = await search(args.join(" "))
-let txt = `꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
+let txt = ` ᚚᚚᩳᚚ͜ᩬᚚᷤ͜ᚚᷴ͜ᚚᷟ͜ᚚᷝ͜ᚚ͜ᚚᷤ͜ᚚᷧ͜ᚚᷜ͜ᚚᷴ͜ᚚᷢ͜ᚚᷧ͜ᚚᷦ͜ᚚᷧ͜ᚚᷱ͜ᚚᷴ͜ᚚᷧ͜ᚚᩬᚚᩳᚚᚚ
+꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
 ❥⏤͟͟͞͞Título♥︎ : ${ytres[0].title}
 ❥⏤͟͟͞͞Duración♥︎ : ${ytres[0].timestamp}
 ❥⏤͟͟͞͞Publicado♥︎ : ${ytres[0].ago}
