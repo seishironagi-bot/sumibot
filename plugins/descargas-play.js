@@ -1,51 +1,37 @@
+/* 
+
+*❀ By JTxs*
+
+
 // *[ ❀ PLAY ]*
-import fetch from "node-fetch";
-import yts from "yt-search";
+import fetch from 'node-fetch';
+import yts from 'yt-search'
 
-let handler = async (m, { conn, text }) => {
-if (!text) {
-return m.reply("❀ Ingresa el texto de lo que quieres buscar")
-}
-
-let ytres = await yts(text)
-let video = ytres.videos[0]
-  
-if (!video) {
-return m.reply("❀ Video no encontrado")
-}
-
-let { title, thumbnail, timestamp, views, ago, url } = video
-
-let vistas = parseInt(views).toLocaleString("es-ES") + " vistas"
-
-let HS = `- *Duración:* ${timestamp}
-- *Vistas:* ${vistas}
-- *Subido:* ${ago}
-- *Enlace:* ${url}`
-
-let thumb = (await conn.getFile(thumbnail))?.data;
-
-let JT = {
-contextInfo: {
-externalAdReply: {
-title: title, body: "",
-mediaType: 1, previewType: 0,
-mediaUrl: url, sourceUrl: url,
-thumbnail: thumb, renderLargerThumbnail: true,
-}}}
-
-await conn.reply(m.chat, HS, m, JT)
+let HS = async (m, { conn, text }) => {
+if (!text) return conn.reply(m.chat, `❀ Ingresa el texto de lo que quieres buscar`, m)
+let res = await yts(text)
+let vid = res.videos[0]
 
 try {
-let api = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`);
-let json = await api.json()
-let { download } = json.result
 
-await conn.sendMessage(m.chat, { audio: { url: download.url }, caption: ``, mimetype: "audio/mpeg", }, { quoted: m })
+let api = await fetch(`https://api.betabotz.eu.org/api/download/ytmp4?url=${vid.url}&apikey=btzKiyoEditz`)
+let json = await api.json()
+let { title, description, id, thumb, source, mp3, mp4 } = json.result
+let audio = {
+audio: { url: mp3 }, mimetype: "audio/mp4", fileName: `${title}`,
+contextInfo: { externalAdReply: { showAdAttribution: true, mediaType: 2,
+mediaUrl: vid.url, sourceUrl: vid.url,
+title: vid.title, body: null,
+thumbnailUrl: thumb
+}}}
+await conn.sendMessage(m.chat, audio, { quoted: m })
+
+await conn.sendMessage(m.chat, { video: { url: mp4 }, mimetype: 'video/mp4', fileName: `${title}.mp4`, caption: null }, { quoted: m })    
+    
 } catch (error) {
-console.error(error)    
+console.error(error)
 }}
 
-handler.command = /^(play)$/i
+HS.command = ['play']
 
-export default handler
+export default HS
