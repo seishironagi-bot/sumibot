@@ -1,38 +1,51 @@
 // *[ ❀ PLAY ]*
-import fetch from 'node-fetch'
-import yts from 'yt-search'
+import fetch from "node-fetch";
+import yts from "yt-search";
 
-let handler = async (m, { conn, text, args }) => {
+let handler = async (m, { conn, text }) => {
 if (!text) {
-return m.reply("❀ ingresa un texto de lo que quieres buscar")
+return m.reply("❀ Ingresa el texto de lo que quieres buscar")
 }
-    
-let ytres = await search(args.join(" "))
-let txt = ` ᚚᚚᩳᚚ͜ᩬᚚᷤ͜ᚚᷴ͜ᚚᷟ͜ᚚᷝ͜ᚚ͜ᚚᷤ͜ᚚᷧ͜ᚚᷜ͜ᚚᷴ͜ᚚᷢ͜ᚚᷧ͜ᚚᷦ͜ᚚᷧ͜ᚚᷱ͜ᚚᷴ͜ᚚᷧ͜ᚚᩬᚚᩳᚚᚚ
-꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
-❥⏤͟͟͞͞Título♥︎ : ${ytres[0].title}
-❥⏤͟͟͞͞Duración♥︎ : ${ytres[0].timestap} ❥⏤͟͟͞͞Publicado♥︎ : ${ytres[0].ago}
-❥⏤͟͟͞͞Canal♥︎ : ${ytres[0].author.name || 'Desconocido'}
-❥⏤͟͟͞͞Url♥︎ : ${'https://youtu.be/' + ytres[0].videoId}
-꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
 
-🌸 *Su Audio se está enviando, espere un momento...*`
-await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
-    
+let ytres = await yts(text)
+let video = ytres.videos[0]
+  
+if (!video) {
+return m.reply("❀ Video no encontrado")
+}
+
+let { title, thumbnail, timestamp, views, ago, url } = video
+
+let vistas = parseInt(views).toLocaleString("es-ES") + " vistas"
+
+let HS = `- *Duración:* ${timestamp}
+- *Vistas:* ${vistas}
+- *Subido:* ${ago}
+- *Enlace:* ${url}`
+
+let thumb = (await conn.getFile(thumbnail))?.data;
+
+let JT = {
+contextInfo: {
+externalAdReply: {
+title: title, body: "",
+mediaType: 1, previewType: 0,
+mediaUrl: url, sourceUrl: url,
+thumbnail: thumb, renderLargerThumbnail: true,
+}}}
+
+await conn.reply(m.chat, HS, m, JT)
+
 try {
-let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp3?apikey=gifted&url=${ytres[0].url}`)
+let api = await fetch(`https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`);
 let json = await api.json()
-let { quality, title, download_url } = json.result
-await conn.sendMessage(m.chat, { audio: { url: download_url }, fileName: `${title}.mp3`, mimetype: 'audio/mp4' }, { quoted: m })
+let { download } = json.result
+
+await conn.sendMessage(m.chat, { audio: { url: download.url }, caption: ``, mimetype: "audio/mpeg", }, { quoted: m })
 } catch (error) {
-console.error(error)
+console.error(error)    
 }}
 
 handler.command = /^(play)$/i
 
 export default handler
-
-async function search(query, options = {}) {
-  let search = await yts.search({ query, hl: "es", gl: "ES", ...options })
-  return search.videos
-}
