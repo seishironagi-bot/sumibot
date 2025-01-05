@@ -1,22 +1,36 @@
+import fetch from 'node-fetch'
 
+let handler = async (m, { conn, text }) => {
+  if (!text) {
+    return m.reply("🤍 Por favor, ingresa una URL válida de YouTube.")
+  }
+    await m.react('🕓')
 
-// *[ ❀ YTMP4 ]*
-import fetch from 'node-fetch';
+  let ytUrlRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+  if (!ytUrlRegex.test(text)) {
+    return m.reply("❀ La URL ingresada no es válida. Asegúrate de que sea un enlace de YouTube.")
+  }
 
-let HS = async (m, { conn, text }) => {
-if (!text) return conn.reply(m.chat, `❀ Ingresa un link de youtube`, m)
+  try {
+    let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${text}`)
+    let json = await api.json()
+    let { quality, title, download_url } = json.result
 
-try {
-let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`)
-let json = await api.json()
-let title = json.data.metadata.title
-let dl_url = json.data.download.url
-await conn.sendMessage(m.chat, { video: { url: dl_url }, fileName: `${json.data.filename}.mp4`, mimetype: "video/mp4" }, { quoted: m })
+    await m.react('✅')
+    await conn.sendMessage(m.chat, { 
+      video: { url: download_url }, 
+      caption: `_${title}_`, 
+      mimetype: 'video/mp4', 
+      fileName: `${title}.mp4` 
+    }, { quoted: m })
+  } catch (error) {
+    console.error(error)
+    m.reply("❀ Hubo un error al procesar la URL. Inténtalo nuevamente.")
+  }
+}
 
-} catch (error) {
-console.error(error)
-}}
+handler.help = ['ytmp4 *<link yt>*']
+handler.tags = ['dl']
+handler.command = ['ytmp4', 'ytv', 'fgmp4']
 
-HS.command = ['ytmp4']
-
-export default HS
+export default handler
