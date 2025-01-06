@@ -8,7 +8,7 @@ try {
 let api = await fetch(`https://api.vreden.web.id/api/ytplaymp3?query=${text}`)
 let json = await api.json()
 let { title, thumbnail, timestamp, ago, views, author } = json.result.metadata
-let HS = `⚘ᚚᚚᩳᚚ͜ᩬᚚᷤ͜ᚚᷴ͜ᚚᷟ͜ᚚᷝ͜ᚚ͜ᚚᷤ͜ᚚᷧ͜ᚚᷜ͜ᚚᷴ͜ᚚᷢ͜ᚚᷧ͜ᚚᷦ͜ᚚᷧ͜ᚚᷱ͜ᚚᷴ͜ᚚᷧ͜ᚚᩬᚚᩳᚚᚚ⚘
+let HS = `⚘ᚚᩳᚚ͜ᩬᚚᷤ͜ᚚᷴ͜ᚚᷟ͜ᚚᷝ͜ᚚ͜ᚚᷤ͜ᚚᷧ͜ᚚᷜ͜ᚚᷴ͜ᚚᷢ͜ᚚᷧ͜ᚚᷦ͜ᚚᷧ͜ᚚᷱ͜ᚚᷴ͜ᚚᷧ͜ᚚᩬᚚᩳ⚘
 ꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
 ✿⏤͟͟͞͞Titulo✿ : ${title}
 ✿⏤͟͟͞͞Duracion✿ : ${timestamp}
