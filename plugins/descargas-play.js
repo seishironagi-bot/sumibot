@@ -10,11 +10,11 @@ let json = await api.json()
 let { title, thumbnail, timestamp, ago, views, author } = json.result.metadata
 let HS = `⚘ᚚᚚᩳᚚ͜ᩬᚚᷤ͜ᚚᷴ͜ᚚᷟ͜ᚚᷝ͜ᚚ͜ᚚᷤ͜ᚚᷧ͜ᚚᷜ͜ᚚᷴ͜ᚚᷢ͜ᚚᷧ͜ᚚᷦ͜ᚚᷧ͜ᚚᷱ͜ᚚᷴ͜ᚚᷧ͜ᚚᩬᚚᩳᚚᚚ⚘
 ꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
-✿⏤͟͟͞͞Titulo✿ :* ${title}
-✿⏤͟͟͞͞Duracion✿ :* ${timestamp}
-✿⏤͟͟͞͞Subido✿ :* ${ago}
-✿⏤͟͟͞͞Visitas✿ :* ${views}
-✿⏤͟͟͞͞Autor✿ :* ${author.name}
+✿⏤͟͟͞͞Titulo✿ : ${title}
+✿⏤͟͟͞͞Duracion✿ : ${timestamp}
+✿⏤͟͟͞͞Subido✿ : ${ago}
+✿⏤͟͟͞͞Visitas✿ : ${views}
+✿⏤͟͟͞͞Autor✿ : ${author.name}
 ꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦`
 await conn.sendFile(m.chat, thumbnail, 'HasumiBotFreeCodes.jpg', HS, m)
 await conn.sendFile(m.chat, json.result.download.url, 'HasumiBotFreeCodes.mp3', null, m)
