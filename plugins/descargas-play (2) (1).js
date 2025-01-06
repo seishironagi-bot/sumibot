@@ -16,7 +16,7 @@ let txt = `- *Título* : ${ytres[0].title}
 await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
     
 try {
-let api = await fetch(`https://api.giftedtech.my.id/api/download/dlmp4?apikey=gifted&url=${ytres[0].url}`)
+let api = await fetch(`https://axeel.my.id/api/download/video?url=$ {ytres[0].url}`)
 let json = await api.json()
 let { quality, title, download_url } = json.result
 await conn.sendMessage(m.chat, { video: { url: download_url }, caption: `${title}`, mimetype: 'video/mp4', fileName: `${title}` + `.mp4`}, {quoted: m })
