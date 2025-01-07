@@ -1,45 +1,34 @@
-const fs = require('fs');
-const ytdl = require('ytdl-core'); // Para descargar YouTube
+// *[ ❀ PLAY 2 (video) ]*
+import fetch from 'node-fetch'
+import yts from 'yt-search'
 
-// Función para descargar el video completo y enviarlo
-async function downloadVideoFromYouTube(url, to) {
-  const videoPath = path.join(__dirname, process.env.AUDIO_DOWNLOAD_PATH, 'video.mp4');
-
-  try {
-    // Descargar el video en formato mp4
-    const stream = ytdl(url, { quality: 'highestvideo' });
-    const file = fs.createWriteStream(videoPath);
-    
-    stream.pipe(file);
-
-    stream.on('end', async () => {
-      console.log('Video descargado con éxito.');
-
-      // Enviar el archivo de video por WhatsApp
-      await sendVideoFile(to, videoPath);
-
-      // Limpiar el archivo descargado después de enviarlo
-      fs.unlinkSync(videoPath);
-    });
-  } catch (error) {
-    console.error('Error al descargar el video:', error);
-    await sendMessage(to, 'Hubo un error al intentar descargar el video. Intenta de nuevo.');
-  }
+let handler = async (m, { conn, text, args }) => {
+if (!text) {
+return m.reply("❀ ingresa un texto de lo que quieres buscar")
 }
-
-// Función para enviar un archivo de video a través de WhatsApp
-async function sendVideoFile(to, videoPath) {
-  try {
-    // Reemplaza con la URL pública de tu servidor. Si usas ngrok, usa la URL generada por ngrok.
-    const publicUrl = `https://your-ngrok-url/${videoPath}`;
     
-    await client.messages.create({
-      from: twilioPhoneNumber,
-      to: to,
-      mediaUrl: publicUrl,
-    });
-    console.log('Video enviado correctamente.');
-  } catch (error) {
-    console.error('Error al enviar el video:', error);
-  }
+let ytres = await search(args.join(" "))
+let txt = `- *Título* : ${ytres[0].title}
+- *Duración* : ${ytres[0].timestamp}
+- *Publicado* : ${ytres[0].ago}
+- *Canal* : ${ytres[0].author.name || 'Desconocido'}
+- *Url* : ${'https://youtu.be/' + ytres[0].videoId}`
+await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
+    
+try {
+let api = await fetch(`https://api.vreden.web.id/api/ytmp4?url=${ytres[0].url}`)
+let json = await api.json()
+let { quality, title, download_url } = json.result
+await conn.sendMessage(m.chat, { video: { url: download_url }, caption: `${title}`, mimetype: 'video/mp4', fileName: `${title}` + `.mp4`}, {quoted: m })
+} catch (error) {
+console.error(error)
+}}
+
+handler.command = /^(play2)$/i
+
+export default handler
+
+async function search(query, options = {}) {
+  let search = await yts.search({ query, hl: "es", gl: "ES", ...options })
+  return search.videos
 }
