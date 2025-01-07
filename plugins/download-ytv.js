@@ -1,25 +1,50 @@
 // *[ ❀ YTMP4 ]*
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 
-let handler = async (m, { conn, command, text, usedPrefix }) => {
-if (!text) return conn.reply(m.chat, `❀ Ingresa un link de youtube`, m)
+let HS = async (m, { conn, text }) => {
+  if (!text || !/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)/i.test(text)) {
+    return conn.reply(m.chat, `❀ Ingresa un enlace válido de YouTube`, m);
+  }
 
-try {
-let api = await fetch(`https://axeel.my.id/api/download/video?url=${text}`)
-let json = await api.json()
-let { title, views, likes, description, author } = json.metadata
-let HS = `- *Titulo :* ${title}
-- *Descripcion :* ${description}
-- *Visitas :* ${views}
-- *Likes :* ${likes}
-- *Autor :* ${author}
-- *Tamaño :* ${json.downloads.size}
-`
-await conn.sendFile(m.chat, json.downloads.url, 'HasumiBotFreeCodes.mp4', HS, m)
-} catch (error) {
-console.error(error)
-}}
+  try {
+    // Llamada a la API para obtener los datos del video
+    let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`);
+    if (!api.ok) throw new Error(`Error en la API: ${api.statusText}`);
 
-handler.command = /^(ytmp4)$/i
+    let json = await api.json();
 
-export default handler
+    // Validar la respuesta de la API
+    if (!json.result || !json.result.download) {
+      throw new Error('No se pudo obtener los datos necesarios del enlace.');
+    }
+
+    let dl_url = json.result.download.url; // URL de descarga del video
+
+    // Enviar el video al usuario
+    await conn.sendMessage(
+      m.chat,
+      {
+        video: { url: dl_url }, // URL del video
+        fileName: `Dijiste.mp4`, // Nombre del archivo
+        caption: `❀ Aquí tienes el video descargado: Dijiste.mp4`, // Texto acompañante
+      },
+      { quoted: m } // Mensaje citado
+    );
+
+    // Confirmar envío exitoso
+    conn.reply(m.chat, `❀ Video enviado correctamente: Dijiste.mp4`, m);
+
+  } catch (error) {
+    console.error(error);
+    conn.reply(
+      m.chat,
+      `❀ Ocurrió un error al procesar el enlace. Por favor, verifica el enlace o intenta más tarde.`,
+      m
+    );
+  }
+};
+
+// Comando asociado
+HS.command = ['ytmp4'];
+
+export default HS;
