@@ -1,3 +1,7 @@
+/* 
+- Play Botones By Angel-OFC 
+- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
+*/
 import fetch from 'node-fetch';
 import yts from 'yt-search';
 import ytdl from 'ytdl-core';
@@ -24,13 +28,13 @@ let handler = async (m, { conn, args }) => {
       footer: 'Selecciona una opción',
       buttons: [
         {
-          buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
+          buttonId: `.ytmp3 ${video.videoId}`,
           buttonText: {
             displayText: '🎵 Audio',
           },
         },
         {
-          buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
+          buttonId: `.ytmp4 ${video.videoId}`,
           buttonText: {
             displayText: '🎥 Video',
           },
@@ -48,28 +52,11 @@ let handler = async (m, { conn, args }) => {
   }
 };
 
-let ytmp3Handler = async (m, { conn, args }) => {
-  if (!args[0]) return conn.reply(m.chat, '*\`Ingresa la URL del video\`*', m);
-
-  try {
-    const url = args[0];
-    const audioStream = ytdl(url, { filter: 'audioonly' });
-
-    // Envía el audio directamente
-    conn.sendMessage(m.chat, {
-      audio: { url: audioStream },
-      mimetype: 'audio/mpeg',
-      ptt: true, // Cambia a true si quieres que sea un mensaje de voz
-    }, { quoted: m });
-  } catch (e) {
-    console.error(e);
-    conn.reply(m.chat, '*\`Error al descargar el audio.\`*', m);
-  }
-};
-
-// Registra el comando para descargar audio
+handler.help = ['play *<texto>*'];
+handler.tags = ['dl'];
 handler.command = ['play'];
-ytmp3Handler.command = ['ytmp3'];
+
+export default handler;
 
 async function search(query, options = {}) {
   let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
@@ -92,5 +79,3 @@ function eYear(txt) {
   if (txt.includes('minute')) return txt.replace('minute', 'minuto').replace('minutes', 'minutos');
   return txt;
 }
-
-export default handler;
