@@ -9,13 +9,16 @@ let HS = async (m, { conn, text }) => {
   try {
     // Llamada a la API para obtener los datos del video
     let api = await fetch(`https://restapi.apibotwa.biz.id/api/ytmp4?url=${text}`);
-    if (!api.ok) throw new Error(`Error en la API: ${api.statusText}`);
+    if (!api.ok) {
+      throw new Error(`Error en la API: ${api.statusText} (HTTP ${api.status})`);
+    }
 
     let json = await api.json();
 
-    // Validar la respuesta de la API
-    if (!json.result || !json.result.download) {
-      throw new Error('No se pudo obtener los datos necesarios del enlace.');
+    // Depuración: verificar la estructura de la respuesta
+    if (!json.result || !json.result.download || !json.result.download.url) {
+      console.error('Respuesta de la API inválida:', json);
+      throw new Error('No se pudo obtener los datos del video. Verifica el enlace.');
     }
 
     let dl_url = json.result.download.url; // URL de descarga del video
@@ -35,10 +38,11 @@ let HS = async (m, { conn, text }) => {
     conn.reply(m.chat, `❀ Video enviado correctamente: Dijiste.mp4`, m);
 
   } catch (error) {
-    console.error(error);
+    console.error('Error al buscar el video:', error.message);
+
     conn.reply(
       m.chat,
-      `❀ Ocurrió un error al procesar el enlace. Por favor, verifica el enlace o intenta más tarde.`,
+      `❀ Error al buscar el video. Por favor, verifica el enlace o intenta más tarde.`,
       m
     );
   }
