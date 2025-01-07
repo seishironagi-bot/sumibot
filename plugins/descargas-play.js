@@ -1,129 +1,112 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const twilio = require('twilio');
-const axios = require('axios');
-const ytdl = require('ytdl-core'); // Para descargar el audio de YouTube
-const fs = require('fs');
-const path = require('path');
-const { exec } = require('child_process');
-require('dotenv').config();
+/* 
+- Play Botones By Angel-OFC 
+- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
+*/
+import fetch from 'node-fetch';
+import yts from 'yt-search';
+import ytdl from 'ytdl-core';
+import { exec } from 'child_process';
+import util from 'util';
 
-const app = express();
-const port = process.env.PORT || 3000;
+const execPromise = util.promisify(exec);
 
-// Cargar credenciales de Twilio y YouTube desde el archivo .env
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+let handler = async (m, { conn, args }) => {
+  if (!args[0]) return conn.reply(m.chat, '*\`Ingresa el nombre de lo que quieres buscar\`*', m);
 
-const client = new twilio(accountSid, authToken);
-
-// Configuración para recibir datos POST
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-// Ruta para recibir mensajes de WhatsApp
-app.post('/webhook', async (req, res) => {
-  const message = req.body.Body.trim();
-  const from = req.body.From;
-
-  if (message.toLowerCase() === '.play2') {
-    // El bot pregunta por el nombre o URL del video
-    await sendMessage(from, 'Por favor, envíame el nombre de la canción o la URL del video de YouTube.');
-  } else {
-    // Aquí verificamos si el mensaje es una URL o nombre de video
-    if (isValidYouTubeUrl(message)) {
-      // Si es URL, buscar el video por la URL
-      await sendMessage(from, `¡Genial! Estoy buscando el video en YouTube...`);
-      await downloadAudioFromYouTube(message, from);
-    } else {
-      // Si no es URL, buscamos el video por el nombre
-      await sendMessage(from, `Estoy buscando el video por el nombre: ${message}`);
-      await searchYouTubeVideoByName(message, from);
-    }
-  }
-
-  res.status(200).send('<Response></Response>');
-});
-
-// Función para enviar un mensaje a WhatsApp
-async function sendMessage(to, body) {
+  await m.react('🕓');
   try {
-    await client.messages.create({
-      body: body,
-      from: twilioPhoneNumber,
-      to: to,
-    });
-  } catch (error) {
-    console.error('Error al enviar mensaje:', error);
+    let res = await search(args.join(" "));
+    let video = res[0];
+    let img = await (await fetch(video.image)).buffer();
+
+    let txt = `*\`【Y O U T U B E - P L A Y】\`*\n\n`;
+    txt += `• *\`Título:\`* ${video.title}\n`;
+    txt += `• *\`Duración:\`* ${secondString(video.duration.seconds)}\n`;
+    txt += `• *\`Publicado:\`* ${eYear(video.ago)}\n`;
+    txt += `• *\`Canal:\`* ${video.author.name || 'Desconocido'}\n`;
+    txt += `• *\`Url:\`* _https://youtu.be/${video.videoId}_\n\n`;
+
+    await conn.sendMessage(m.chat, {
+      image: img,
+      caption: txt,
+      footer: 'Selecciona una opción',
+      buttons: [
+        {
+          buttonId: `.play2 ${video.videoId}`,
+          buttonText: {
+            displayText: '🎵 Descargar Audio',
+          },
+        },
+        {
+          buttonId: `.ytmp4 ${video.videoId}`,
+          buttonText: {
+            displayText: '🎥 Descargar Video',
+          },
+        },
+      ],
+      viewOnce: true,
+      headerType: 4,
+    }, { quoted: m });
+
+    await m.react('✅');
+  } catch (e) {
+    console.error(e);
+    await m.react('✖️');
+    conn.reply(m.chat, '*\`Error al buscar el video.\`*', m);
   }
+};
+
+handler.help = ['play *<texto>*'];
+handler.tags = ['dl'];
+handler.command = ['play'];
+
+export default handler;
+
+async function search(query, options = {}) {
+  let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
+  return search.videos;
 }
 
-// Función para verificar si la URL es de YouTube
-function isValidYouTubeUrl(url) {
-  const regex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.be)\/.+$/;
-  return regex.test(url);
+function secondString(seconds) {
+  seconds = Number(seconds);
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+  return `${h > 0 ? h + 'h ' : ''}${m}m ${s}s`;
 }
 
-// Función para buscar video por nombre usando la API de YouTube
-async function searchYouTubeVideoByName(query, to) {
-  const apiKey = process.env.YOUTUBE_API_KEY;
-  const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&key=${apiKey}`;
-
-  try {
-    const response = await axios.get(searchUrl);
-    const videoId = response.data.items[0].id.videoId;
-    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-
-    await sendMessage(to, `Aquí está el video que encontré: ${videoUrl}`);
-    await downloadAudioFromYouTube(videoUrl, to);
-  } catch (error) {
-    await sendMessage(to, 'No pude encontrar ningún video con ese nombre.');
-  }
+function eYear(txt) {
+  if (txt.includes('year')) return txt.replace('year', 'año').replace('years', 'años');
+  if (txt.includes('month')) return txt.replace('month', 'mes').replace('months', 'meses');
+  if (txt.includes('day')) return txt.replace('day', 'día').replace('days', 'días');
+  if (txt.includes('hour')) return txt.replace('hour', 'hora').replace('hours', 'horas');
+  if (txt.includes('minute')) return txt.replace('minute', 'minuto').replace('minutes', 'minutos');
+  return txt;
 }
 
-// Función para descargar el audio de YouTube y enviarlo por WhatsApp
-async function downloadAudioFromYouTube(url, to) {
-  const audioPath = path.join(__dirname, process.env.AUDIO_DOWNLOAD_PATH, 'audio.mp3');
+// Comando para descargar audio
+handler.command = ['play2'];
+handler.play2 = async (m, { conn, args }) => {
+  if (!args[0]) return conn.reply(m.chat, '*\`Ingresa el ID del video\`*', m);
+  
+  const videoId = args[0];
+  const audioStream = ytdl(`https://www.youtube.com/watch?v=${videoId}`, {
+    filter: format => format.itag === 140, // Solo audio
+    quality: 'highestaudio',
+  });
 
-  try {
-    // Descargar el audio en formato mp3
-    const stream = ytdl(url, { filter: 'audioonly', quality: 'highestaudio' });
-    const file = fs.createWriteStream(audioPath);
-    
-    stream.pipe(file);
+  const filePath = `./downloads/${videoId}.mp3`;
+  const ffmpegCommand = `ffmpeg -i pipe:0 -acodec copy ${filePath}`;
 
-    stream.on('end', async () => {
-      console.log('Audio descargado con éxito.');
+  const ffmpeg = execPromise(ffmpegCommand, { stdio: ['pipe', 'inherit', 'inherit'] });
+  audioStream.pipe(ffmpeg.stdin);
 
-      // Enviar el archivo de audio por WhatsApp
-      await sendAudioFile(to, audioPath);
-      
-      // Limpiar el archivo descargado después de enviarlo
-      fs.unlinkSync(audioPath);
-    });
-  } catch (error) {
-    console.error('Error al descargar el audio:', error);
-    await sendMessage(to, 'Hubo un error al intentar descargar el audio. Intenta de nuevo.');
-  }
-}
+  ffmpeg.on('close', async () => {
+    await conn.sendFile(m.chat, filePath, 'audio.mp3', '*Aquí está tu audio*', m);
+  });
 
-// Función para enviar un archivo de audio a través de WhatsApp
-async function sendAudioFile(to, audioPath) {
-  try {
-    await client.messages.create({
-      from: twilioPhoneNumber,
-      to: to,
-      mediaUrl: `https://your-server-url/${audioPath}`,
-    });
-    console.log('Audio enviado correctamente.');
-  } catch (error) {
-    console.error('Error al enviar el audio:', error);
-    await sendMessage(to, 'No pude enviar el audio. Intenta de nuevo.');
-  }
-}
-
-// Arrancar el servidor
-app.listen(port, () => {
-  console.log(`Servidor escuchando en el puerto ${port}`);
-});
+  ffmpeg.on('error', (err) => {
+    console.error(err);
+    conn.reply(m.chat, '*\`Error al descargar el audio.\`*', m);
+  });
+};
