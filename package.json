@@ -27,7 +27,7 @@
 "url": "git+https://github.com/CheirZ/HuTao-Proyect.git" },
 "bugs": { "url": "https://github.com/CheirZ/HuTao-Proyect/issues" },
 "license": "GPL-3.0-or-later",
-"dependencies": {
+"dependencies": "@StarlightsTeam/Scraper": "github:StarlightsTeam/StarlightsTeam-Scraper",{
 "@whiskeysockets/baileys": "github:ds6/bails",
 "@adiwajshing/keyed-db": "^0.2.4",
 "@bochilteam/scraper": "^4.2.4",
