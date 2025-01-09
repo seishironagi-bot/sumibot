@@ -1,22 +1,26 @@
-import {pinterest} from '@bochilteam/scraper';
-const handler = async (m, {conn, text, usedPrefix, command}) => {
-if (!text) throw `*⚠️ Ejemplo:* ${usedPrefix + command} Loli`;
+// *[ ❀ PINTEREST (search) ]*
+import fetch from 'node-fetch'
+
+let HS = async (m, { conn, text }) => {
+if (!text) return conn.reply(m.chat, `❀ Ingresa el texto de lo que quieres buscar en pinterest`, m)
+  
 try {
-const json = await pinterest(text);
-conn.sendFile(m.chat, json.getRandom(), 'error.jpg', `_🔎 𝙍𝙚𝙨𝙪𝙡𝙩𝙖𝙙𝙤𝙨 𝙙𝙚: ${text}_`, m, null, fake);
-} catch (error1) {
-try {
-const response=await fetch(`https://deliriussapi-oficial.vercel.app/search/pinterest?text=${text}`)
-const dataR = await response.json()
-const json = dataR.result
-conn.sendFile(m.chat, json.getRandom(), 'error.jpg', `_🔎 𝙍𝙚𝙨𝙪𝙡𝙩𝙖𝙙𝙤𝙨 𝙙𝙚: ${text}_`, m, null, fake);
-//conn.sendButton(m.chat, `💞 ${mid.buscador} ${text}`, `𝙋𝙞𝙣𝙩𝙚𝙧𝙚𝙨𝙩 | ${wm}`, json.getRandom(), [['🔄 𝙎𝙞𝙜𝙪𝙞𝙚𝙣𝙩𝙚 | 𝙉𝙚𝙭𝙩', `${usedPrefix}pinterest ${text}`]], null, null, m)
-} catch (e) {
-console.log(e) 
-}}}
-handler.help = ['pinterest <keyword>'];
-handler.tags = ['buscadores'];
-handler.command = /^(pinterest)$/i;
-handler.register = true 
-handler.limit = 1
-export default handler;
+let api = await fetch(`https://bk9.fun/pinterest/search?q=${text}`)
+let json = await api.json()
+if (!json || !json.BK9 || !json.BK9.length) return conn.reply(m.chat, `✧ No se encontraron resultados para ${text}.`, m)
+let randomRes = json.BK9[Math.floor(Math.random() * json.BK9.length)]
+    
+let HS = `- *Titulo :* ${randomRes.grid_title || '-'}
+- *Creador :* ${randomRes.username || '-'}
+- *Publicado :* ${randomRes.created_at}
+- *Link :* ${randomRes.pin}`
+await conn.sendMessage(m.chat, { image: { url: randomRes.images_url }, caption: HS }, { quoted: m })
+
+} catch (error) {
+console.error(error)
+}}
+
+
+HS.command = ['pinterest']
+
+export default HS
