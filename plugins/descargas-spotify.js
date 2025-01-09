@@ -1,81 +1,36 @@
-import axios from 'axios';
+import Starlights from '@StarlightsTeam/Scraper';
+import fetch from 'node-fetch';
 
-let delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+let handler = async (m, { conn, text }) => {
+if (!text) return conn.reply(m.chat, '🚩 Ingresa el enlace de algún Track, Playlist o Álbum de Spotify.', m);
 
-let handler = async (m, { conn, args }) => {
- if (!args || !args[0]) return conn.reply(m.chat, '*\`Ingresa El link Del audio a descargar 🤍\`*', m, fake)
-await m.react('🕓');
-//  if (!args[0]) return m.reply('*\`Ingresa El link Del vídeo a descargar 🤍\`*');
+let isSpotifyUrl = text.match(/^(https:\/\/open\.spotify\.com\/(album|track|playlist)\/[a-zA-Z0-9]+)/i);
+if (!isSpotifyUrl) return conn.reply(m.chat, '🚩 Ingresa un enlace válido de Track, Playlist o Álbum de Spotify.', m);
 
-  try {
-    let api = await axios.get(`https://api.ryzendesu.vip/api/downloader/spotify?url=${encodeURIComponent(args[0])}`);
-    let json = api.data;
+await m.react('🕓')
+try {
+let { title, artist, album, thumbnail, dl_url } = await Starlights.spotifydl(text);
+let img = await (await fetch(thumbnail)).buffer();
 
-    if (json.success) {
-      if (json.metadata.playlistName) {
-        let playlistName = json.metadata.playlistName;
-        let cover = json.metadata.cover;
-        let tracks = json.tracks;
+let txt = `*乂  S P O T I F Y  -  D O W N L O A D*\n\n`;
+    txt += `    ✩  *Título* : ${title}\n`;
+    txt += `    ✩  *Álbum* : ${album}\n`;
+    txt += `    ✩  *Artista* : ${artist}\n\n`;
+    txt += `*- ↻ Los audios se están enviando, espera un momento. . .*`;
 
-        for (let i = 0; i < tracks.length; i++) {
-          let track = tracks[i];
-          if (track.success) {
-            let { title, artists, album, cover, releaseDate } = track.metadata;
-            let link = track.link;
-            let audioGet = await axios.get(link, { responseType: 'arraybuffer' });
-            let audio = audioGet.data;
-            let text = `*\`【 S P O T I F Y - D L 】\`*
+await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, rcanal);
+await conn.sendMessage(m.chat, { audio: { url: dl_url }, fileName: `${title}.mp3`, mimetype: 'audio/mp4' }, { quoted: m });
 
-> *🤍 \`TÍTULO:\`* ${title}
-> *🤍 \`ARTISTAS:\`* ${artists}
-> *🤍 \`ALBUM:\`* ${album}
-> *🤍 \`FECHA:\`* ${releaseDate}
-> *🤍 \`IMAGEN:\`* ${cover}
-
-> ©️ Cuervo-Team-Supreme`
-            await m.react('✅');
-            await conn.sendFile(m.chat, cover, `image.jpeg`, text, m, null, fake);
-            await conn.sendMessage(m.chat, {
-              audio: audio,
-              mimetype: 'audio/mp4',
-              fileName: `${title}.mp3`,
-              caption: ` `
-            }, { quoted: m });
-          }
-        }
-      } else {
-        let { title, artists, album, cover, releaseDate } = json.metadata;
-        let link = json.link;
-
-        let audioGet = await axios.get(link, { responseType: 'arraybuffer' });
-        let audio = audioGet.data;
-        let text = `*\`【 S P O T I F Y - D L 】\`*
-
-> *\`TÍTULO:\`* ${title}
-> *\`ARTISTAS:\`* ${artists}
-> *\`ALBUM:\`* ${album}
-> *\`FECHA:\`* ${releaseDate}
-> *\`IMAGEN:\`* ${cover}
-
-> ©️ Cuervo-Team-Supreme`
-            await m.react('✅');
-            await conn.sendFile(m.chat, cover, `image.jpeg`, text, m, null, fake);
-            await conn.sendMessage(m.chat, {
-          audio: audio,
-          mimetype: 'audio/mp4',
-          fileName: `${title}.mp3`,
-          caption: ` `
-        }, { quoted: m });
-      }
-    }
-  } catch (error) {
-    console.error(error);
-    await m.react('✖️');
-    m.reply('Hubo un error al intentar descargar el contenido de Spotify.');
-  }
+await m.react('✅');
+} catch {
+await m.react('✖️');
+}
 };
 
-handler.command = /^(spotify)$/i;
+handler.help = ['spotifydl'];
+handler.tags = ['downloader'];
+handler.command = ['spotifydl'];
+// handler.limit = 1;
+handler.register = true;
 
 export default handler;
-
