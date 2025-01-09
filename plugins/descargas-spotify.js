@@ -1,27 +1,26 @@
-// *[ ❀ SPOTIFY PLAY ]*
-import fetch from 'node-fetch'
+// *[ ❀ SPOTIFYDL ]*
+import fetch from 'node-fetch';
 
-let handler = async (m, { conn, command, text, usedPrefix }) => {
-if (!text) return conn.reply(m.chat, `❀ Ingresa el texto de lo que quieras buscar`, m)
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+if (!text) {
+return conn.reply(m.chat, '❀ Ingresa el link de una cancion de spotify', m)
+}
 
 try {
-let apiSearch = await fetch(`https://api.vreden.web.id/api/spotifysearch?query=${text}`)
-let jsonSearch = await apiSearch.json()
-let { popularity, url } = jsonSearch.result[0]
-let apiDL = await fetch(`https://api.vreden.web.id/api/spotify?url=${url}`)
-let jsonDL = await apiDL.json()
-let { title, artists, cover, music } = jsonDL.result.result
+let api = await fetch(`https://api.giftedtech.my.id/api/download/spotifydl?apikey=gifted&url=${text}`)
+let json = await api.json()
+let { quality, title, duration, thumbnail, download_url:dl_url } = json.result
+   
 let HS = `- *Titulo :* ${title}
-- *autor :* ${artists}
-- *Popularidad :* ${popularity}
-- *Link :* ${url}
-`
-await conn.sendFile(m.chat, cover, 'HasumiBotFreeCodes.jpg', HS, m)
-await conn.sendFile(m.chat, music, 'HasumiBotFreeCodes.mp4', null, m)
+- *Calidad :* ${quality}
+- *Duracion :* ${duration}`
+
+await conn.sendFile(m.chat, thumbnail, 'HasumiBotFreeCodes.jpg', HS, m)
+await conn.sendFile(m.chat, dl_url, 'HasumiBotFreeCodes.mp3', null, m)
 } catch (error) {
 console.error(error)
 }}
 
-handler.command = /^(spotify)$/i
+handler.command = /^(spotifydl)$/i
 
 export default handler
