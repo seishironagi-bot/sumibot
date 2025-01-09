@@ -35,7 +35,7 @@ export async function before(m, { conn, participants, groupMetadata }) {
 
     // Mensaje de despedida (cuando se sale)
     if (chat.welcome && m.messageStubType === 28) {
-        let bye = `┌─★🌸SUMI BOT-MD🌸 \n│「 ADIOS👋 」\n└┬★ 「 @${userId.split`@`[0]} 」\n   │✑ se fue\n    │✑ jamas te quisimos aquí \n   └───────────────┈ ⳹`;
+        let bye = `┌─★🌸SUMI BOT-MD🌸 \n│「 🇯🇵 ⃪⃘⵿᷒〬ᰰુ͡ꪆֺּ 𝙖𝙙𝙞𝙤𝙨 🇯🇵 ⃪⃘⵿᷒〬ᰰુ͡ꪆֺּ 」\n└┬★ 「 @${userId.split`@`[0]} 」\n   │✑ se fue\n    │✑ jamas te quisimos aquí \n   └───────────────┈ ⳹`;
         let img2;
         try {
             img2 = await (await fetch(goodbyeImage)).buffer(); 
