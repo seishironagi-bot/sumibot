@@ -1,103 +1,41 @@
+/* 
+- Play Botones By Angel-OFC 
+- https://whatsapp.com/channel/0029VaJxgcB0bIdvuOwKTM2Y
+*/
 import fetch from 'node-fetch';
+import yts from 'yt-search';
 
 let handler = async (m, { conn, args }) => {
-  let username = m.pushName || 'User';
-  let pp = 'https://qu.ax/hMOxx.jpg';
-  let thumbnail = await (await fetch(pp)).buffer();
+  if (!args[0]) return conn.reply(m.chat, '*\`Ingresa el nombre de lo que quieres buscar\`*', m);
 
-  if (!args[0]) {
-    let txt = `✦ *Ingresa el nombre de lo que quieres buscar @${username}*\n\n✦ *Ejemplo*: /play Akeno`;
-
-    const anu = {
-      key: {
-        fromMe: false,
-        participant: "0@s.whatsapp.net",
-        remoteJid: "0@s.whatsapp.net"
-      },
-      message: {
-        groupInviteMessage: {
-          groupJid: "6285240750713-1610340626@g.us",
-          inviteCode: "mememteeeekkeke",
-          groupName: "P",
-          caption: "Akeno",
-          jpegThumbnail: thumbnail
-        }
-      }
-    };
-
-    return conn.sendMessage(m.chat, {
-      text: txt,
-      contextInfo: {
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363318758721861@newsletter',
-          newsletterName: '✦ Channel By Ianalejandrook15x',
-          serverMessageId: -1
-        },
-        externalAdReply: {
-          title: 'Uso incorrecto',
-          body: 'Youtube play',
-          thumbnailUrl: pp
-        }
-      }
-    }, { quoted: anu });
-  }
-
-  await m.react('✅');
+  await m.react('🕓');
   try {
-    let query = args.join(" ");
-    let searchApiResponse = await fetch(`https://restapi.apibotwa.biz.id/api/search-yts?message=${encodeURIComponent(query)}`);
-    let searchResults = await searchApiResponse.json();
+    let res = await search(args.join(" "));
+    let video = res[0];
+    let img = await (await fetch(video.image)).buffer();
 
-    if (!searchResults.status || !searchResults.data || !searchResults.data.response || !searchResults.data.response.video || !searchResults.data.response.video.length) {
-      const anu = {
-        key: {
-          fromMe: false,
-          participant: "0@s.whatsapp.net",
-          remoteJid: "0@s.whatsapp.net"
-        },
-        message: {
-          groupInviteMessage: {
-            groupJid: "6285240750713-1610340626@g.us",
-            inviteCode: "mememteeeekkeke",
-            groupName: "P",
-            caption: "No se encontraron resultados",
-            jpegThumbnail: thumbnail
-          }
-        }
-      };
-
-      return conn.sendMessage(m.chat, {
-        text: `No se encontraron resultados, ${username}.`,
-        quoted: anu
-      }, { quoted: anu }).then(_ => m.react('✖️'));
-    }
-
-    let video = searchResults.data.response.video[0];
-    let videoImg = await (await fetch(video.thumbnail)).buffer();
-
-    let txt = `*\`Y O U T U B E - P L A Y\`*\n\n`;
-    txt += `*\`Título:\`* ${video.title}\n`;
-    txt += `*\`Duración:\`* ${parseDuration(video.duration)}\n`;
-    txt += `*\`Canal:\`* ${video.authorName || 'Desconocido'}\n`;
-    txt += `*\`Url:\`* ${video.url}\n\n`;
+    let txt = `*\`【Y O U T U B E - P L A Y】\`*\n\n`;
+    txt += `• *\`Título:\`* ${video.title}\n`;
+    txt += `• *\`Duración:\`* ${secondString(video.duration.seconds)}\n`;
+    txt += `• *\`Publicado:\`* ${eYear(video.ago)}\n`;
+    txt += `• *\`Canal:\`* ${video.author.name || 'Desconocido'}\n`;
+    txt += `• *\`Url:\`* _https://youtu.be/${video.videoId}_\n\n`;
 
     await conn.sendMessage(m.chat, {
-      image: videoImg,
+      image: img,
       caption: txt,
       footer: 'Selecciona una opción',
       buttons: [
         {
-          buttonId: `.ytmp3 ${video.url}`,
+          buttonId: `.ytmp3 https://youtu.be/${video.videoId}`,
           buttonText: {
-            displayText: '✦ Audio',
+            displayText: '🎵 Audio',
           },
         },
         {
-          buttonId: `.ytmp4 ${video.url}`,
+          buttonId: `.ytmp4 https://youtu.be/${video.videoId}`,
           buttonText: {
-            displayText: '✦ Video',
+            displayText: '🎥 Video',
           },
         },
       ],
@@ -107,40 +45,36 @@ let handler = async (m, { conn, args }) => {
 
     await m.react('✅');
   } catch (e) {
-    console.error('Error en el handler:', e);
+    console.error(e);
     await m.react('✖️');
-
-    const anu = {
-      key: {
-        fromMe: false,
-        participant: "0@s.whatsapp.net",
-        remoteJid: "0@s.whatsapp.net"
-      },
-      message: {
-        groupInviteMessage: {
-          groupJid: "6285240750713-1610340626@g.us",
-          inviteCode: "mememteeeekkeke",
-          groupName: "P",
-          caption: "Error al buscar el video",
-          jpegThumbnail: thumbnail
-        }
-      }
-    };
-
-    conn.sendMessage(m.chat, {
-      text: `Error al buscar el video, ${username}. Verifica la consulta o inténtalo de nuevo.`,
-      quoted: anu
-    }, { quoted: anu });
+    conn.reply(m.chat, '*\`Error al buscar el video.\`*', m);
   }
 };
 
 handler.help = ['play *<texto>*'];
 handler.tags = ['dl'];
-handler.command = ['play', 'play2'];
+handler.command = ['play'];
 
 export default handler;
 
-function parseDuration(duration) {
-  let parts = duration.split(':').reverse();
-  return parts.reduce((total, part, index) => total + parseInt(part) * Math.pow(60, index), 0);
+async function search(query, options = {}) {
+  let search = await yts.search({ query, hl: "es", gl: "ES", ...options });
+  return search.videos;
+}
+
+function secondString(seconds) {
+  seconds = Number(seconds);
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+  return `${h > 0 ? h + 'h ' : ''}${m}m ${s}s`;
+}
+
+function eYear(txt) {
+  if (txt.includes('year')) return txt.replace('year', 'año').replace('years', 'años');
+  if (txt.includes('month')) return txt.replace('month', 'mes').replace('months', 'meses');
+  if (txt.includes('day')) return txt.replace('day', 'día').replace('days', 'días');
+  if (txt.includes('hour')) return txt.replace('hour', 'hora').replace('hours', 'horas');
+  if (txt.includes('minute')) return txt.replace('minute', 'minuto').replace('minutes', 'minutos');
+  return txt;
 }
