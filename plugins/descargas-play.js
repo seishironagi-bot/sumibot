@@ -1,150 +1,56 @@
-import yts from 'yt-search';
-const formatAudio = ['mp3', 'm4a', 'webm', 'acc', 'flac', 'opus', 'ogg', 'wav'];
-const formatVideo = ['360', '480', '720', '1080', '1440', '4k'];
-const ddownr = {
-  download: async (url, format) => {
-    if (!formatAudio.includes(format) && !formatVideo.includes(format)) {
-      throw new Error('Format tidak didukung, cek daftar format yang tersedia.');
-    }
+// *[ ❀ PLAY ]*
+import fetch from "node-fetch";
+import yts from "yt-search";
 
-    const config = {
-      method: 'GET',
-      url: `https://p.oceansaver.in/ajax/download.php?format=${format}&url=${encodeURIComponent(url)}&api=dfcb6d76f2f6a9894gjkege8a4ab232222`,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
-    };
+let handler = async (m, { conn, text }) => {
+if (!text) {
+return m.reply("❀ Ingresa el texto de lo que quieres buscar")
+}
 
-    try {
-      const response = await axios.request(config);
+let ytres = await yts(text)
+let video = ytres.videos[0]
+  
+if (!video) {
+return m.reply("❀ Video no encontrado")
+}
 
-      if (response.data && response.data.success) {
-        const { id, title, info } = response.data;
-        const { image } = info;
-        const downloadUrl = await ddownr.cekProgress(id);
+let { title, thumbnail, timestamp, views, ago, url } = video
 
-        return {
-          id: id,
-          image: image,
-          title: title,
-          downloadUrl: downloadUrl
-        };
-      } else {
-        throw new Error('Gagal mengambil detail video.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  },
-  cekProgress: async (id) => {
-    const config = {
-      method: 'GET',
-      url: `https://p.oceansaver.in/ajax/progress.php?id=${id}`,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      }
-    };
+let vistas = parseInt(views).toLocaleString("es-ES") + " vistas"
 
-    try {
-      while (true) {
-        const response = await axios.request(config);
+let HS = ` ᚚᚚᩳᚚ͜ᩬᚚᷤ͜ᚚᷴ͜ᚚᷟ͜ᚚᷝ͜ᚚ͜ᚚᷤ͜ᚚᷧ͜ᚚᷜ͜ᚚᷴ͜ᚚᷢ͜ᚚᷧ͜ᚚᷦ͜ᚚᷧ͜ᚚᷱ͜ᚚᷴ͜ᚚᷧ͜ᚚᩬᚚᩳᚚᚚ
+꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
+❥⊰⏤͟͟͞͞Duración:⊱ ${timestamp}
+❥⊰⏤͟͟͞͞Vistas:⊱ ${vistas}
+❥⊰⏤͟͟͞͞Subido:⊱ ${ago}
+❥⊰⏤͟͟͞͞Enlace:⊱ ${url}
+꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦꒷꒦
 
-        if (response.data && response.data.success && response.data.progress === 1000) {
-          return response.data.download_url;
-        }
-        await new Promise(resolve => setTimeout(resolve, 5000));
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  }
-};
-    
-const handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) throw `\`\`\`[ 🌴 ] Por favor ingresa un texto. Ejemplo:\n${usedPrefix + command} Did i tell u that i miss you\`\`\``;
+🌸➥𝙀𝙨𝙥𝙚𝙧𝙚 𝙙𝙚𝙨𝙘𝙖𝙧𝙜𝙖𝙣𝙙𝙤 𝙨𝙪 𝙖𝙪𝙙𝙞𝙤...`
 
-  const isVideo = /vid|2|mp4|v$/.test(command);
-  const search = await yts(text);
+let thumb = (await conn.getFile(thumbnail))?.data;
 
-  if (!search.all || search.all.length === 0) {
-    throw "No se encontraron resultados para tu búsqueda.";
-  }
+let JT = {
+contextInfo: {
+externalAdReply: {
+title: title, body: "",
+mediaType: 1, previewType: 0,
+mediaUrl: url, sourceUrl: url,
+thumbnail: thumb, renderLargerThumbnail: true,
+}}}
 
-  const videoInfo = search.all[0];
-  const body = `\`\`\`⊜─⌈ 📻 ◜YouTube Play◞ 📻 ⌋─⊜
+await conn.reply(m.chat, HS, m, JT)
 
-    ≡ Título : » ${videoInfo.title}
-    ≡ Views : » ${videoInfo.views}
-    ≡ Duration : » ${videoInfo.timestamp}
-    ≡ Uploaded : » ${videoInfo.ago}
-    ≡ URL : » ${videoInfo.url}
+try {
+let api = await fetch(`https://api.vreden.web.id/api/ytplaymp3?query=${url}`);
+let json = await api.json()
+let { download } = json.result
 
-# 🌴 Su ${isVideo ? 'Video' : 'Audio'} se está enviando, espere un momento...\`\`\``;
+await conn.sendMessage(m.chat, { audio: { url: download.url }, caption: ``, mimetype: "audio/mpeg", }, { quoted: m })
+} catch (error) {
+console.error(error)    
+}}
 
-  try {
-    if (command === 'play' || command === 'play2' || command === 'playvid') {
-  await conn.sendMessage(m.chat, {
-      image: { url: videoInfo.thumbnail },
-      caption: body,
-      footer: `© ` + botName + ` | Powered by I'm Fz ~`,
-      buttons: [
-        {
-          buttonId: `.ytmp3 ${videoInfo.url}`,
-          buttonText: {
-            displayText: '🎵 Audio',
-          },
-        },
-        {
-          buttonId: `.ytmp4 ${videoInfo.url}`,
-          buttonText: {
-            displayText: '📽️ Video',
-          },
-        },
-      ],
-      viewOnce: true,
-      headerType: 4,
-    }, { quoted: fkontak });
-    m.react('🌱');
-    
-    } else if (command === 'yta' || command === 'ytmp3') {
-    m.react(rwait)
-      let audio = await ddownr.download(videoInfo.url, 'mp3')
-          conn.sendMessage(m.chat, {
-      audio: { url: audio.downloadUrl },
-      mimetype: "audio/mpeg",
-      caption: '',
-    }, { quoted: fkontak });
-    m.react(done)
-    } else if (command === 'ytv' || command === 'ytmp4') {
-    m.react(rwait)
-      let api = await (await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${videoInfo.url}`)).json()
-      let video = api.data.dl;
-    await conn.sendMessage(m.chat, {
-      video: { url: video },
-      mimetype: "video/mp4",
-      caption: `Título: ${videoInfo.title}\nURL: ${videoInfo.url}`,
-    }, { quoted: fkontak });
-    m.react(done)
-    } else {
-      throw "Comando no reconocido.";
-    }
+handler.command = /^(play)$/i
 
-  } catch (error) {
-    throw "Ocurrió un error al procesar tu solicitud.";
-  }
-};
-
-handler.command = handler.help = ['play', 'playvid', 'ytv', 'ytmp4', 'yta', 'play2', 'ytmp3'];
-handler.tags = ['dl'];
-export default handler;
-
-const getVideoId = (url) => {
-  const regex = /(?:v=|\/)([0-9A-Za-z_-]{11}).*/;
-  const match = url.match(regex);
-  if (match) {
-    return match[1];
-  }
-  throw new Error("Invalid YouTube URL");
-};
+export default handler
