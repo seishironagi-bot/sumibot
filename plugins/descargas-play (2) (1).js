@@ -21,7 +21,7 @@ let txt = ` ᚚᚚᩳᚚ͜ᩬᚚᷤ͜ᚚᷴ͜ᚚᷟ͜ᚚᷝ͜ᚚ͜ᚚᷤ͜ᚚᷧ
 await conn.sendFile(m.chat, ytres[0].image, 'thumbnail.jpg', txt, m)
     
 try {
-let api = await fetch(`https://api.host-bot.store/api/dl/yt2?url=${ytres[0].url}&apikey=0a2cc90e`)
+let api = await fetch(`https://api.vreden.web.id/api/ytplaymp4?query=${ytres[0].url}&apikey=0a2cc90e`)
 let json = await api.json()
 let { title, mp4 } = json.data
 await conn.sendMessage(m.chat, { video: { url: mp4 }, caption: `${title}`, mimetype: 'video/mp4', fileName: `${title}` + `.mp4`}, {quoted: m })
