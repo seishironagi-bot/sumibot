@@ -28,6 +28,7 @@ global.prems = []
 
 //• ↳ ◜𝑴𝑨𝑹𝑪𝑨𝑺 𝑫𝑬 𝑨𝑮𝑼𝑨◞ • 💌
 global.packsticker = '♾ ━━━━━━━━\n├ ɓσƭ:\n├ ρяοριєταяιο:\n├ ƒєϲнα ∂є ϲяєαϲιόи:\n├ нοяα:\n♾━━━━━━━━'
+global.packsticker = '♾ ━━━━━━━━\n🌸Sumi sakurazawa🌸\n𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 ϐγ:𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆\n├ ƒєϲнα ∂є ϲяєαϲιόи:\n├ нοяα:\n♾━━━━━━━━\n\n\nѕτιϲκєя ϐγ: 🌸Sumi sakurazawa🌸'
 global.packname = '󠁖󠁖󠁖󠁖󠁖󠁖❜︧༷︧➭ િ𝒮𝓊𝓂𝒾 𝓑𝓸𝓽 𝓜𝓓 ી▵°⬸  '
 global.author = '𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 ϐγ:𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆' 
 global.wm = '🌸Sumi sakurazawa🌸';
