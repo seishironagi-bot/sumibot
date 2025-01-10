@@ -27,8 +27,6 @@ global.suittag = ['34610246115']
 global.prems = []
 
 //• ↳ ◜𝑴𝑨𝑹𝑪𝑨𝑺 𝑫𝑬 𝑨𝑮𝑼𝑨◞ • 💌
-global.packsticker = '♾ ━━━━━━━━\n├ ɓσƭ:\n├ ρяοριєταяιο:\n├ ƒєϲнα ∂є ϲяєαϲιόи:\n├ нοяα:\n♾━━━━━━━━'
-global.packsticker = '♾ ━━━━━━━━\n🌸Sumi sakurazawa🌸\n𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 ϐγ:𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆\n├ ƒєϲнα ∂є ϲяєαϲιόи:\n├ нοяα:\n♾━━━━━━━━\n\n\nѕτιϲκєя ϐγ: 🌸Sumi sakurazawa🌸'
 global.packname = '󠁖󠁖󠁖󠁖󠁖󠁖❜︧༷︧➭ િ𝒮𝓊𝓂𝒾 𝓑𝓸𝓽 𝓜𝓓 ી▵°⬸  '
 global.author = '𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 ϐγ:𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆' 
 global.wm = '🌸Sumi sakurazawa🌸';
@@ -42,6 +40,14 @@ global.gt = '🌸SUMI SAKURAZAWA🌸';
 global.namechannel = '🌸Sumi sakurazawa🌸'
 global.vs = 'V2'
 global.vsJB = '5.0'
+
+//___________________________________________________
+// Stickers
+
+global.packsticker = '♾ ━━━━━━━━\n├ ɓσƭ:\n├ ρяοριєταяιο:\n├ ƒєϲнα ∂є ϲяєαϲιόи:\n├ нοяα:\n♾━━━━━━━━'
+global.packsticker2 = '♾━━━━━━━━\n❜︧༷︧➭ િ𝒮𝓊𝓂𝒾 𝓑𝓸𝓽 𝓜𝓓 ી▵°⬸\n𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑 ϐγ:𝕯͢𝖆𝖗𝖎፝֟፝֟፝֟፝֟፝֟፝֟𝖊𝖑𝖆\n⇝ ${moment.tz('America/Los_Angeles').format('DD/MM/YY')}\n⇝ ${moment.tz('America/Los_Angeles').format('HH:mm:ss')} \n♾━━━━━━━━\n\n\n\nѕτιϲκєя ϐγ: Sumi sakurazawa';
+
+//___________________________________________________
 
 
 //• ↳ ◜𝑰𝑴𝑨́𝑮𝑬𝑵𝑬𝑺◞ • 🌇
