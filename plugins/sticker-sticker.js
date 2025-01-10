@@ -17,7 +17,7 @@ if (!img) return conn.reply(m.chat, `> y la imagen o video pedazo de animal?*`, 
 
 let out
 try {
-stiker = await sticker(img, false, global.packsticker, global.author)
+stiker = await sticker(img, false, global.packsticker, global.packsticker2)
 } catch (e) {
 console.error(e)
 } finally {
