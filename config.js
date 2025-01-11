@@ -24,7 +24,7 @@ global.owner = [
 global.mods = []
 
 global.suittag = ['34610246115']
-global.prems = []
+global.prems = [34610246115]
 
 //• ↳ ◜𝑴𝑨𝑹𝑪𝑨𝑺 𝑫𝑬 𝑨𝑮𝑼𝑨◞ • 💌
 global.packname = '󠁖󠁖󠁖󠁖󠁖🌸sumi sakurazawa 🌸 '
