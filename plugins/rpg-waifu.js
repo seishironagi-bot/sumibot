@@ -41,14 +41,14 @@ let cooldowns = {};
 let handler = async (m, { conn }) => {
     let userId = m.sender;
     let currentTime = new Date().getTime();
-    const cooldownDuration = 10 * 60 * 1000; // 10 minutos
+    const cooldownDuration = 00 * 00 * 0000; // 10 minutos
     let userCooldown = cooldowns[userId] || 0;
     let timeSinceLastRoll = currentTime - userCooldown;
 
     if (timeSinceLastRoll < cooldownDuration) {
         let remainingTime = cooldownDuration - timeSinceLastRoll;
-        let minutes = Math.floor(remainingTime / (60 * 1000));
-        let seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
+        let minutes = Math.floor(remainingTime / (00 * 000));
+        let seconds = Math.floor((remainingTime % (00 * 0000)) / 0000);
         let replyMessage = `¡Espera ${minutes} minutos y ${seconds} segundos antes de usar el comando de nuevo!`;
         await conn.sendMessage(m.chat, { text: replyMessage });
         return;
