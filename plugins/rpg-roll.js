@@ -70,6 +70,10 @@ let handler = async (m, { conn }) => {
     let uniqueId = uuidv4();
     let reservedBy = data.usuarios[randomCharacter.url] || null;
 
+    // Selección aleatoria de imagen
+    const imagenes = randomCharacter.imagenes || []; // Asegúrate de que cada personaje tenga un array de imágenes
+    const imagenAleatoria = imagenes[Math.floor(Math.random() * imagenes.length)];
+
     let statusMessage = reservedBy ? `Reservado por ${reservedBy.userId}` : 'Libre';
     let responseMessage = `🌱 \`Nombre:\` --> \`${randomCharacter.name}\`
 💹 \`Valor:\` -->  \`${randomCharacter.value} Zekis!\`
@@ -77,7 +81,7 @@ let handler = async (m, { conn }) => {
 🆔 \`ID:\` --> \`${uniqueId}\``;
 
     await conn.sendMessage(m.chat, {
-        image: { url: randomCharacter.url },
+        image: { url: imagenAleatoria },
         caption: responseMessage,
         mimetype: 'image/jpeg',
         contextInfo: {
@@ -103,7 +107,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['roll'];
 handler.tags = ['rw'];
-handler.command = ['roll', 'rw'];
+handler.command = ['roll','rw'];
 handler.group = true;
 
 export default handler;
