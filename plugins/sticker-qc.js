@@ -14,7 +14,7 @@ const who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ?
 const mentionRegex = new RegExp(`@${who.split('@')[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*`, 'g');
 const mishi = text.replace(mentionRegex, '');
 if (mishi.length > 40) return conn.reply(m.chat, '➪ El texto no puede tener mas de 30 caracteres', m, rcanal);
-const pp = await conn.profilePictureUrl(who).catch((_) => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
+const pp = await conn.profilePictureUrl(who).catch((_) => 'https://telegra.ph/file/a2ae6cbfa40f6eeea0cf1')
 const nombre = await conn.getName(who)
 const obj = {"type": "quote", "format": "png", "backgroundColor": "#000000", "width": 512, "height": 768, "scale": 2, "messages": [{"entities": [], "avatar": true, "from": {"id": 1, "name": `${who?.name || nombre}`, "photo": {url: `${pp}`}}, "text": mishi, "replyMessage": {}}]};
 const json = await axios.post('https://bot.lyo.su/quote/generate', obj, {headers: {'Content-Type': 'application/json'}});
