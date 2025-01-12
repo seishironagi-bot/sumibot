@@ -1,5 +1,5 @@
 
-/* Código copiado de GataBot-MD */
+/* Código Reescrito por EnderJs*/
 
 import { sticker } from '../lib/sticker.js';
 import axios from 'axios';
