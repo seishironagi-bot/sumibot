@@ -6,7 +6,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     if (!(who in global.db.data.users)) return m.reply(`*El usuario no se encuentra en mi base de datos*`);
     
     let user = global.db.data.users[who];
-    await m.reply(`${who === m.sender ? `Tienes *${user.bank} 💴 Zenis* en el Banco` : `El usuario @${who.split('@')[0]} tiene *${user.bank} 💴 Zenis* en el Banco`}`, null, { mentions: [who] });
+    await m.reply(`${who === m.sender ? `Tienes *${user.bank} 💴 Zekis* en el Banco` : `El usuario @${who.split('@')[0]} tiene *${user.bank} 💴 Zekis* en el Banco`}`, null, { mentions: [who] });
 };
 
 handler.help = ['bank'];
