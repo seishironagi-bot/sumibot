@@ -1,5 +1,6 @@
 import fs from 'fs';
 import dotenv from 'dotenv';
+import db from '../lib/database.js';
 
 dotenv.config();
 
