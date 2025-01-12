@@ -70,6 +70,13 @@ let handler = async (m, { conn }) => {
     let uniqueId = uuidv4();
     let reservedBy = data.usuarios[randomCharacter.url] || null;
 
+    // Verificar si la URL de la imagen está definida
+    if (!randomCharacter.url) {
+        console.error('URL de imagen no definida para el personaje:', randomCharacter);
+        await conn.sendMessage(m.chat, { text: 'Error: La URL de la imagen del personaje no está definida.' });
+        return;
+    }
+
     let statusMessage = reservedBy ? `Reservado por ${reservedBy.userId}` : 'Libre';
     let responseMessage = `🌱 \`Nombre:\` --> \`${randomCharacter.name}\`
 💹 \`Valor:\` -->  \`${randomCharacter.value} Zekis!\`
@@ -93,7 +100,7 @@ let handler = async (m, { conn }) => {
         }
     });
 
-    if (!reservedBy) {
+    if(!reservedBy) {
         reservarPersonaje(userId, { ...randomCharacter, id: uniqueId });
     }
 
