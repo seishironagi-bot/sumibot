@@ -4,7 +4,7 @@ import util from 'util';
 
 let handler = async (m, { conn, isOwner, usedPrefix, command, args }) => {
     const q = args.join(" ");
-    if (!q || !args[0]) throw '🌹𝐶𝑢𝑎𝑙 𝑛𝑢𝑚𝑒𝑟𝑜 𝑒𝑗𝑒𝑐𝑢𝑡𝑜?';
+    if (!q || !args[0]) throw '🌹¿𝐶𝑢𝑎𝑙 𝑛𝑢𝑚𝑒𝑟𝑜 𝑒𝑗𝑒𝑐𝑢𝑡𝑜?';
 
     let ntah;
     try {
