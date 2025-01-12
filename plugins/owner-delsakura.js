@@ -6,7 +6,7 @@ import path from 'path'
 var handler = async (m, { conn, usedPrefix }) => {
 
 if (global.conn.user.jid !== conn.user.jid) {
-return conn.reply(m.chat, '🌹 *Usar solo en numero principal*', m, fake, )
+return conn.reply(m.chat, '🌹 *Ejecuta el comando en el bot principal*', m, fake, )
 }
 await conn.reply(m.chat, '🌹 *Iniciando proceso de eliminación de todos los archivos de sesión, excepto el archivo creds.json...*', m, fake, )
 m.react(rwait)
