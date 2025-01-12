@@ -10,10 +10,10 @@ let oi = `${pesan}_`
 let textoA = 
 `⊱ ────《.sᴛᴀғғ ɢʟᴏʙᴀʟ.》
  ↪ ${oi}
-⊱ ────《.⋅🌸Sakurazawa🌸⋅.》  `
+⊱ ────《.⋅🌸Sakurazawa🌸⋅.》   `
 
 let textoB = 
-`${listAdmin} 
+` ${listAdmin} 
 
 by 𝕷͢𝖊𝖔፝֟፝֟፝֟፝֟፝֟፝֟𝖓𝖊𝖑`.trim()
 await conn.sendFile(m.chat, pp, 'error.jpg', textoA + textoB, m, false, { mentions: [...groupAdmins.map(v => v.id), owner] })
