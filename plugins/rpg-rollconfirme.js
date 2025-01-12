@@ -13,6 +13,7 @@ const obtenerDatos = () => {
         return { usuarios: {}, personajesReservados: [] };
     }
 };
+
 const guardarDatos = (data) => {
     try {
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
@@ -20,23 +21,27 @@ const guardarDatos = (data) => {
         console.error('Error al escribir en data.json:', error);
     }
 };
-const reservarPersonaje = (userId, character) => {
-    let data = obtenerDatos();
-    data.personajesReservados.push({ userId, ...character });
-    guardarDatos(data);
+
+const manejarConfirmacion = async (personaje, sender, usuarios, conn, m) => {
+    if (!usuarios[sender]) {
+        usuarios[sender] = { characters: [], characterCount: 0, totalRwcoins: 0 };
+    }
+    usuarios[sender].characters.push({
+        name: personaje.name,
+        url: personaje.url,
+        value: personaje.value
+    });
+    guardarDatos({ usuarios });
+
+    const mentions = [sender];
+    return await conn.sendMessage(m.chat, { 
+        text: `¡Felicidades @${sender.split('@')[0]}, confirmaste a ${personaje.name}!`, 
+        mentions 
+    });
 };
 
-const comprarPersonaje = (userId, character) => {
-    let data = obtenerDatos();
-    if (data.usuarios[userId]) {
-        console.log(`El usuario ${userId} ya ha comprado un personaje.`);
-        return;
-    }
-    
-    data.usuarios[userId] = character;
-    guardarDatos(data);
-    console.log(`El usuario ${userId} ha comprado a ${character.name} por ${character.value} Zekis!`);
-};
+let cooldowns = {};
+const COOLDOWN_TIME = 1 * 60 * 1000; // 1 minuto
 
 const handler = async (m, { conn }) => {
     if (!m.quoted) return;
@@ -61,16 +66,22 @@ const handler = async (m, { conn }) => {
         });
     }
 
-    comprarPersonaje(sender, personaje);
-    return await conn.sendMessage(m.chat, {
-        text: `¡Felicidades @${sender.split('@')[0]}, has comprado a ${personaje.name} por ${personaje.value} Zekis!`,
-        mentions: [sender]
-    });
+    const tiempoRestante = cooldowns[sender] ? COOLDOWN_TIME - (Date.now() - cooldowns[sender]) : 0;
+    if (tiempoRestante > 0) {
+        return await conn.sendMessage(m.chat, {
+            text: `Debes esperar antes de confirmar otro personaje.
+Tiempo restante: ${Math.floor(tiempoRestante / 60000)} minutos y ${(tiempoRestante % 60000) / 1000} segundos.`,
+            mentions: [sender]
+        });
+    }
+
+    cooldowns[sender] = Date.now();
+    return manejarConfirmacion(personaje, sender, data.usuarios, conn, m);
 };
 
-handler.help = ['comprarwaifu'];
+handler.help = ['cofirmarwaifu'];
 handler.tags = ['rw'];
-handler.command = ['comprar', 'b'];
+handler.command = ['confirmar', 'c'];
 handler.group = true;
 
 export default handler;
