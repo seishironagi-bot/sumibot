@@ -41,14 +41,14 @@ let cooldowns = {};
 let handler = async (m, { conn }) => {
     let userId = m.sender;
     let currentTime = new Date().getTime();
-    const cooldownDuration = 1* 00 * 0000; // 1 minutos
+    const cooldownDuration = 1 * 60 * 1000; // 1 minuto
     let userCooldown = cooldowns[userId] || 0;
     let timeSinceLastRoll = currentTime - userCooldown;
 
     if (timeSinceLastRoll < cooldownDuration) {
         let remainingTime = cooldownDuration - timeSinceLastRoll;
-        let minutes = Math.floor(remainingTime / (1 * 0000));
-        let seconds = Math.floor((remainingTime % (1 * 0000)) / 0000);
+        let minutes = Math.floor(remainingTime / (60 * 1000));
+        let seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
         let replyMessage = `¡Espera ${minutes} minutos y ${seconds} segundos antes de usar el comando de nuevo!`;
         await conn.sendMessage(m.chat, { text: replyMessage });
         return;
@@ -86,7 +86,7 @@ let handler = async (m, { conn }) => {
                 showAdAttribution: true,
                 title: '¡Nuevo personaje!',
                 body: '¡Felicidades por tu nuevo personaje!',
-                thumbnailUrl: 'https://files.catbox.moe/6yqzsu.jpg', //Especifica la imagen
+                thumbnailUrl: 'https://files.catbox.moe/6yqzsu.jpg',
                 'sourceUrl': 'https://www.instagram.com/ig.de.haru/profilecard/?igsh=bmNyczltZnlvM3Jx',
                 mediaType: 1,
             }
