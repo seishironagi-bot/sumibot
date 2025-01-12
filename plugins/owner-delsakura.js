@@ -15,14 +15,14 @@ let sessionPath = './sessions/'
 
 try {
 
-if (!existsSync(sessionPath)) {
+if (!existsSync(Session)) {
 return await conn.reply(m.chat, '🏴 *La carpeta escrita está vacía*', m, fake, )
 }
-let files = await fs.readdir(sessionPath)
+let files = await fs.readdir(Session)
 let filesDeleted = 0
 for (const file of files) {
 if (file !== 'creds.json') {
-await fs.unlink(path.join(sessionPath, file))
+await fs.unlink(path.join(Session, file))
 filesDeleted++;
 }
 }
@@ -30,7 +30,7 @@ if (filesDeleted === 0) {
 await conn.reply(m.chat, '🏴 *La carpeta escrita esta vacía*',  m, fake, )
 } else {
 m.react(done)
-await conn.reply(m.chat, `🎌 *Se eliminaron ${filesDeleted} archivos de sesión, excepto el archivo creds.json*`,  m, fake, )
+await conn.reply(m.chat, `🌹 *Se eliminaron ${filesDeleted} archivos de sesión, excepto el archivo creds.json*`,  m, fake, )
 conn.reply(m.chat, `🎉 *¡Hola! Elimine los desechos, ¿Puedes leerme?*`, m, fake, )
 
 }
