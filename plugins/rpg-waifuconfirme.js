@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const imagenn = fs.readFileSync('./src/Kuroda.jpg');
+const imagen = fs.readFileSync('./src/Kuroda.jpg');
+
 const obtenerDatos = () => {
     try {
         return fs.existsSync('data.json') 
@@ -14,6 +15,7 @@ const obtenerDatos = () => {
         return { usuarios: {}, personajesReservados: [] };
     }
 };
+
 const guardarDatos = (data) => {
     try {
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
@@ -21,6 +23,7 @@ const guardarDatos = (data) => {
         console.error('Error al escribir en data.json:', error);
     }
 };
+
 const reservarPersonaje = (userId, character) => {
     let data = obtenerDatos();
     data.personajesReservados.push({ userId, ...character });
@@ -35,8 +38,10 @@ const obtenerPersonajes = () => {
         return [];
     }
 };
+
 let cooldowns = {};
-const COOLDOWN_TIME = 24 * 60 * 1000; // 10 minutos
+const COOLDOWN_TIME = 60 * 1000; // 1 minuto
+
 const manejarConfirmacion = async (personaje, sender, usuarios, conn, m) => {
     if (!usuarios[sender]) {
         usuarios[sender] = { characters: [], characterCount: 0, totalRwcoins: 0 };
@@ -46,8 +51,8 @@ const manejarConfirmacion = async (personaje, sender, usuarios, conn, m) => {
         url: personaje.url,
         value: personaje.value
     });
-    const personajesReservados = usuarios[personaje.userId]?.characters.filter(p => p.url !== personaje.url) || [];
-    guardarDatos({ usuarios, personajesReservados });
+
+    guardarDatos({ usuarios, personajesReservados: usuarios });
 
     const mentions = [sender];
 
@@ -61,8 +66,9 @@ const handler = async (m, { conn }) => {
     if (!m.quoted) return;
 
     const sender = m.sender;
-    const match = m.quoted.text.match(/\`ID:\`\s*-->\s*\`([a-zA-Z0-9-]+)\`/);
-const id = match && match[1];
+    const match = m.quoted.text.match(/\\`ID:\\`\\s*-->\\s*\\`([a-zA-Z0-9-]+)\\`/);
+    const id = match && match[1];
+
     if (!match) {
         return await conn.sendMessage(m.chat, {
             text: 'No se encontró un ID válido en el mensaje citado.',
@@ -70,7 +76,7 @@ const id = match && match[1];
         });
     }
 
-    const personajeId = id
+    const personajeId = id;
     const data = obtenerDatos();
     if (!personajeId) {
         return await conn.sendMessage(m.chat, {
@@ -89,7 +95,8 @@ const id = match && match[1];
     const tiempoRestante = cooldowns[sender] ? COOLDOWN_TIME - (Date.now() - cooldowns[sender]) : 0;
     if (tiempoRestante > 0) {
         return await conn.sendMessage(m.chat, {
-            text: `Debes esperar antes de confirmar otro personaje.\nTiempo restante: ${Math.floor(tiempoRestante / 60000)} minutos y ${(tiempoRestante % 60000) / 1000} segundos.`,
+            text: `Debes esperar antes de confirmar otro personaje.\
+Tiempo restante: ${Math.floor(tiempoRestante / 60000)} minutos y ${(tiempoRestante % 60000) / 1000} segundos.`,
             mentions: [sender]
         });
     }
@@ -98,7 +105,8 @@ const id = match && match[1];
 
     return manejarConfirmacion(personaje, sender, data.usuarios, conn, m);
 };
-handler.help = ['cofirmarwaifu'];
+
+handler.help = ['confirmarwaifu'];
 handler.tags = ['rw'];
 handler.command = ['confirmar', 'c'];
 handler.group = true;
