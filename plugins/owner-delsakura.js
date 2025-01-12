@@ -11,7 +11,7 @@ return conn.reply(m.chat, '🌹 *Ejecuta el comando en el bot principal*', m, fa
 await conn.reply(m.chat, '🌹 *Iniciando proceso de eliminación de todos los archivos de sesión, excepto el archivo creds.json...*', m, fake, )
 m.react(rwait)
 
-let sessionPath = './sessions/'
+let Session = './Session/'
 
 try {
 
