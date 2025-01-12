@@ -24,21 +24,25 @@ const guardarDatos = (data) => {
 
 const comprarPersonaje = (userId, character) => {
     let data = obtenerDatos();
-    if (data.usuarios[userId]) {
-        console.log(`El usuario ${userId} ya ha comprado a ${character.name}.`);
-        return;
+    if (data.usuarios[userId].bank < character.value) {
+        console.log(`El usuario ${userId} no tiene suficiente dinero para comprar a ${character.name}.`);
+        return false; // No se puede comprar
     }
-    
-    data.usuarios[userId] = character;
+
+    // Descontar el dinero del banco
+    data.usuarios[userId].bank -= character.value;
+    data.usuarios[userId].characters = data.usuarios[userId].characters || [];
+    data.usuarios[userId].characters.push(character);
     guardarDatos(data);
     console.log(`El usuario ${userId} ha comprado a ${character.name} por ${character.value} Zekis!`);
+    return true; // Compra exitosa
 };
 
 const handler = async (m, { conn }) => {
     if (!m.quoted) return;
 
     const sender = m.sender;
-    const match = m.quoted.text.match(/\`ID:\`\s*-->\s*\`([a-zA-Z0-9-]+)\`/);
+    const match = m.quoted.text.match(/\\`ID:\\`\\s*-->\\s*\\`([a-zA-Z0-9-]+)\\`/);
     const id = match && match[1];
     if (!match) {
         return await conn.sendMessage(m.chat, {
@@ -57,7 +61,14 @@ const handler = async (m, { conn }) => {
         });
     }
 
-    comprarPersonaje(sender, personaje);
+    const compraExitosa = comprarPersonaje(sender, personaje);
+    if (!compraExitosa) {
+        return await conn.sendMessage(m.chat, {
+            text: `No tienes suficiente dinero para comprar a ${personaje.name}.`,
+            mentions: [sender]
+        });
+    }
+
     return await conn.sendMessage(m.chat, {
         text: `¡Felicidades @${sender.split('@')[0]}, has comprado a ${personaje.name} por ${personaje.value} Zekis!`,
         mentions: [sender]
@@ -66,7 +77,7 @@ const handler = async (m, { conn }) => {
 
 handler.help = ['comprarwaifu'];
 handler.tags = ['rw'];
-handler.command = ['comprar', 'b'];
+handler.command = ['comprar', 'c'];
 handler.group = true;
 
 export default handler;
