@@ -26,7 +26,7 @@ let handler = async (m, { conn, args, participants }) => {
     let users = Object.entries(global.db.data.users).map(([key, value]) => {
         return {...value, jid: key};
     });
-    let sortedLim = users.map(toNumber('zenis')).sort(sort('zenis'));
+    let sortedLim = users.sort(sort('zenis'));
     let len = args[0] && args[0].length > 0 ? Math.min(5, Math.max(parseInt(args[0]), 5)) : Math.min(5, sortedLim.length);
 
     const cantidadZenis = Math.floor(Math.random() * (150 - 10 + 1)) + 10; // Generar cantidad aleatoria entre 10 y 150
@@ -43,12 +43,12 @@ let handler = async (m, { conn, args, participants }) => {
     let text = `
 ╭───═[ *Top ${len} Zenis 💴* ]═────⋆
 │╭───────────────···
-✩│ Tú eres el *${usersLim.indexOf(userId) + 1}* de *${usersLim.length}*
-✩│ ${sortedLim.slice(0, len).map(({ jid, zenis }, i) => `${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]} *${zenis} 💴*`).join`
+✩│ Tú eres el *${sortedLim.indexOf(data.usuarios[userId]) + 1}* de *${sortedLim.length}*
+✩│ ${sortedLim.slice(0, len).map(({ jid, zenis }, i) => `${i + 1}. ${participants.some(p => jid === p.jid) ? \`(${conn.getName(jid)}) wa.me/\` : '@'}${jid.split\`@\`[0]} *${zenis} 💴*`).join`
 ✩│ `}
 │╰────────────────···
 ╰───────────═┅═──────────`.trim();
-  m.reply(text, null, { mentions: conn.parseMention(text) });
+    m.reply(text, null, { mentions: conn.parseMention(text) });
 };
 
 handler.help = ['lb'];
@@ -61,16 +61,16 @@ handler.exp = 0;
 export default handler;
 
 function sort(property, ascending = true) {
-  if (property) return (...args) => args[ascending & 1][property] - args[!ascending & 1][property];
-  else return (...args) => args[ascending & 1] - args[!ascending & 1];
+    if (property) return (...args) => args[ascending & 1][property] - args[!ascending & 1][property];
+    else return (...args) => args[ascending & 1] - args[!ascending & 1];
 }
 
 function toNumber(property, _default = 0) {
-  if (property) return (a, i, b) => {
-    return {...b[i], [property]: a[property] === undefined ? _default : a[property]};
-  } else return a => a === undefined ? _default : a;
+    if (property) return (a, i, b) => {
+        return {...b[i], [property]: a[property] === undefined ? _default : a[property]};
+    } else return a => a === undefined ? _default : a;
 }
 
 function enumGetKey(a) {
-  return a.jid;
+    return a.jid;
 }
