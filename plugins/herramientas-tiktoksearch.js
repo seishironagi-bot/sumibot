@@ -45,7 +45,7 @@ let handler = async (message, { conn, text, usedPrefix, command }) => {
     });
 
     let results = [];
-    let { data } = await axios.get("https://api.agatz.xyz/api/tiktoksearch?message=$" + text);
+    let { data } = await axios.get("https://api.agatz.xyz/api/tiktoksearch?message=" + text);
     let searchResults = data.data;
     shuffleArray(searchResults);
     let topResults = searchResults.splice(0, 7);
