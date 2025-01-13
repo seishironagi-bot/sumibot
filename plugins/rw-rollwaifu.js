@@ -1,7 +1,8 @@
+
 import { promises as fs } from 'fs';
 
 const charactersFilePath = './src/JSON/characters.json';
-const haremFilePath = './src/database/harem.json';
+const hinataFilePath = './src/JSON/anime-hinata.json';
 
 const cooldowns = {};
 
@@ -22,20 +23,20 @@ async function saveCharacters(characters) {
     }
 }
 
-async function loadHarem() {
+async function loadHinata() {
     try {
-        const data = await fs.readFile(haremFilePath, 'utf-8');
+        const data = await fs.readFile(hinataFilePath, 'utf-8');
         return JSON.parse(data);
     } catch (error) {
         return [];
     }
 }
 
-async function saveHarem(harem) {
+async function saveHinata(hinata) {
     try {
-        await fs.writeFile(haremFilePath, JSON.stringify(harem, null, 2), 'utf-8');
+        await fs.writeFile(hinataFilePath, JSON.stringify(hinata, null, 2), 'utf-8');
     } catch (error) {
-        throw new Error('❀ No se pudo guardar el archivo harem.json.');
+        throw new Error('❀ No se pudo guardar el archivo anime-hinata.json.');
     }
 }
 
@@ -56,8 +57,8 @@ let handler = async (m, { conn }) => {
         const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
         const randomImage = randomCharacter.img[Math.floor(Math.random() * randomCharacter.img.length)];
 
-        const harem = await loadHarem();
-        const userEntry = harem.find(entry => entry.characterId === randomCharacter.id);
+        const hinata = await loadHinata();
+        const userEntry = hinata.find(entry => entry.characterId === randomCharacter.id);
         const statusMessage = randomCharacter.user 
             ? `Reclamado por @${randomCharacter.user.split('@')[0]}` 
             : 'Libre';
@@ -81,8 +82,8 @@ ID: *${randomCharacter.id}*`;
                 lastVoteTime: now,
                 voteCooldown: now + 1.5 * 60 * 60 * 1000
             };
-            harem.push(userEntry);
-            await saveHarem(harem);
+            hinata.push(userEntry);
+            await saveHinata(hinata);
         }
 
         await saveCharacters(characters);
