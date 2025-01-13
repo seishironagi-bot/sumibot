@@ -1,59 +1,114 @@
-import fs from 'fs'
-import { parsePhoneNumber } from 'libphonenumber-js'
-import fetch from 'node-fetch'
-import { xpRange } from '../lib/levelling.js'
-const { levelling } = '../lib/levelling.js'
-import PhoneNumber from 'awesome-phonenumber'
-import { promises } from 'fs'
-import { join } from 'path'
-import ct from 'countries-and-timezones'
-import moment from 'moment-timezone'
-import translate from '@vitalets/google-translate-api'
-const { generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default
+import fs from 'fs';
+import { parsePhoneNumber } from 'libphonenumber-js';
+import fetch from 'node-fetch';
+import { xpRange } from '../lib/levelling.js';
+import PhoneNumber from 'awesome-phonenumber';
+import { promises } from 'fs';
+import { join } from 'path';
+import ct from 'countries-and-timezones';
+import moment from 'moment-timezone';
+import translate from '@vitalets/google-translate-api';
+const { generateWAMessageFromContent, proto } = (await import('@whiskeysockets/baileys')).default;
 
 var handler = async (m, { conn, usedPrefix, usedPrefix: _p, __dirname, text, command }) => {
+    try {
+        let user = conn.getName(m.sender);
+        let pp = await conn.profilePictureUrl(conn.user.jid).catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png');
 
-try {
+        let fechaMoment, formatDate, nombreLugar, ciudad = null; 
+        const phoneNumber = '+' + m.sender; 
+        const parsedPhoneNumber = parsePhoneNumber(phoneNumber); 
+        const countryCode = parsedPhoneNumber.country; 
+        const countryData = ct.getCountry(countryCode); 
+        const timezones = countryData.timezones; 
+        const zonaHoraria = timezones.length > 0 ? timezones[0] : 'UTC'; 
+        moment.locale('es'); 
+        let lugarMoment = moment().tz(zonaHoraria); 
+        
+        if (lugarMoment) { 
+            fechaMoment = lugarMoment.format('llll [(]a[)]'); 
+            formatDate = fechaMoment.charAt(0).toUpperCase() + fechaMoment.slice(1); 
+            nombreLugar = countryData.name; 
+            const partes = zonaHoraria.split('/'); 
+            ciudad = partes[partes.length - 1].replace(/_/g, ' '); 
+        } else { 
+            lugarMoment = moment().tz('America/Mexico_City'); 
+            fechaMoment = lugarMoment.format('llll [(]a[)]'); 
+            formatDate = fechaMoment.charAt(0).toUpperCase() + fechaMoment.slice(1); 
+            nombreLugar = 'America'; 
+            ciudad = 'Ciudad de México'; 
+        }
 
-let user = conn.getName(m.sender)
+        //FAKES
+        let a = {
+            'key': {'participants': '0@s.whatsapp.net', 'fromMe': false, 'id': '3B64558B07848BD81108C1D14712018E'}, 
+            'message': {
+                'locationMessage': {
+                    'name': `${nombreLugar}`, 
+                    'jpegThumbnail': await (await fetch(pp)).buffer(), 
+                    'vcard': `BEGIN:VCARD
+VERSION:3.0
+N:XL;${wm},;;;
+FN:${wm},
+item1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}
+item1.X-ABLabell:Ponsel
+END:VCARD`
+                }
+            }, 
+            'participant': '0@s.whatsapp.net'
+        };
+        
+        const ftrol = { 
+            key : { remoteJid: 'status@broadcast', participant : '0@s.whatsapp.net' }, 
+            message: { orderMessage: { itemCount : 2023, status: 1, surface : 1, message: `${nombreLugar}!`, orderTitle: `▮Menu ▸`, sellerJid: '0@s.whatsapp.net' }}
+        };
+        
+        const fload = { 
+            key : { message: `Sakurazawa ⌨️` + `
+LeonelJs`, thumbnail: await (await fetch(pp)).buffer(), sellerJid: '0@s.whatsapp.net' }
+        };
 
-let pp = await conn.profilePictureUrl(conn.user.jid).catch(_ => 'https://telegra.ph/file/24fa902ead26340f3df2c.png')
+        await conn.sendMessage(m.chat, { react: { text: '🏷', key: m.key } });
 
-let fechaMoment, formatDate, nombreLugar, ciudad = null; const phoneNumber = '+' + m.sender; const parsedPhoneNumber = parsePhoneNumber(phoneNumber); const countryCode = parsedPhoneNumber.country; const countryData = ct.getCountry(countryCode); const timezones = countryData.timezones; const zonaHoraria = timezones.length > 0 ? timezones[0] : 'UTC'; moment.locale('es'); let lugarMoment = moment().tz(zonaHoraria); if (lugarMoment) { fechaMoment = lugarMoment.format('llll [(]a[)]'); formatDate = fechaMoment.charAt(0).toUpperCase() + fechaMoment.slice(1); nombreLugar = countryData.name; const partes = zonaHoraria.split('/'); ciudad = partes[partes.length - 1].replace(/_/g, ' '); } else { lugarMoment = moment().tz('America/Mexico_City'); fechaMoment = lugarMoment.format('llll [(]a[)]'); formatDate = fechaMoment.charAt(0).toUpperCase() + fechaMoment.slice(1); nombreLugar = 'America'; ciudad = 'Ciudad de México' }
-
-//FAKES
-let a = {'key': {'participants': '0@s.whatsapp.net', 'fromMe': false, 'id': '3B64558B07848BD81108C1D14712018E'}, 'message': {'locationMessage': {'name': `${nombre}`, 'jpegThumbnail': await (await fetch(pp)).buffer(), 'vcard': `BEGIN:VCARD\nVERSION:3.0\nN:XL;${wm},;;;\nFN:${wm},\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabell:Ponsel\nEND:VCARD`}}, 'participant': '0@s.whatsapp.net'}
-const ftrol = { key : { remoteJid: 'status@broadcast', participant : '0@s.whatsapp.net' }, message: { orderMessage: { itemCount : 2023, status: 1, surface : 1, message: `${nombre}!`, orderTitle: `▮Menu ▸`, sellerJid: '0@s.whatsapp.net' }}}
-const fload = { key : { message: `Sakurazawa ⌨️` + `\nLeonelJs`, thumbnail: await (await fetch(pp)).buffer(), sellerJid: '0@s.whatsapp.net' }}
-
-await conn.sendMessage(m.chat, { react: { text: '🏷', key: m.key } })
-
-let menu = `❤️ !𝐶𝑜𝑚𝑜 𝑒𝑠𝑡𝑎𝑠¡ ${user}
+        let menu = `❤️ ¡𝐶𝑜𝑚𝑜 𝑒𝑠𝑡𝑎𝑠! ${user}
 
 𝑈𝑡𝑖𝑙𝑖𝑧𝑎 𝐴𝑙𝑙𝑚𝑒𝑛𝑢 𝑝𝑎𝑟𝑎 𝑣𝑒𝑟 𝑒𝑙 𝑚𝑒𝑛𝑢 🐈🌻
 (𝑈𝑡𝑖𝑙𝑖𝑧𝑎 𝑂𝑤𝑛𝑒𝑟 𝑝𝑎𝑟𝑎 𝑣𝑒𝑟 𝑎𝑙 𝐶𝑟𝑒𝑎𝑑𝑜𝑟)
 
 !reglas
-*(Para ver las reglas del bot)*`
+*(Para ver las reglas del bot)*`;
 
-await conn.reply(m.chat, menu, a, { contextInfo: { externalAdReply: {title: '🥳 ¡Hello! ' + user, body: wm, sourceUrl: md, thumbnail: await (await fetch(pp)).buffer() }}})
+        await conn.reply(m.chat, menu, a, { 
+            contextInfo: { 
+                externalAdReply: { 
+                    title: '🥳 ¡Hello! ' + user, 
+                    body: wm, 
+                    sourceUrl: md, 
+                    thumbnail: await (await fetch(pp)).buffer() 
+                } 
+            } 
+        });
 
-} catch {
-conn.reply(m.chat, `*🛑 Ocurrió un fallo*`, m, fake, )
-console.log(e)
-}}
-handler.help = ['menu']
-handler.tags = ['main']
-handler.command =  /^(ccc|hl|dh)$/i;
-handler.register = true
+    } catch (e) {
+        conn.reply(m.chat, `*🛑 Ocurrió un fallo*`, m);
+        console.log(e);
+    }
+};
 
-export default handler
+handler.help = ['menu'];
+handler.tags = ['main'];
+handler.command = /^(ccc|hl|dh)$/i;
+handler.register = true;
+
+export default handler;
 
 function clockString(ms) {
-let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
-let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
-let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
-return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')}
+    let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000);
+    let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) %60;
+    let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60;
+    return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':');
+}
 
 function pickRandom(list) {
-return list[Math.floor(Math.random() * list.length)]}*/
+    return list[Math.floor(Math.random() * list.length)];
+}
