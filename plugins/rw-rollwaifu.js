@@ -1,4 +1,3 @@
-
 import { promises as fs } from 'fs';
 
 const charactersFilePath = './src/database/characters.json';
@@ -37,7 +36,7 @@ let handler = async (m, { conn }) => {
     try {
         const characters = await loadCharacters();
         const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
-        const randomImage = randomCharacter.url; // Asegúrate de que esto esté correcto
+        const randomImage = randomCharacter.url; // Cambié a 'url' según tu estructura
 
         const statusMessage = randomCharacter.user 
             ? `Reclamado por @${randomCharacter.user.split('@')[0]}` 
@@ -46,7 +45,7 @@ let handler = async (m, { conn }) => {
         const message = `❀ Nombre » *${randomCharacter.nombre}*
 ⚥ Valor » *${randomCharacter.valor}*
 ♡ Estado » ${statusMessage}
-ID: *${randomCharacter.id || 'No disponible'}*`; // Asegúrate de que 'id' esté definido
+ID: *${randomCharacter.id || 'No disponible'}*`;  // Manejo de ID
 
         await conn.sendFile(m.chat, randomImage, `${randomCharacter.nombre}.jpg`, message, m);
 
@@ -68,3 +67,4 @@ handler.tags = ['gacha'];
 handler.command = ['ver', 'rw', 'rollwaifu'];
 
 export default handler;
+
