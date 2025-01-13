@@ -1,108 +1,19 @@
-import axios from 'axios';
-const {
-  proto,
-  generateWAMessageFromContent,
-  prepareWAMessageMedia,
-  generateWAMessageContent,
-  getDevice
-} = (await import("@whiskeysockets/baileys")).default;
+// *[ ❀ TIKTOK SEARCH ]*
+import fetch from 'node-fetch'
 
-let handler = async (message, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return conn.reply(message.chat, "❕️ *¿QUÉ BÚSQUEDA DESEA REALIZAR EN TIKTOK?*", message, rcanal);
-  }
+let handler = async (m, { conn, command, text, usedPrefix }) => {
+if (!text) return conn.reply(m.chat, `❀ Ingresa el texto de lo que quieres buscar`, m)
 
-  async function createVideoMessage(url) {
-    const { videoMessage } = await generateWAMessageContent({
-      video: { url }
-    }, {
-      upload: conn.waUploadToServer
-    });
-    return videoMessage;
-  }
+try {
+let api = await fetch(`https://api.agatz.xyz/api/tiktoksearch?message=${text}`)
+let json = await api.json()
+let { title, no_watermark, music } = json.data
+await conn.sendFile(m.chat, no_watermark, 'HasumiBotFreeCodes.mp4', title, m)
+await conn.sendFile(m.chat, music, 'HasumiBotFreeCodes.mp3', null, m)
+} catch (error) {
+console.error(error)
+}}
 
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
+handler.command = /^(tiktoksearch)$/i
 
-  try {
-    conn.reply(message.chat, '✔︎ *ENVIANDO SUS RESULTADOS..*', message, {
-      contextInfo: { 
-        externalAdReply: { 
-          mediaUrl: null, 
-          mediaType: 1, 
-          showAdAttribution: true,
-          title: 'SUMI BOT-MD',
-          body: '🌸Sumi sakurazawa🌸',
-          previewType: 0, 
-          thumbnail: logo2,
-          sourceUrl: cn 
-        }
-      }
-    });
-
-    let results = [];
-    let { data } = await axios.get("https://api.agatz.xyz/api/tiktoksearch?message=" + text);
-    let searchResults = data.data;
-    shuffleArray(searchResults);
-    let topResults = searchResults.splice(0, 7);
-
-    for (let result of topResults) {
-      results.push({
-        body: proto.Message.InteractiveMessage.Body.fromObject({ text: null }),
-        footer: proto.Message.InteractiveMessage.Footer.fromObject({ text: titulowm }),
-        header: proto.Message.InteractiveMessage.Header.fromObject({
-          title: '' + result.title,
-          hasMediaAttachment: true,
-          videoMessage: await createVideoMessage(result.nowm)
-        }),
-        nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({ buttons: [] })
-      });
-    }
-
-    const messageContent = generateWAMessageFromContent(message.chat, {
-      viewOnceMessage: {
-        message: {
-          messageContextInfo: {
-            deviceListMetadata: {},
-            deviceListMetadataVersion: 2
-          },
-          interactiveMessage: proto.Message.InteractiveMessage.fromObject({
-            body: proto.Message.InteractiveMessage.Body.create({
-              text: " RESULTADO DE: " + text
-            }),
-            footer: proto.Message.InteractiveMessage.Footer.create({
-              text: "🌸Sumi sakurazawa🌸"
-            }),
-            header: proto.Message.InteractiveMessage.Header.create({
-              hasMediaAttachment: false
-            }),
-            carouselMessage: proto.Message.InteractiveMessage.CarouselMessage.fromObject({
-              cards: [...results]
-            })
-          })
-        }
-      }
-    }, {
-      quoted: message
-    });
-
-    await conn.relayMessage(message.chat, messageContent.message, {
-      messageId: messageContent.key.id
-    });
-  } catch (error) {
-    console.error(error);
-    conn.reply(message.chat, `❌️ *OCURRIÓ UN ERROR:* ${error.message}`, message);
-  }
-};
-
-handler.help = ["tiktoksearch <txt>"];
-handler.group = true;
-handler.register = false
-handler.tags = ["buscador"];
-handler.command = ["tiktoksearch", "tts", "tiktoks"];
-
-export default handler;
+export default handler
