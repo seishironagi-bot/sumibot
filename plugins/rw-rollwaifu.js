@@ -1,8 +1,6 @@
-
 import { promises as fs } from 'fs';
 
-const charactersFilePath = './src/JSON/characters.json';
-const hinataFilePath = './src/JSON/anime-hinata.json';
+const charactersFilePath = './src/database/characters.json';
 
 const cooldowns = {};
 
@@ -23,23 +21,6 @@ async function saveCharacters(characters) {
     }
 }
 
-async function loadHinata() {
-    try {
-        const data = await fs.readFile(hinataFilePath, 'utf-8');
-        return JSON.parse(data);
-    } catch (error) {
-        return [];
-    }
-}
-
-async function saveHinata(hinata) {
-    try {
-        await fs.writeFile(hinataFilePath, JSON.stringify(hinata, null, 2), 'utf-8');
-    } catch (error) {
-        throw new Error('❀ No se pudo guardar el archivo anime-hinata.json.');
-    }
-}
-
 let handler = async (m, { conn }) => {
     const userId = m.sender;
     const now = Date.now();
@@ -57,8 +38,6 @@ let handler = async (m, { conn }) => {
         const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
         const randomImage = randomCharacter.img[Math.floor(Math.random() * randomCharacter.img.length)];
 
-        const hinata = await loadHinata();
-        const userEntry = hinata.find(entry => entry.characterId === randomCharacter.id);
         const statusMessage = randomCharacter.user 
             ? `Reclamado por @${randomCharacter.user.split('@')[0]}` 
             : 'Libre';
@@ -70,23 +49,14 @@ let handler = async (m, { conn }) => {
 ❖ Fuente » *${randomCharacter.source}*
 ID: *${randomCharacter.id}*`;
 
-        const mentions = userEntry ? [userEntry.userId] : [];
-        await conn.sendFile(m.chat, randomImage, `${randomCharacter.name}.jpg`, message, m, { mentions });
+        await conn.sendFile(m.chat, randomImage, `${randomCharacter.name}.jpg`, message, m);
 
         // Asignar usuario si está libre
         if (!randomCharacter.user) {
             randomCharacter.user = userId;
-            const userEntry = {
-                userId: userId,
-                characterId: randomCharacter.id,
-                lastVoteTime: now,
-                voteCooldown: now + 1.5 * 60 * 60 * 1000
-            };
-            hinata.push(userEntry);
-            await saveHinata(hinata);
+            await saveCharacters(characters);
         }
 
-        await saveCharacters(characters);
         cooldowns[userId] = now + 15 * 60 * 1000; // 15 minutos de cooldown
 
     } catch (error) {
