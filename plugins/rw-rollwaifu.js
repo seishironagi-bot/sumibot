@@ -38,16 +38,16 @@ let handler = async (m, { conn }) => {
         const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
         const randomImage = randomCharacter.url; // Asegúrate de que esto esté correcto
 
-        const statusMessage = randomCharacter.user 
+        const statusMessage = randomCharacter.user
             ? `Reclamado por @${randomCharacter.user.split('@')[0]}` 
             : 'Libre';
 
-        const message = `❀ Nombre » *${randomCharacter.nombre}*
-⚥ Valor » *${randomCharacter.valor}*
+        const message = `❀ Nombre » *${randomCharacter.name}*
+⚥ Valor » *${randomCharacter.value}*
 ♡ Estado » ${statusMessage}
 ID: *${randomCharacter.url || 'No disponible'}*`; // Manejo de ID
 
-        await conn.sendFile(m.chat, randomImage, `${randomCharacter.nombre}.jpg`, message, m);
+        await conn.sendFile(m.chat, randomImage, `${randomCharacter.name}.jpg`, message, m);
 
         // Asignar usuario si está libre
         if (!randomCharacter.user) {
