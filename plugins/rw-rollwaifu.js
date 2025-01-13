@@ -1,3 +1,4 @@
+
 import { promises as fs } from 'fs';
 
 const charactersFilePath = './src/JSON/characters.json';
@@ -36,20 +37,18 @@ let handler = async (m, { conn }) => {
     try {
         const characters = await loadCharacters();
         const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
-        const randomImage = randomCharacter.img[Math.floor(Math.random() * randomCharacter.img.length)];
+        const randomImage = randomCharacter.url; // Cambié a 'url' según tu estructura
 
         const statusMessage = randomCharacter.user 
             ? `Reclamado por @${randomCharacter.user.split('@')[0]}` 
             : 'Libre';
 
-        const message = `❀ Nombre » *${randomCharacter.name}*
-⚥ Género » *${randomCharacter.gender}*
-✰ Valor » *${randomCharacter.value}*
+        const message = `❀ Nombre » *${randomCharacter.nombre}*  // Cambié a 'nombre'
+⚥ Valor » *${randomCharacter.valor}*  // Cambié a 'valor'
 ♡ Estado » ${statusMessage}
-❖ Fuente » *${randomCharacter.source}*
-ID: *${randomCharacter.id}*`;
+ID: *${randomCharacter.id || 'No disponible'}*`;  // Manejo de ID
 
-        await conn.sendFile(m.chat, randomImage, `${randomCharacter.name}.jpg`, message, m);
+        await conn.sendFile(m.chat, randomImage, `${randomCharacter.nombre}.jpg`, message, m);
 
         // Asignar usuario si está libre
         if (!randomCharacter.user) {
