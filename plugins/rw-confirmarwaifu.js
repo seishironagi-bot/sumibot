@@ -1,106 +1,81 @@
-import fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
-import dotenv from 'dotenv';
 
-dotenv.config();
-const imagenn = fs.readFileSync('./src/Kuroda.jpg');
-const obtenerDatos = () => {
+import { promises as fs } from 'fs';
+
+const charactersFilePath = './src/JSON/characters.json';
+
+const cooldowns = {};
+
+async function loadCharacters() {
     try {
-        return fs.existsSync('data.json') 
-            ? JSON.parse(fs.readFileSync('data.json', 'utf-8')) 
-            : { usuarios: {}, personajesReservados: [] };
+        const data = await fs.readFile(charactersFilePath, 'utf-8');
+        return JSON.parse(data);
     } catch (error) {
-        console.error('Error al leer data.json:', error);
-        return { usuarios: {}, personajesReservados: [] };
+        throw new Error('❀ No se pudo cargar el archivo characters.json.');
     }
-};
-const guardarDatos = (data) => {
+}
+
+async function saveCharacters(characters) {
     try {
-        fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+        await fs.writeFile(charactersFilePath, JSON.stringify(characters, null, 2), 'utf-8');
     } catch (error) {
-        console.error('Error al escribir en data.json:', error);
+        throw new Error('❀ No se pudo guardar el archivo characters.json.');
+    }
+}
+
+let handler = async (m, { conn }) => {
+    const userId = m.sender;
+    const now = Date.now();
+
+    // Verificar cooldown
+    if (cooldowns[userId] && now < cooldowns[userId]) {
+        const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000);
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        return await conn.reply(m.chat, `《✧》Debes esperar *${minutes} minutos y ${seconds} segundos* para usar *#c* de nuevo.`, m);
+    }
+
+    if (m.quoted && m.quoted.sender === conn.user.jid) {
+        const quotedMessageId = m.quoted.id;
+
+        try {
+            const characters = await loadCharacters();
+            const characterIdMatch = m.quoted.text.match(/ID: \*(.+?)\*/);
+
+            if (!characterIdMatch) {
+                await conn.reply(m.chat, '《✧》No se pudo encontrar el ID del personaje en el mensaje citado.', m);
+                return;
+            }
+
+            const characterId = characterIdMatch[1];
+            const character = characters.find(c => c.id === characterId);
+
+            if (!character) {
+                await conn.reply(m.chat, '《✧》El mensaje citado no es un personaje válido.', m);
+                return;
+            }
+
+            if (character.user && character.user !== userId) {
+                await conn.reply(m.chat, `《✧》El personaje ya ha sido reclamado por @${character.user.split('@')[0]}, inténtalo a la próxima :v.`, m, { mentions: [character.user] });
+                return;
+            }
+
+            character.user = userId;
+            await saveCharacters(characters);
+
+            await conn.reply(m.chat, `✦ Has reclamado a *${character.nombre}* con éxito.`, m); // Cambié 'name' a 'nombre'
+            cooldowns[userId] = now + 30 * 60 * 1000;
+
+        } catch (error) {
+            await conn.reply(m.chat, `✘ Error al reclamar el personaje: ${error.message}`, m);
+        }
+
+    } else {
+        await conn.reply(m.chat, '《✧》Debes citar un personaje válido para reclamar.', m);
     }
 };
-const reservarPersonaje = (userId, character) => {
-    let data = obtenerDatos();
-    data.personajesReservados.push({ userId, ...character });
-    guardarDatos(data);
-};
 
-const obtenerPersonajes = () => {
-    try {
-        return JSON.parse(fs.readFileSync('./src/characters.json', 'utf-8'));
-    } catch (error) {
-        console.error('Error al leer characters.json:', error);
-        return [];
-    }
-};
-let cooldowns = {};
-const COOLDOWN_TIME = 24 * 60 * 1000; // 10 minutos
-const manejarConfirmacion = async (personaje, sender, usuarios, conn, m) => {
-    if (!usuarios[sender]) {
-        usuarios[sender] = { characters: [], characterCount: 0, totalRwcoins: 0 };
-    }
-    usuarios[sender].characters.push({
-        name: personaje.name,
-        url: personaje.url,
-        value: personaje.value
-    });
-    const personajesReservados = usuarios[personaje.userId]?.characters.filter(p => p.url !== personaje.url) || [];
-    guardarDatos({ usuarios, personajesReservados });
-
-    const mentions = [sender];
-
-    return await conn.sendMessage(m.chat, { 
-        text: `¡Felicidades @${sender.split('@')[0]}, confirmaste a ${personaje.name}!`, 
-        mentions 
-    });
-};
-
-const handler = async (m, { conn }) => {
-    if (!m.quoted) return;
-
-    const sender = m.sender;
-    const match = m.quoted.text.match(/\`ID:\`\s*-->\s*\`([a-zA-Z0-9-]+)\`/);
-const id = match && match[1];
-    if (!match) {
-        return await conn.sendMessage(m.chat, {
-            text: 'No se encontró un ID válido en el mensaje citado.',
-            mentions: [sender]
-        });
-    }
-
-    const personajeId = id
-    const data = obtenerDatos();
-    if (!personajeId) {
-        return await conn.sendMessage(m.chat, {
-            text: 'No se ha podido extraer un ID válido del mensaje citado.',
-            mentions: [sender]
-        });
-    }
-
-    const personaje = data.personajesReservados.find(p => p.id === personajeId);
-    if (!personaje) {
-        return await conn.sendMessage(m.chat, {
-            text: 'El personaje citado no está disponible.',
-            mentions: [sender]
-        });
-    }
-    const tiempoRestante = cooldowns[sender] ? COOLDOWN_TIME - (Date.now() - cooldowns[sender]) : 0;
-    if (tiempoRestante > 0) {
-        return await conn.sendMessage(m.chat, {
-            text: `Debes esperar antes de confirmar otro personaje.\nTiempo restante: ${Math.floor(tiempoRestante / 60000)} minutos y ${(tiempoRestante % 60000) / 1000} segundos.`,
-            mentions: [sender]
-        });
-    }
-
-    cooldowns[sender] = Date.now();
-
-    return manejarConfirmacion(personaje, sender, data.usuarios, conn, m);
-};
-handler.help = ['cofirmarwaifu'];
-handler.tags = ['rw'];
-handler.command = ['confirmar', 'c'];
-handler.group = true;
+handler.help = ['claim'];
+handler.tags = ['gacha'];
+handler.command = ['c', 'claim', 'reclamar'];
 
 export default handler;
