@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 
 const charactersFilePath = './src/JSON/characters.json';
+const haremFilePath = './src/database/harem.json';
 
 const cooldowns = {};
 
@@ -21,6 +22,23 @@ async function saveCharacters(characters) {
     }
 }
 
+async function loadHarem() {
+    try {
+        const data = await fs.readFile(haremFilePath, 'utf-8');
+        return JSON.parse(data);
+    } catch (error) {
+        return [];
+    }
+}
+
+async function saveHarem(harem) {
+    try {
+        await fs.writeFile(haremFilePath, JSON.stringify(harem, null, 2), 'utf-8');
+    } catch (error) {
+        throw new Error('❀ No se pudo guardar el archivo harem.json.');
+    }
+}
+
 let handler = async (m, { conn }) => {
     const userId = m.sender;
     const now = Date.now();
@@ -38,6 +56,8 @@ let handler = async (m, { conn }) => {
         const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
         const randomImage = randomCharacter.img[Math.floor(Math.random() * randomCharacter.img.length)];
 
+        const harem = await loadHarem();
+        const userEntry = harem.find(entry => entry.characterId === randomCharacter.id);
         const statusMessage = randomCharacter.user 
             ? `Reclamado por @${randomCharacter.user.split('@')[0]}` 
             : 'Libre';
@@ -49,14 +69,23 @@ let handler = async (m, { conn }) => {
 ❖ Fuente » *${randomCharacter.source}*
 ID: *${randomCharacter.id}*`;
 
-        await conn.sendFile(m.chat, randomImage, `${randomCharacter.name}.jpg`, message, m);
+        const mentions = userEntry ? [userEntry.userId] : [];
+        await conn.sendFile(m.chat, randomImage, `${randomCharacter.name}.jpg`, message, m, { mentions });
 
         // Asignar usuario si está libre
         if (!randomCharacter.user) {
             randomCharacter.user = userId;
-            await saveCharacters(characters);
+            const userEntry = {
+                userId: userId,
+                characterId: randomCharacter.id,
+                lastVoteTime: now,
+                voteCooldown: now + 1.5 * 60 * 60 * 1000
+            };
+            harem.push(userEntry);
+            await saveHarem(harem);
         }
 
+        await saveCharacters(characters);
         cooldowns[userId] = now + 15 * 60 * 1000; // 15 minutos de cooldown
 
     } catch (error) {
