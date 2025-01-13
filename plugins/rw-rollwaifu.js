@@ -45,7 +45,7 @@ let handler = async (m, { conn }) => {
         const message = `❀ Nombre » *${randomCharacter.nombre}*
 ⚥ Valor » *${randomCharacter.valor}*
 ♡ Estado » ${statusMessage}
-ID: *${randomCharacter.id || 'No disponible'}*`; // Manejo de ID
+ID: *${randomCharacter.url || 'No disponible'}*`; // Manejo de ID
 
         await conn.sendFile(m.chat, randomImage, `${randomCharacter.nombre}.jpg`, message, m);
 
