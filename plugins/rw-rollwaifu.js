@@ -55,7 +55,7 @@ ID: *${randomCharacter.id || 'No disponible'}*`; // Manejo de ID
             await saveCharacters(characters);
         }
 
-        cooldowns[userId] = now + 15 * 60 * 1000; // 15 minutos de cooldown
+        cooldowns[userId] = now + 60 * 1000; // 1 minuto de cooldown
 
     } catch (error) {
         await conn.reply(m.chat, `✘ Error al cargar el personaje: ${error.message}`, m);
