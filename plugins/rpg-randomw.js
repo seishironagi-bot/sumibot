@@ -9,5 +9,5 @@ const handler = async (m, {conn, usedPrefix, command}) => {
 };
 handler.help = ['waifu'];
 handler.tags = ['anime'];
-handler.command = /^(prueba)$/i;
+handler.command = /^(ftwaifu)$/i;
 export default handler;
