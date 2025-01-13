@@ -103,7 +103,7 @@ Tiempo restante: ${Math.floor(tiempoRestante / 60000)} minutos y ${(tiempoRestan
 
 handler.help = ['confirmarwaifu'];
 handler.tags = ['rw'];
-handler.command = ['confirmar', 'c'];
+handler.command = ['cf', 'b'];
 handler.group = true;
 
 export default handler;
