@@ -1,4 +1,3 @@
-
 import { promises as fs } from 'fs';
 
 const charactersFilePath = './src/JSON/characters.json';
@@ -26,7 +25,6 @@ let handler = async (m, { conn }) => {
     const userId = m.sender;
     const now = Date.now();
 
-    // Verificar cooldown
     if (cooldowns[userId] && now < cooldowns[userId]) {
         const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000);
         const minutes = Math.floor(remainingTime / 60);
@@ -39,7 +37,7 @@ let handler = async (m, { conn }) => {
 
         try {
             const characters = await loadCharacters();
-            const characterIdMatch = m.quoted.text.match(/ID: \*(.+?)\*/);
+            const characterIdMatch = m.quoted.text.match(/ID: \\*(.+?)\\*/);
 
             if (!characterIdMatch) {
                 await conn.reply(m.chat, '《✧》No se pudo encontrar el ID del personaje en el mensaje citado.', m);
@@ -60,9 +58,11 @@ let handler = async (m, { conn }) => {
             }
 
             character.user = userId;
+            character.status = \"Reclamado\";
+
             await saveCharacters(characters);
 
-            await conn.reply(m.chat, `✦ Has reclamado a *${character.nombre}* con éxito.`, m); // Cambié 'name' a 'nombre'
+            await conn.reply(m.chat, `✦ Has reclamado a *${character.name}* con éxito.`, m);
             cooldowns[userId] = now + 30 * 60 * 1000;
 
         } catch (error) {
