@@ -37,15 +37,15 @@ let handler = async (m, { conn }) => {
 
         try {
             const characters = await loadCharacters();
-            const characterIdMatch = m.quoted.text.match(/ID: \\*(.+?)\\*/);
+            const characterIdMatch = m.quoted.text.match(/ID: \*(.+?)\*/);
 
             if (!characterIdMatch) {
-                await conn.reply(m.chat, '《✧》No se pudo encontrar el ID del personaje en el mensaje citado.', m);
+                await conn.reply(m.chat, '《✧》No se pudo encontrar la URL del personaje en el mensaje citado.', m);
                 return;
             }
 
-            const characterId = characterIdMatch[1];
-            const character = characters.find(c => c.id === characterId);
+            const characterUrl = characterIdMatch[1]; // Cambiado a URL
+            const character = characters.find(c => c.url === characterUrl); // Busca por URL
 
             if (!character) {
                 await conn.reply(m.chat, '《✧》El mensaje citado no es un personaje válido.', m);
@@ -58,7 +58,7 @@ let handler = async (m, { conn }) => {
             }
 
             character.user = userId;
-            character.status = \"Reclamado\";
+            character.status = "Reclamado";
 
             await saveCharacters(characters);
 
