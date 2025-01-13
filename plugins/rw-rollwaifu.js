@@ -43,8 +43,8 @@ let handler = async (m, { conn }) => {
             ? `Reclamado por @${randomCharacter.user.split('@')[0]}` 
             : 'Libre';
 
-        const message = `❀ Nombre » *${randomCharacter.nombre}*  // Cambié a 'nombre'
-⚥ Valor » *${randomCharacter.valor}*  // Cambié a 'valor'
+        const message = `❀ Nombre » *${randomCharacter.nombre}*
+⚥ Valor » *${randomCharacter.valor}* 
 ♡ Estado » ${statusMessage}
 ID: *${randomCharacter.id || 'No disponible'}*`;  // Manejo de ID
 
