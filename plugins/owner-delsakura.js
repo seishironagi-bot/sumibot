@@ -11,18 +11,18 @@ return conn.reply(m.chat, '🌹 *Ejecuta el comando en el bot principal*', m, fa
 await conn.reply(m.chat, '🌹 *Iniciando proceso de eliminación de todos los archivos de sesión, excepto el archivo creds.json...*', m, fake, )
 m.react(rwait)
 
-let Session = './Session/'
+let Sessión = './Sessión/'
 
 try {
 
-if (!existsSync(Session)) {
+if (!existsSync(Sessión)) {
 return await conn.reply(m.chat, '🏴 *La carpeta escrita está vacía*', m, fake, )
 }
-let files = await fs.readdir(Session)
+let files = await fs.readdir(Sessión)
 let filesDeleted = 0
 for (const file of files) {
 if (file !== 'creds.json') {
-await fs.unlink(path.join(Session, file))
+await fs.unlink(path.join(Sessión, file))
 filesDeleted++;
 }
 }
