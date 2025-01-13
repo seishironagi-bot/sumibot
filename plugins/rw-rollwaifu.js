@@ -1,107 +1,100 @@
-import fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
-import dotenv from 'dotenv';
+import { promises as fs } from 'fs';
 
-dotenv.config();
+const charactersFilePath = './src/database/characters.json';
+const haremFilePath = './src/database/harem.json';
 
+const cooldowns = {};
 
-const obtenerDatos = () => {
+async function loadCharacters() {
     try {
-        return fs.existsSync('data.json') ? JSON.parse(fs.readFileSync('data.json', 'utf-8')) : { 'usuarios': {}, 'personajesReservados': [] };
+        const data = await fs.readFile(charactersFilePath, 'utf-8');
+        return JSON.parse(data);
     } catch (error) {
-        console.error('Error al leer data.json:', error);
-        return { 'usuarios': {}, 'personajesReservados': [] };
+        throw new Error('❀ No se pudo cargar el archivo characters.json.');
     }
-};
-
-const guardarDatos = (data) => {
-    try {
-        fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
-    } catch (error) {
-        console.error('Error al escribir en data.json:', error);
-    }
-};
-
-
-const reservarPersonaje = (userId, character) => {
-    let data = obtenerDatos();
-    data.personajesReservados.push({ userId, ...character });
-    guardarDatos(data);
-};
-
-const obtenerPersonajes = () => {
-try {
-        return JSON.parse(fs.readFileSync('./src/JSON/characters.json', 'utf-8'));
-} catch (error) {
-        console.error('Error al leer characters.json:', error);
-        return [];
 }
-};
 
-let cooldowns = {};
+async function saveCharacters(characters) {
+    try {
+        await fs.writeFile(charactersFilePath, JSON.stringify(characters, null, 2), 'utf-8');
+    } catch (error) {
+        throw new Error('❀ No se pudo guardar el archivo characters.json.');
+    }
+}
+
+async function loadHarem() {
+    try {
+        const data = await fs.readFile(haremFilePath, 'utf-8');
+        return JSON.parse(data);
+    } catch (error) {
+        return [];
+    }
+}
+
+async function saveHarem(harem) {
+    try {
+        await fs.writeFile(haremFilePath, JSON.stringify(harem, null, 2), 'utf-8');
+    } catch (error) {
+        throw new Error('❀ No se pudo guardar el archivo harem.json.');
+    }
+}
 
 let handler = async (m, { conn }) => {
-        let userId = m.sender;
-        let currentTime = new Date().getTime();
-        const cooldownDuration = 10 * 60 * 1000; // 10 minutos
-        let userCooldown = cooldowns[userId] || 0;
-        let timeSinceLastRoll = currentTime - userCooldown;
+    const userId = m.sender;
+    const now = Date.now();
 
-        if (timeSinceLastRoll < cooldownDuration) {
-            let remainingTime = cooldownDuration - timeSinceLastRoll;
-            let minutes = Math.floor(remainingTime / (60 * 1000));
-            let seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
-            let replyMessage = `¡Espera ${minutes} minutos y ${seconds} segundos antes de usar el comando de nuevo!`;
-            await conn.sendMessage(m.chat, { text: replyMessage });
-            return;
-        }
-        let data = obtenerDatos();
-        let personajes = obtenerPersonajes();
-        let availableCharacters = personajes.filter(character => {
-            let isReserved = data.personajesReservados.some(reserved => reserved.url === character.url);
-            return !isReserved;
-        });
+    // Verificar cooldown
+    if (cooldowns[userId] && now < cooldowns[userId]) {
+        const remainingTime = Math.ceil((cooldowns[userId] - now) / 1000);
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        return await conn.reply(m.chat, `《✧》Debes esperar *${minutes} minutos y ${seconds} segundos* para usar *#ver* de nuevo.`, m);
+    }
 
-        if (availableCharacters.length === 0) {
-            await conn.sendMessage(m.chat, { image: { url: completadoImage }, caption: '¡Todos los personajes han sido reservados!' });
-return;
-}
+    try {
+        const characters = await loadCharacters();
+        const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
+        const randomImage = randomCharacter.img[Math.floor(Math.random() * randomCharacter.img.length)];
 
-        let randomCharacter = availableCharacters[Math.floor(Math.random() * availableCharacters.length)];
-        let uniqueId = uuidv4();
-        let reservedBy = data.usuarios[randomCharacter.url] || null;
+        const harem = await loadHarem();
+        const userEntry = harem.find(entry => entry.characterId === randomCharacter.id);
+        const statusMessage = randomCharacter.user 
+            ? `Reclamado por @${randomCharacter.user.split('@')[0]}` 
+            : 'Libre';
 
-        let statusMessage = reservedBy ? `Reservado por ${reservedBy.userId}` : 'Libre';
-        let responseMessage = `🌱 \`Nombre:\` --> \`${randomCharacter.name}\`\n💹 \`Valor:\` -->  \`${randomCharacter.value} Zekis!\`\n💲 \`Estado:\` --> \`${statusMessage}\`\n🆔 \`ID:\` --> \`${uniqueId}\``;
+        const message = `❀ Nombre » *${randomCharacter.name}*
+⚥ Género » *${randomCharacter.gender}*
+✰ Valor » *${randomCharacter.value}*
+♡ Estado » ${statusMessage}
+❖ Fuente » *${randomCharacter.source}*
+ID: *${randomCharacter.id}*`;
 
-        await conn.sendMessage(m.chat, {
-            image: { url: randomCharacter.url },
-            caption: responseMessage,
-            mimetype: 'image/jpeg',
-            contextInfo: {
-                mentionedJid: reservedBy ? [reservedBy.userId] : [],
-                externalAdReply: {
-                    showAdAttribution: true,
-                    title: '¡Nuevo personaje!',
-                    body: '¡Felicidades por tu nuevo personaje!',
-                    thumbnailUrl: 'https://files.catbox.moe/6yqzsu.jpg', //Especifica la imagen
-                    'sourceUrl': 'https://www.instagram.com/ig.de.haru/profilecard/?igsh=bmNyczltZnlvM3Jx',
-                    mediaType: 1,
-                }
-            }
-});
+        const mentions = userEntry ? [userEntry.userId] : [];
+        await conn.sendFile(m.chat, randomImage, `${randomCharacter.name}.jpg`, message, m, { mentions });
 
-        if (!reservedBy) {
-            reservarPersonaje(userId, { ...randomCharacter, id: uniqueId });
+        // Asignar usuario si está libre
+        if (!randomCharacter.user) {
+            randomCharacter.user = userId;
+            const userEntry = {
+                userId: userId,
+                characterId: randomCharacter.id,
+                lastVoteTime: now,
+                voteCooldown: now + 1.5 * 60 * 60 * 1000
+            };
+            harem.push(userEntry);
+            await saveHarem(harem);
         }
 
-        cooldowns[userId] = currentTime;
-        console.log('Cooldown actualizado para ' + userId + ': ' + cooldowns[userId]);
+        await saveCharacters(characters);
+        cooldowns[userId] = now + 15 * 60 * 1000; // 15 minutos de cooldown
+
+    } catch (error) {
+        await conn.reply(m.chat, `✘ Error al cargar el personaje: ${error.message}`, m);
+    }
 };
 
-handler.help = ['roll'];
-handler.tags = ['rw'];
-handler.command = ['roll', 'rw'];
-handler.group = true;
+handler.help = ['ver', 'rw', 'rollwaifu'];
+handler.tags = ['gacha'];
+handler.command = ['ver', 'rw', 'rollwaifu'];
 
 export default handler;
