@@ -9,7 +9,7 @@ const LimitAud = 725 * 1024 * 1024; // 700MB
 const LimitVid = 425 * 1024 * 1024; // 425MB
 
 const handler = async (m, {conn, command, args, text, usedPrefix}) => {
-    if (command == 'play' || command == 'mp3') {
+    if (command == 'play3' || command == 'mp3') {
         if (!text) return conn.reply(m.chat, `🦋 *Ingrese el nombre de un video de YouTube*
 
 Ejemplo, !${command} Distancia - Kimberly Contreraxx`, m); 
@@ -42,7 +42,7 @@ Ejemplo, !${command} Distancia - Kimberly Contreraxx`, m);
         }
     }
 
-    if (command == 'play2' || command == 'mp4') {
+    if (command == 'play4' || command == 'mp4') {
         if (!text) return conn.reply(m.chat, `🦋 *Ingrese el nombre de un video de YouTube*
 
 Ejemplo, !${command} Distancia - Kimberly Contreraxx`, m);
