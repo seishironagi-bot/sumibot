@@ -119,11 +119,11 @@ return conn.reply(m.chat, '🌟 *Inténtelo de nuevo*', m, rcanal, )}
 }
 handler.help = ['ytmp3doc', 'ytmp4doc']
 handler.tags = ['descargas']
-handler.command = ['ytmp3doc','ytmp4doc']
+handler.command = ['ytmp3doc','ytmp4doc','play4','play3']
 
-//handler.estrellas = 1
+//handler.estrellas = 0
 handler.group = true;
-handler.register = true
+handler.register = false
 
 export default handler
 
