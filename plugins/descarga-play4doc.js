@@ -249,7 +249,7 @@ console.log(e2);
 }}}
 
 }
-handler.help = ['play', 'play2', 'play3', 'play4', 'playdoc'];
+handler.help = ['play3', 'play4', 'playdoc'];
 handler.tags = ['descargas'];
 handler.command = [''play3', 'play4', 'mp3', 'mp4', 'playdoc', 'playdoc2']
 handler.group = true;
