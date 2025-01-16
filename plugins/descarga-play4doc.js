@@ -1,5 +1,5 @@
-actualizado por xi_crew
-*import { youtubedl, youtubedlv2 } from '@bochilteam/scraper'
+//actualizado por xi_crew
+/*import { youtubedl, youtubedlv2 } from '@bochilteam/scraper'
 import fetch from 'node-fetch'
 import yts from 'yt-search'
 import ytdl from 'ytdl-core'
@@ -23,7 +23,7 @@ const texto1 = `*_𔓕꯭  ꯭ ꯭𓏲꯭֟፝੭ ꯭⌑𝐊𝐚𝐤𝐚�
 » 🎫 *ID:* ${yt_play[0].videoId}
 » 💠 *Tipo:* ${yt_play[0].type}
 » 🔗 *Enlace:* ${yt_play[0].url}
-» 🎞️ *Canal:* ${yt_play[0].author.url}
+» 🎞️ *Canal:* ${yt_play[0].author.url} 
 
 > 📽️ *Su Audio se está enviando, espere un momento...*`.trim();
 
@@ -297,7 +297,7 @@ console.log(e2);
 }}}
 
 }
-handler.help = ['play3', 'play4', 'playdoc'];
+handler.help = ['play', 'play2', 'play3', 'play4', 'playdoc'];
 handler.tags = ['descargas'];
 handler.command = ['play3', 'play4', 'mp3', 'mp4', 'playdoc', 'playdoc2']
 handler.group = true;
