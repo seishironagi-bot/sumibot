@@ -1,30 +1,29 @@
-import fs from 'fs'
 import acrcloud from 'acrcloud'
+
 let acr = new acrcloud({
-host: 'identify-eu-west-1.acrcloud.com',
-access_key: 'c33c767d683f78bd17d4bd4991955d81',
-access_secret: 'bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu'
+  host: 'identify-eu-west-1.acrcloud.com',
+  access_key: 'c33c767d683f78bd17d4bd4991955d81',
+  access_secret: 'bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu'
 })
-let handler = async (m) => {
-let q = m.quoted ? m.quoted : m
-let mime = (q.msg || q).mimetype || ''
-if (/audio|video/.test(mime)) { if ((q.msg || q).seconds > 20) return m.reply('᥀·࣭࣪̇˖⚙️◗ 𝙀𝙡 𝙖𝙧𝙘𝙝𝙞𝙫𝙤 𝙚𝙨 𝙙𝙚𝙢𝙖𝙨𝙞𝙖𝙙𝙤 𝙜𝙧𝙖𝙣𝙙𝙚, 𝙧𝙚𝙘𝙤𝙧𝙩𝙚𝙡𝙤 𝙢𝙞𝙣𝙞𝙢𝙤 𝙙𝙚 10 𝙖 20 𝙨𝙚𝙜𝙪𝙣𝙙𝙤𝙨 𝙥𝙖𝙧𝙖 𝙗𝙪𝙨𝙘𝙖𝙧 𝙧𝙚𝙨𝙪𝙡𝙩𝙖𝙙𝙤𝙨.')
-await conn.reply(m.chat, wait, m)
-let media = await q.download()
-let ext = mime.split('/')[1]
-fs.writeFileSync(`./megumin/tmp/${m.sender}.${ext}`, media)
-let res = await acr.identify(fs.readFileSync(`./megumin/tmp/${m.sender}.${ext}`))
-let { code, msg } = res.status
-if (code !== 0) throw msg
-let { title, artists, album, genres, release_date } = res.metadata.music[0]
-let txt = `
-𝐍𝐎𝐌𝐁𝐑𝐄: ${title}
-𝐀𝐑𝐓𝐈𝐒𝐓𝐀: ${artists !== undefined ? artists.map(v => v.name).join(', ') : 'No encontrado'}
-`.trim()
-fs.unlinkSync(`./megumin/tmp/${m.sender}.${ext}`)
-m.reply(txt)
-} else throw '᥀·࣭࣪̇˖⛔◗ 𝙊𝙘𝙪𝙧𝙧𝙞𝙤 𝙪𝙣 𝙚𝙧𝙧𝙤𝙧 𝙞𝙣𝙚𝙨𝙥𝙚𝙧𝙖𝙙𝙤, 𝙞𝙣𝙩𝙚𝙣𝙩𝙖𝙡𝙤 𝙙𝙚 𝙣𝙪𝙚𝙫𝙤, 𝙧𝙚𝙨𝙥𝙤𝙣𝙙𝙖 𝙖 𝙪𝙣 𝙖𝙪𝙙𝙞𝙤 𝙤 𝙫𝙞𝙙𝙚𝙤.'
+let handler = async (m, { conn, usedPrefix, command }) => {
+  let q = m.quoted ? m.quoted : m
+  let mime = (q.msg || q).mimetype || q.mediaType || ''
+  if (/video|audio/.test(mime)) {
+  let buffer = await q.download()
+  let { status, metadata } = await acr.identify(buffer)
+  if (status.code !== 0) throw status.msg 
+  let { title, artists, album, genres, release_date } = metadata.music[0]
+  let txt = '╭─⬣「 *Whatmusic Tools* 」⬣\n'
+      txt += `│  ≡◦ *🍭 Titulo ∙* ${title}${artists ? `\n│  ≡◦ *👤 Artista ∙* ${artists.map(v => v.name).join(', ')}` : ''}`
+      txt += `${album ? `\n│  ≡◦ *📚 Album ∙* ${album.name}` : ''}${genres ? `\n│  ≡◦ *🪴 Genero ∙* ${genres.map(v => v.name).join(', ')}` : ''}\n`
+      txt += `│  ≡◦ *🕜 Fecha de lanzamiento ∙* ${release_date}\n`
+      txt += `╰─⬣`
+     conn.reply(m.chat, txt, m)
+  } else return conn.reply(m.chat, `🍬 Etiqueta un audio o video de poca duración con el comando *${usedPrefix + command}* para ver que música contiene.`, m)
 }
-handler.tags = ['herramientas']
-handler.command = ['quemusica','quemusicaes','whatmusic']
+handler.help = ['whatmusic <audio/video>']
+handler.tags = ['tools']
+handler.command = ['shazam', 'whatmusic']
+//handler.limit = 1
+handler.register = true 
 export default handler
