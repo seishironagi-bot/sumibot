@@ -9,7 +9,7 @@ access_secret: 'bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu'
 let handler = async (m) => {
 let q = m.quoted ? m.quoted : m
 let mime = (q.msg || q).mimetype || ''
-if (/audio|video/.test(mime)) { if ((q.msg || q).seconds > 20) return m.reply('[❗] el video o audio no debe durar mas de 10/20 segundos.') 
+if (/audio|video/.test(mime)) {
 let media = await q.download()
 let ext = mime.split('/')[1]
 fs.writeFileSync(`./tmp/${m.sender}.${ext}`, media)
@@ -17,17 +17,20 @@ let res = await acr.identify(fs.readFileSync(`./tmp/${m.sender}.${ext}`))
 let { code, msg } = res.status
 if (code !== 0) throw msg
 let { title, artists, album, genres, release_date } = res.metadata.music[0]
-let txt = `乂✰ resultados ღ
-乂✰ artista: ${artists !== undefined ? artists.map(v => v.name).join(', ') : 'Not found'} ღ
-乂✰ nombre: ${title.name|| 'not found'} ॐ
-乂✰ album: ${album.name || 'Not found'}
-乂✰ genero: ${genres !== undefined ? genres.map(v => v.name).join(', ') : 'Not found'} ღ
-乂✰ publicado: ${release_date || 'Not found'} ღ`.trim()
+let txt = `
+𝚁𝙴𝚂𝚄𝙻𝚃
+• 📌 *TITLE*: ${title}
+• 👨‍🎤 𝙰𝚁𝚃𝙸𝚂𝚃: ${artists !== undefined ? artists.map(v => v.name).join(', ') : 'NOT FOUND'}
+• 💾 𝙰𝙻𝙱𝚄𝙼: ${album.name || 'NOT FOUND'}
+• 🌐 𝙶𝙴𝙽𝙴𝚁: ${genres !== undefined ? genres.map(v => v.name).join(', ') : 'NOT FOUND'}
+• 📆 RELEASE DATE: ${release_date || 'NOT FOUND'}
+`.trim()
 fs.unlinkSync(`./tmp/${m.sender}.${ext}`)
 m.reply(txt)
-} else throw '❌ocurrió un error, vuelva a intentar❌'
+} else throw '*𝚁𝙴𝚂𝙿𝙾𝙽𝙳 𝙰𝚄𝙳𝙸𝙾*'
 }
-handler.command = /^quemusica|quemusicaes|whatmusic$/i
-handler.register = false;
-handler.group = true;
+
+handler.help = ['shazam']
+handler.tags = ['tools']
+handler.command = /^quemusica|shazam|whatmusic$/i
 export default handler
